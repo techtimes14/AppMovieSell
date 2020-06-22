@@ -1459,7 +1459,7 @@ h6 {
 }
 
 .sidebar--single-product .card--product-infos ul.infos li p.data-label {
-  width: 40%;
+  width: 54%;
   font-weight: 500;
   color: #333333;
 }
@@ -13900,6 +13900,12 @@ a.info {color: #ababab;}
 a.info:hover {color: #fff;}
 .navbar-header-mbl{display: none;}
 
+.has_dropdown:hover .dropdowns{top:110%;}
+.after-login .searc-wrap{right: 180px; top: 2px;}
+.nw-prdct-btn{display:flex;}
+
+.filter-bar .filter--select {width: 308px;}
+
 /***end of custom area css***/
 
 /***************************************
@@ -14267,7 +14273,7 @@ a.info:hover {color: #fff;}
     padding: 30px 30px 0 30px;
   }
   .featured-product-slider .featured__single-slider .featured__product-description .titlebtm + p {
-    display: none;
+    /**display: none;**/
   }
   .featured-product-slider .featured__single-slider .product_data {
     position: initial;
@@ -15415,7 +15421,28 @@ a.info:hover {color: #fff;}
    .mbl-signbtn a{    display: block;border-radius: 22px; margin-bottom: 20px; width: 95%; margin: 0 auto 15px;}
    .mobile_content .offcanvas-menu {width: 237px; padding:45px 0px;}
    .navbar-header-mbl { right: 16px;}
+  
 
+  .featured-product-slider .featured__single-slider:hover .prod_btn {
+    
+    width: 100%;
+    text-align: center;
+}
+.price_love {
+    margin: 0 auto 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.featured-product-slider .featured__product-description .product-purchase .price_love > span {
+    background: #0674ec;
+    color: #fff;
+    margin-right: 0px;
+    display: block;
+    width: 62%;
+    margin: 0 auto;
+}
+.nw-prdct-btn{text-align: center;}
 
 }
 
