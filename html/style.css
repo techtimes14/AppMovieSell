@@ -2785,6 +2785,8 @@ h6 {
   text-transform: capitalize;
 }
 
+.breadcrumb-area .page-title span{font-size:22px;}
+
 .breadcrumb-area .breadcrumb {
   padding-bottom: 17px;
 }
@@ -5367,6 +5369,10 @@ h6 {
 }
 
 .dropdowns.dropdown--author ul li a:hover {
+  background: #0674ec;
+  color: #fff;
+}
+.dropdowns.dropdown--author ul li.active a {
   background: #0674ec;
   color: #fff;
 }
@@ -13905,6 +13911,18 @@ a.info:hover {color: #fff;}
 .nw-prdct-btn{display:flex;}
 
 .filter-bar .filter--select {width: 308px;}
+.crclimg{overflow:hidden; border-radius: 50%; width:100px; height:100px;}
+.crclimg img{height:100%; object-fit:cover;}
+.flx-area{display:flex; align-items:center; justify-content:space-between; align-content:center; }
+.new-btn-default{min-width:217px;}
+.new-product .product__thumbnail img{height:254px; object-fit:cover;}
+.new-product .product--card .product-desc {height: auto; padding: 20px 16px 10px;}
+.new-product .product-purchase{padding:10px 10px;}
+.new-product .product-purchase .price_love > span{padding:0px; background:transparent;}
+.nw-prdct-btn{align-items:center; display:flex !important;}
+.nw-prdct-btn a{background:transparent !important; padding:0px !important; color:#7347c1 !important; height:auto !important; width:auto !important; line-height:10px !important;}
+.nw-prdct-btn a:hover{text-decoration:underline;}
+.new-product .product-desc ul.titlebtm{padding-bottom: 12px; }
 
 /***end of custom area css***/
 
