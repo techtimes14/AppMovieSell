@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Helper;
 use AdminHelper;
 use App\Category;
-use App\VideoCategory;
+
 
 class CategoriesController extends Controller
 {
@@ -64,12 +64,14 @@ class CategoriesController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-					'title' => 'required|min:2|max:255|unique:'.(new Category)->getTable().',title',
+                    'title' => 'required|min:2|max:255|unique:'.(new Category)->getTable().',title',
+                    'allow_format' => 'required',
 				);
 				$validationMessages = array(
 					'title.required'    => 'Please enter title',
 					'title.min'         => 'Title should be should be at least 2 characters',
-					'title.max'         => 'Title should not be more than 255 characters',
+                    'title.max'         => 'Title should not be more than 255 characters',
+                    'allow_format.required'    => 'Please enter allow format',
 				);
 
 				$Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
@@ -80,6 +82,7 @@ class CategoriesController extends Controller
 
                     $new = new Category;
                     $new->title = trim($request->title, ' ');
+                    $new->allow_format = $request->allow_format ;
                     $new->slug  = $newSlug;
                     $save = $new->save();
                 
@@ -117,11 +120,13 @@ class CategoriesController extends Controller
                 }
                 $validationCondition = array(
                     'title'         => 'required|min:2|max:255|unique:' .(new Category)->getTable().',title,' .$id,
+                    'allow_format'  => 'required',
                 );
                 $validationMessages = array(
                     'title.required'    => 'Please enter title',
                     'title.min'         => 'Title should be should be at least 2 characters',
                     'title.max'         => 'Title should not be more than 255 characters',
+                    'allow_format.required'    => 'Please enter allow format',
                 );
                 
                 $Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
@@ -132,6 +137,7 @@ class CategoriesController extends Controller
 
                     $update = array(
                         'title' => trim($request->title, ' '),
+                        'allow_format' => $request->allow_format,
                         'slug'  => $newSlug
                     ); 
                     $save = Category::where('id', $id)->update($update);                        
@@ -168,21 +174,11 @@ class CategoriesController extends Controller
             $details = Category::where('id', $id)->first();
             if ($details != null) {
                 if ($details->status == 1) {
-                    // Cheking category exist in video
-                    $countVideoCategory = VideoCategory::where(['category_id' => $id])
-                                            ->whereHas('videoGetDetails', function ($query) {
-                                                $query->whereNull('deleted_at');
-                                            })
-                                            ->count();
-                    if ($countVideoCategory > 0) {
-                        $request->session()->flash('alert-warning', 'This category is already associated with a video');
-                    } else {
-                        $details->status = '0';
-                        $details->save();
-                        
-                        $request->session()->flash('alert-success', 'Status updated successfully');
-                    }
                     
+                    $details->status = '0';
+                    $details->save();
+                        
+                    $request->session()->flash('alert-success', 'Status updated successfully');                 
                     return redirect()->back();
 
                 } else if ($details->status == 0) {
@@ -218,22 +214,14 @@ class CategoriesController extends Controller
             $details = Category::where('id', $id)->first();
             if ($details != null) {
 
-                // Cheking category exist in video
-                $countVideoCategory = VideoCategory::where(['category_id' => $id])
-                                        ->whereHas('videoGetDetails', function ($query) {
-                                            $query->whereNull('deleted_at');
-                                        })
-                                        ->count();
-                if ($countVideoCategory > 0) {
-                    $request->session()->flash('alert-warning', 'This category is already associated with a video');
-                } else {
+               
                     $delete = $details->delete();
                     if ($delete) {
                         $request->session()->flash('alert-danger', 'Category has been deleted successfully');
                     } else {
                         $request->session()->flash('alert-danger', 'An error occurred while deleting the category');
                     }
-                }
+                
                 return redirect()->back();
                 
             } else {

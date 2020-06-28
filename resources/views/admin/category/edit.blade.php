@@ -31,12 +31,23 @@
 		                            'novalidate' => true)) }}
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">Title<span class="red_star">*</span></label>
                                     {{ Form::text('title', $details->title, array(
                                                                 'id' => 'title',
                                                                 'placeholder' => 'Title',
+                                                                'class' => 'form-control',
+                                                                'required' => 'required'
+                                                                 )) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="allow_format">Allow Format<span class="red_star">*</span></label>
+                                    {{ Form::text('allow_format', $details->allow_format, array(
+                                                                'id' => 'allow_format',
+                                                                'placeholder' => 'Allow Format',
                                                                 'class' => 'form-control',
                                                                 'required' => 'required'
                                                                  )) }}

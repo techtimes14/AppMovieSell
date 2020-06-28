@@ -357,53 +357,7 @@ $(document).ready(function() {
         }
     });
 
-    /* TAG start */
-    $("#addTagForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-
-    $("#editTagForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-    /* TAG end */
+   
 
     /* CATEGORY start */
     $("#addCategoryForm").validate({
@@ -413,12 +367,18 @@ $(document).ready(function() {
                 minlength: 2,
                 maxlength: 255
             },
+            allow_format: {
+                required: true,
+            },
         },
         messages: {
             title: {
                 required: "Please enter title",
                 minlength: "Title should be atleast 2 characters",
                 maxlength: "Title must not be more than 255 characters"
+            },
+            allow_format: {
+                required: "Please enter allow format"
             },
         },
         errorPlacement: function(error, element) {
@@ -436,12 +396,18 @@ $(document).ready(function() {
                 minlength: 2,
                 maxlength: 255
             },
+            allow_format: {
+                required: true,
+            },
         },
         messages: {
             title: {
                 required: "Please enter title",
                 minlength: "Title should be atleast 2 characters",
                 maxlength: "Title must not be more than 255 characters"
+            },
+            allow_format: {
+                required: 'Please enter allow format'
             },
         },
         errorPlacement: function(error, element) {
@@ -453,277 +419,7 @@ $(document).ready(function() {
     });
     /* CATEGORY end */
 
-    /* VIDEO start */
-    $("#addVideoForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            video_url: {
-                required: true,
-                valid_url: true
-            },
-            'categories[]': {
-                required: true,
-            },
-            'tags[]': {
-                required: true,
-            },
-            'brands[]': {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            video_url: {
-                required: "Please enter video url",
-                valid_url: "Please enter valid url",
-            },
-            'categories[]': {
-                required: "Please select category(s)",
-            },
-            'tags[]': {
-                required: "Please select tag(s)",
-            },
-            'brands[]': {
-                required: "Please select brand(s)",
-            },
-        },
-        errorPlacement: function(error, element) {
-            if (element.hasClass('select2') && element.next('.select2-container').length) {
-                error.insertAfter(element.next('.select2-container'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-
-    $("#editVideoForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            video_url: {
-                required: true,
-                valid_url: true
-            },
-            'categories[]': {
-                required: true,
-            },
-            'tags[]': {
-                required: true,
-            },
-            'brands[]': {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            video_url: {
-                required: "Please enter video url",
-                valid_url: "Please enter valid url",
-            },
-            'categories[]': {
-                required: "Please select category(s)",
-            },
-            'tags[]': {
-                required: "Please select tag(s)",
-            },
-            'brands[]': {
-                required: "Please select brand(s)",
-            },
-        },
-        errorPlacement: function(error, element) {
-            if (element.hasClass('select2') && element.next('.select2-container').length) {
-                error.insertAfter(element.next('.select2-container'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-    /* VIDEO end */
-
-    /* BANNER start */
-    $("#addBannerForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            short_description: {
-                required: true,
-            },
-            image: {
-                required: true, 
-                accept: "jpg|png|jpeg|svg", 
-                filesize: 5048576 
-            },
-            mobile_image: {
-                required: true, 
-                accept: "jpg|png|jpeg|svg", 
-                filesize: 5048576 
-            },
-            
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            short_description: {
-                required: "Please enter short description",
-            },
-            image: {
-                required: "Please select image",
-                accept:   "File must be as jpg, jpeg, png or svg",
-                filesize: "File size not more then 5mb"
-            },
-            mobile_image: {
-                required: "Please select image",
-                accept:   "File must be as jpg, jpeg, png or svg",
-                filesize: "File size not more then 5mb"
-            },
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-
-    $("#updateBannerForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            short_description: {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            short_description: {
-                required: "Please enter short description",
-            },
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-    /* BANNER end */
-
-    /* BRAND start */
-    $("#addBrandForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            short_description: {
-                required: true,
-            },
-            image: {
-                required: true, 
-                accept: "jpg|png|jpeg|svg", 
-                filesize: 5048576 
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            short_description: {
-                required: "Please enter short description",
-            },
-            image: {
-                required: "Please select image",
-                accept:   "File must be as jpg, jpeg, png or svg",
-                filesize: "File size not more then 5mb"
-            },
-        },
-        errorPlacement: function(error, element) {
-            if (element.hasClass('select2') && element.next('.select2-container').length) {
-                error.insertAfter(element.next('.select2-container'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-
-    $("#updateBannerForm").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            short_description: {
-                required: true,
-            },
-            image: {
-                required: true, 
-                accept: "jpg|png|jpeg|svg", 
-                filesize: 5048576 
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title",
-                minlength: "Title should be atleast 2 characters",
-                maxlength: "Title must not be more than 255 characters"
-            },
-            short_description: {
-                required: "Please enter short description",
-            },
-            image: {
-                required: "Please select image",
-                accept:   "File must be as jpg, jpeg, png or svg",
-                filesize: "File size not more then 5mb"
-            },
-        },
-        errorPlacement: function(error, element) {
-            if (element.hasClass('select2') && element.next('.select2-container').length) {
-                error.insertAfter(element.next('.select2-container'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-    /* BRAND end */
-
+    
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({
         rules: {

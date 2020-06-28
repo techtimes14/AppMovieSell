@@ -53,16 +53,6 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::any('/delete/{id}', 'RoleController@delete')->name('delete')->where('id','[0-9]+');
         });
 
-        Route::group(['prefix' => 'tag', 'as' => 'tag.'], function () {
-            Route::get('/', 'TagsController@list')->name('list');
-            Route::get('/add', 'TagsController@add')->name('add');
-            Route::post('/add-submit', 'TagsController@add')->name('addsubmit');            
-            Route::get('/edit/{id}', 'TagsController@edit')->name('edit')->where('id','[0-9]+');
-            Route::any('/edit-submit/{id}', 'TagsController@edit')->name('editsubmit')->where('id','[0-9]+');
-            Route::get('/status/{id}', 'TagsController@status')->name('change-status')->where('id','[0-9]+');
-            Route::get('/delete/{id}', 'TagsController@delete')->name('delete')->where('id','[0-9]+');
-        });
-
         Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
             Route::get('/', 'CategoriesController@list')->name('list');
             Route::get('/add', 'CategoriesController@add')->name('add');
@@ -73,35 +63,8 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/delete/{id}', 'CategoriesController@delete')->name('delete')->where('id','[0-9]+');
         });
 
-        Route::group(['prefix' => 'banner', 'as' => 'banner.'], function () {
-            Route::get('/', 'BannersController@list')->name('list');
-            Route::get('/add', 'BannersController@add')->name('add');
-            Route::post('/add-submit', 'BannersController@add')->name('addsubmit');            
-            Route::get('/edit/{id}', 'BannersController@edit')->name('edit')->where('id','[0-9]+');
-            Route::any('/edit-submit/{id}', 'BannersController@edit')->name('editsubmit')->where('id','[0-9]+');
-            Route::get('/status/{id}', 'BannersController@status')->name('change-status')->where('id','[0-9]+');
-            Route::get('/delete/{id}', 'BannersController@delete')->name('delete')->where('id','[0-9]+');
-        });
 
-        Route::group(['prefix' => 'video', 'as' => 'video.'], function () {
-            Route::get('/', 'VideosController@list')->name('list');
-            Route::get('/add', 'VideosController@add')->name('add');
-            Route::post('/add-submit', 'VideosController@add')->name('addsubmit');            
-            Route::get('/edit/{id}', 'VideosController@edit')->name('edit')->where('id','[0-9]+');
-            Route::any('/edit-submit/{id}', 'VideosController@edit')->name('editsubmit')->where('id','[0-9]+');
-            Route::get('/status/{id}', 'VideosController@status')->name('change-status')->where('id','[0-9]+');
-            Route::get('/delete/{id}', 'VideosController@delete')->name('delete')->where('id','[0-9]+');
-        });
-
-        Route::group(['prefix' => 'brand', 'as' => 'brand.'], function () {
-            Route::get('/', 'BrandsController@list')->name('list');
-            Route::get('/add', 'BrandsController@add')->name('add');
-            Route::post('/add-submit', 'BrandsController@add')->name('addsubmit');            
-            Route::get('/edit/{id}', 'BrandsController@edit')->name('edit')->where('id','[0-9]+');
-            Route::any('/edit-submit/{id}', 'BrandsController@edit')->name('editsubmit')->where('id','[0-9]+');
-            Route::get('/status/{id}', 'BrandsController@status')->name('change-status')->where('id','[0-9]+');
-            Route::get('/delete/{id}', 'BrandsController@delete')->name('delete')->where('id','[0-9]+');
-        });
+    
 		
     });
 });

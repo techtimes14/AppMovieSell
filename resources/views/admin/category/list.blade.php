@@ -46,6 +46,7 @@
                   <table class="table table-bordered">
                       <tr>
                           <th>Title</th>
+                          <th>Allow Format</th>
                           <th>Status</th>
                           <th class="action_width text_align_center">Action</th>
                       </tr>
@@ -53,6 +54,7 @@
                       @foreach ($list as $row)
                       <tr>                            
                         <td>{{ $row->title }}</td>
+                        <td>{{ $row->allow_format }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">
                             @if($row['status'] == '1')
