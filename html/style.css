@@ -13922,7 +13922,7 @@ a.info:hover {color: #fff;}
 .new-product .nw-prdct-btn{align-items:center; display:flex !important;}
 .new-product .nw-prdct-btn a{background:transparent !important; padding:0px !important; color:#7347c1 !important; height:auto !important; width:auto !important; line-height:10px !important;}
 .new-product .nw-prdct-btn a:hover{text-decoration:underline;}
-.new-product .product-desc ul.titlebtm{padding-bottom: 12px; }
+.new-product .product-desc ul.titlebtm{padding-bottom: 0px; }
 
 /***end of custom area css***/
 
