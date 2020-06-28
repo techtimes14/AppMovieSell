@@ -13915,7 +13915,7 @@ a.info:hover {color: #fff;}
 .crclimg img{height:100%; object-fit:cover;}
 .flx-area{display:flex; align-items:center; justify-content:space-between; align-content:center; }
 .new-btn-default{min-width:217px;}
-.new-product .product__thumbnail img{height:254px; object-fit:cover;}
+.new-product .product__thumbnail img{height:193px; object-fit:cover;}
 .new-product .product--card .product-desc {height: auto; padding: 20px 16px 10px;}
 .new-product .product-purchase{padding:10px 10px;}
 .new-product .product-purchase .price_love > span{padding:0px; background:transparent;}
