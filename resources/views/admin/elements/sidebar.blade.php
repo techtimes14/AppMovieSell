@@ -64,6 +64,28 @@
     @endif
     <!-- Category management End -->
 
+     <!-- Tag management Start -->
+     @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.tag.list',$getAllRoles) || in_array('admin.tag.add',$getAllRoles) || (in_array('admin.tag.list',$getAllRoles) && in_array('admin.tag.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.tag.list' || Route::current()->getName() == 'admin.tag.add' || Route::current()->getName() == 'admin.tag.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <span>Tag Management</span>
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>  
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.tag.list' || Route::current()->getName() == 'admin.tag.add' || Route::current()->getName() == 'admin.tag.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.tag.list',$getAllRoles) || (in_array('admin.tag.list',$getAllRoles) && in_array('admin.tag.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.tag.list')class="active" @endif><a href="{{ route('admin.tag.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.tag.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.tag.add')class="active" @endif><a href="{{ route('admin.tag.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Tag management End -->
+
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))

@@ -419,6 +419,54 @@ $(document).ready(function() {
     });
     /* CATEGORY end */
 
+    /* TAG start */
+    $("#addTagForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+        },
+        messages: {
+            name: {
+                required: "Please enter name",
+                minlength: "Name should be atleast 2 characters",
+                maxlength: "Name must not be more than 255 characters"
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#editTagForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+        },
+        messages: {
+            name: {
+                required: "Please enter name",
+                minlength: "Name should be atleast 2 characters",
+                maxlength: "Name must not be more than 255 characters"
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* TAG end */
+
     
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({
