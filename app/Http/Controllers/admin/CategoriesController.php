@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Helper;
 use AdminHelper;
 use App\Category;
+use Image;
 
 
 class CategoriesController extends Controller
@@ -65,12 +66,14 @@ class CategoriesController extends Controller
         	{
 				$validationCondition = array(
                     'title' => 'required|min:2|max:255|unique:'.(new Category)->getTable().',title',
+                    'image' => 'required|mimes:jpeg,jpg,png,svg',
                     'allow_format' => 'required',
 				);
 				$validationMessages = array(
 					'title.required'    => 'Please enter title',
 					'title.min'         => 'Title should be should be at least 2 characters',
                     'title.max'         => 'Title should not be more than 255 characters',
+                    'image.required'    => 'Image required',
                     'allow_format.required'    => 'Please enter allow format',
 				);
 
@@ -78,10 +81,22 @@ class CategoriesController extends Controller
 				if ($Validator->fails()) {
 					return redirect()->route('admin.category.add')->withErrors($Validator)->withInput();
 				} else {
+                    $image = $request->file('image');
+                    if ($image != '') {
+                        $originalFileNameCat =  $image->getClientOriginalName();
+                        $extension = pathinfo($originalFileNameCat, PATHINFO_EXTENSION);
+                        $filename ='category_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
+                        
+                        $image_resize = Image::make($image->getRealPath());
+                        $image_resize->save(public_path('uploads/category/' . $filename));
+                        
+                        $image_resize->save(public_path('uploads/category/thumbs/' . $filename));
+                    }
                     $newSlug = Helper::generateUniqueSlug(new Category(), $request->title);
 
                     $new = new Category;
                     $new->title = trim($request->title, ' ');
+                    $new->image = $filename;
                     $new->allow_format = $request->allow_format ;
                     $new->slug  = $newSlug;
                     $save = $new->save();
@@ -113,6 +128,7 @@ class CategoriesController extends Controller
         {           
             $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
             $data['pageNo'] = $pageNo;
+            $categoryData = Category::findOrFail($id);
 
             if ($request->isMethod('POST')) {
                 if ($id == null) {
@@ -134,12 +150,32 @@ class CategoriesController extends Controller
                     return redirect()->back()->withErrors($Validator)->withInput();
                 } else {   
                     $newSlug = Helper::generateUniqueSlug(new Category(), $request->title, $id);
-
                     $update = array(
                         'title' => trim($request->title, ' '),
                         'allow_format' => $request->allow_format,
                         'slug'  => $newSlug
                     ); 
+                    $image = $request->file('image');
+                        if ($image != '') {
+                            $originalFileNameCat = $image->getClientOriginalName();
+                            $extension = pathinfo($originalFileNameCat, PATHINFO_EXTENSION);
+                            $filename = 'category_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
+
+                            $image_resize = Image::make($image->getRealPath());
+                            $image_resize->save(public_path('uploads/category/' . $filename));
+                            $image_resize->save(public_path('uploads/category/thumbs/' . $filename));
+                            
+                            $largeImage = public_path().'/uploads/category/'.$categoryData->image;
+                            @unlink($largeImage);
+                            $thumbImage = public_path().'/uploads/category/thumbs/'.$categoryData->image;
+                            @unlink($thumbImage);
+                            $update = array(
+                                'image' => $filename,
+                            ); 
+                            
+                       
+                        }
+
                     $save = Category::where('id', $id)->update($update);                        
                     if ($save) {
                         $request->session()->flash('alert-success', 'Category has been updated successfully');

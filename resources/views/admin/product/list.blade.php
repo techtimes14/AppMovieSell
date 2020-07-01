@@ -23,8 +23,8 @@
                         {{ Form::open(array(
                                         'method' => 'GET',
                                         'class' => 'display_table',
-                                        'route' =>  ['admin.category.list'],
-                                        'id' => 'searchCategoryForm',
+                                        'route' =>  ['admin.product.list'],
+                                        'id' => 'searchProductForm',
                                         'novalidate' => true)) }}
                           {{ Form::text('searchText', (isset($searchText)) ? $searchText:null, array(
                                         'id' => 'searchText',
@@ -32,7 +32,7 @@
                                         'class' => 'form-control pull-right')) }}
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                <a href="{{ route('admin.category.list') }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+                                <a href="{{ route('admin.product.list') }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
                             </div>
                         {!! Form::close() !!}
                         </div>
@@ -45,46 +45,37 @@
                 <div class="box-body table-responsive">
                   <table class="table table-bordered">
                       <tr>
-                          <th>Image</th>
                           <th>Title</th>
-                          <th>Allow Format</th>
+                          <th>Description</th>
+                          <th>Price</th>
                           <th>Status</th>
                           <th class="action_width text_align_center">Action</th>
                       </tr>
                     @if(count($list) > 0)
                       @foreach ($list as $row)
-                      <tr>
-                            <td>
-                                @php        
-                                if(file_exists(public_path('/uploads/category'.'/'.$row->Image))) {
-                                    $imgPath = \URL::asset('uploads/category').'/'.$row->image;
-                                } else {
-                                    $imgPath = \URL:: asset('images').'/site/'.Helper::NO_IMAGE;
-                                }
-                                @endphp
-                                <img src="{{ $imgPath }}" alt="" height="50px">
-                          </td>                            
+                      <tr>                            
                         <td>{{ $row->title }}</td>
-                        <td>{{ $row->allow_format }}</td>
+                        <td>{{ $row->description }}</td>
+                        <td>{{ $row->price }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">
                             @if($row['status'] == '1')
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive?',  'warning', true)" data-href="{{ route('admin.category.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive?',  'warning', true)" data-href="{{ route('admin.product.change-status', [$row->id]) }}" title="Status">
                                     Active
                                 </a>
                             @else
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active?',  'warning',  true)" data-href="{{ route('admin.category.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active?',  'warning',  true)" data-href="{{ route('admin.product.change-status', [$row->id]) }}" title="Status">
                                     Inactive
                                 </a>
                             @endif
                             </span>
                           </td>
                           <td class="text_align_center">
-                            <a href="{{ route('admin.category.edit', [$row->id]) }}" title="Edit" class="btn btn-info btn-sm">
+                            <a href="{{ route('admin.product.edit', [$row->id]) }}" title="Edit" class="btn btn-info btn-sm">
                               <i class="fa fa-pencil" aria-hidden="true"></i>
                             </a>
                              &nbsp;
-                            <a onclick="return sweetalertMessageRender(this, 'Are you sure you want to delete?', 'error',  true)" href="javascript:void(0)" title="Delete" data-href="{{ route('admin.category.delete', [$row->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a> 
+                            <a onclick="return sweetalertMessageRender(this, 'Are you sure you want to delete?', 'error',  true)" href="javascript:void(0)" title="Delete" data-href="{{ route('admin.product.delete', [$row->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a> 
                           </td>                            
                       </tr>
                       @endforeach

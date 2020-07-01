@@ -367,6 +367,9 @@ $(document).ready(function() {
                 minlength: 2,
                 maxlength: 255
             },
+            image: {
+                required: true,
+            },
             allow_format: {
                 required: true,
             },
@@ -376,6 +379,9 @@ $(document).ready(function() {
                 required: "Please enter title",
                 minlength: "Title should be atleast 2 characters",
                 maxlength: "Title must not be more than 255 characters"
+            },
+            image: {
+                required: "Please enter image",
             },
             allow_format: {
                 required: "Please enter allow format"
@@ -396,6 +402,9 @@ $(document).ready(function() {
                 minlength: 2,
                 maxlength: 255
             },
+            image: {
+                required: true,
+            },
             allow_format: {
                 required: true,
             },
@@ -405,6 +414,9 @@ $(document).ready(function() {
                 required: "Please enter title",
                 minlength: "Title should be atleast 2 characters",
                 maxlength: "Title must not be more than 255 characters"
+            },
+            image: {
+                required: "Please enter image",
             },
             allow_format: {
                 required: 'Please enter allow format'

@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{route('admin.category.list')}}"><i class="fa fa-list-alt" aria-hidden="true"></i> Category List</a></li>
+        <li><a href="{{route('admin.product.list')}}"><i class="fa fa-list-alt" aria-hidden="true"></i> Product List</a></li>
         <li class="active">{{ $data['page_title'] }}</li>
     </ol>
 </section>
@@ -24,9 +24,9 @@
                 {{ Form::open(array(
 		                            'method'=> 'POST',
 		                            'class' => '',
-                                    'route' => ['admin.category.editsubmit', $details["id"]],
-                                    'title'  => 'editCategoryForm',
-                                    'id'    => 'editCategoryForm',
+                                    'route' => ['admin.product.editsubmit', $details["id"]],
+                                    'title'  => 'editProductForm',
+                                    'id'    => 'editProductForm',
                                     'files' => true,
 		                            'novalidate' => true)) }}
                     <div class="box-body">
@@ -44,10 +44,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="allow_format">Allow Format<span class="red_star">*</span></label>
-                                    {{ Form::text('allow_format', $details->allow_format, array(
-                                                                'id' => 'allow_format',
-                                                                'placeholder' => 'Allow Format',
+                                    <label for="description">Description<span class="red_star">*</span></label>
+                                    {{ Form::text('description', $details->description, array(
+                                                                'id' => 'description',
+                                                                'placeholder' => 'Description',
                                                                 'class' => 'form-control',
                                                                 'required' => 'required'
                                                                  )) }}
@@ -57,29 +57,23 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="image">Image</label><br>
+                                        <label for="price">Price<span class="red_star">*</span></label><br>
                                         
-                                        {{ Form::file('image', array(
-                                                                    'id' => 'image',
+                                        {{ Form::text('price', $details->price, array(
+                                                                    'id' => 'price',
                                                                     'class' => 'form-control',
-                                                                    'placeholder' => 'Upload Image',
+                                                                    'placeholder' => 'Price',
                                                                      )) }}
                                 </div>
                                 
-                                @if ($details->image != null)
-                                <div class="form-group">
-							     @if(file_exists(public_path('/uploads/category/'.$details->image))) 
-								    <embed src="{{ asset('uploads/category/'.$details->image) }}"  height=50 />
-							     @endif
-					           </div>
-					           @endif
+                                
                             </div>
                         </div>
                     </div>
                     <div class="box-footer">
                         <div class="col-md-6">
                             <button type="submit" class="btn btn-primary" title="Submit">Update</button>
-                            <a href="{{ route('admin.category.list').'?page='.$data['pageNo'] }}" title="Cancel" class="btn btn-block btn-default btn_width_reset">Cancel</a>
+                            <a href="{{ route('admin.product.list').'?page='.$data['pageNo'] }}" title="Cancel" class="btn btn-block btn-default btn_width_reset">Cancel</a>
                         </div>
                     </div>
                 {!! Form::close() !!}

@@ -54,6 +54,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label for="image">Image<span class="red_star">*</span></label><br>
+                                        
+                                        {{ Form::file('image', array(       'id' => 'image',
+                                                                            'class' => 'form-control',
+                                                                            'placeholder' => 'Upload Image',
+                                                                            'required' => 'required' )) }}
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>                        
                     <div class="box-footer">
                         <div class="col-md-6">

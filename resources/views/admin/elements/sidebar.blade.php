@@ -86,6 +86,28 @@
     @endif
     <!-- Tag management End -->
 
+    <!-- Product management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.product.list',$getAllRoles) || in_array('admin.product.add',$getAllRoles) || (in_array('admin.product.list',$getAllRoles) && in_array('admin.product.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.product.list' || Route::current()->getName() == 'admin.product.add' || Route::current()->getName() == 'admin.product.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <span>Product Management</span>
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>  
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.product.list' || Route::current()->getName() == 'admin.product.add' || Route::current()->getName() == 'admin.product.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.product.list',$getAllRoles) || (in_array('admin.product.list',$getAllRoles) && in_array('admin.product.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.product.list')class="active" @endif><a href="{{ route('admin.product.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.product.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.product.add')class="active" @endif><a href="{{ route('admin.product.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Product management End -->
+
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))

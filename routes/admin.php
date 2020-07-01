@@ -73,6 +73,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/delete/{id}', 'TagsController@delete')->name('delete')->where('id','[0-9]+');
         });
 
+        Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+            Route::get('/', 'ProductsController@list')->name('list');
+            Route::get('/add', 'ProductsController@add')->name('add');
+            Route::post('/add-submit', 'ProductsController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'ProductsController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'ProductsController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'ProductsController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'ProductsController@delete')->name('delete')->where('id','[0-9]+');
+        });
+
 
     
 		
