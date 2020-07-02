@@ -245,6 +245,17 @@ a {
 .form-group {
   margin-bottom: 20px;
 }
+.card_details_section{margin-top: 60px;}
+.form-group.half, .form-group.one-third{width: 48%; float: left; margin-right: 17px;}
+.form-group.one-third{width: 32%;}
+.form-group.half.last, .form-group.one-third.last{margin-right: 0;}
+.form-group.cvv input{width: 48%; float: left; margin-right: 10px;}
+.form-group.cvv figure{float: left; width: 17%;}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 
 .form-group p {
   font-size: 14px;
@@ -252,7 +263,13 @@ a {
   margin-bottom: 0;
   color: #898f96;
 }
-
+.clear {
+	height: 0;
+	line-height: 0;
+	clear: both;
+	font-size: 0;
+	display: block;
+}
 .form-group p span {
   font-weight: 500;
   color: #000;
@@ -9998,8 +10015,41 @@ span.counter {
   line-height: 28px;
   margin-bottom: 0;
 }
-
+/* AFFILATED SIGNUP PAGE */
+.affilated_signup_text h3{padding-bottom: 10px;}
+.affilated_signup_text{margin-top: 20px;}
+.affilated_signup_content .tab_menu ul li{float: left; width: 33.333333%; text-align: center;}
+.affilated_signup_content .tab_menu ul:after{content: "";
+	display: block;
+  clear: both;}
+  .affilated_signup_content .tab_menu ul li a{color: #fff; display: block; height: 30px; line-height: 30px; background: #0674ec;}
+  .affilated_signup_content figure{margin-bottom: 10px;}
+  .affilated_signup_content .tab_menu ul li.active a{color: #fff; background: #7347c1;}
+  .affilated_signup_text ul li{margin-bottom: 10px; position: relative; padding-left: 20px;}
+  .affilated_signup_text ul li:after{content: ""; display: block; position: absolute; top: 10px; left: 0; width: 4px; height: 4px; background: #7347c1;}
+  .signup_form.affilate_payment_form .login--header h3{padding-bottom: 0; text-align: left;}
+  .order_details .order_top{padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #d3d3d3;}
+  .order_details .order_top:after, .order_details .order_total:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .order_details .order_top .order_sec, .order_details .order_total .total_left{float: left; width: 70%;}
+  .order_details .order_top .price_sec, .order_details .order_total .total_right{float: right; text-align: right; width: 30%; font-weight: bold; font-size: 20px;}
+  .order_details{margin-bottom: 25px;}
 /* single item visitor*/
+/* AFFILATED Dashboard PAGE */
+.affilated_dashboard .estimate_section:after{
+  content: "";
+  display: block;
+  clear: both;
+}
+.affilated_dashboard .estimate_section{display: flex; flex-wrap: wrap; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid #d3d3d3;}
+.affilated_dashboard .estimate_section .estimate_earning{padding-right: 20px; margin-right: 20px; border-right: 1px solid #d3d3d3;}
+.affilated_dashboard .estimate_section .estimate_earning:last-child{padding-right: 0; margin-right: 0; border-width: 0;}
+.affilated_dashboard .estimate_section .estimate_earning table tr td{font-weight: bold; padding: 0 12px;}
+.affilated_dashboard .estimate_section .estimate_earning table tr td span{display: block; font-weight: normal;}
+.estimate_earning h3{padding-bottom: 20px;}
 .single_item_visitor .dashboard__title {
   border-bottom: 0;
 }
@@ -14290,9 +14340,9 @@ a.info:hover {color: #fff;}
   .featured-product-slider .featured__single-slider .featured__product-description {
     padding: 30px 30px 0 30px;
   }
-  .featured-product-slider .featured__single-slider .featured__product-description .titlebtm + p {
-    /**display: none;**/
-  }
+/*   .featured-product-slider .featured__single-slider .featured__product-description .titlebtm + p {
+    display: none;
+  } */
   .featured-product-slider .featured__single-slider .product_data {
     position: initial;
     padding: 0;
@@ -14864,6 +14914,7 @@ a.info:hover {color: #fff;}
   .sorting {
     padding: 25px 25px  15px;
   }
+
   /* PRODUCT */
   .product.product--list .product__thumbnail {
     width: 100%;
@@ -15169,6 +15220,7 @@ a.info:hover {color: #fff;}
     padding: 10px;
     font-size: 20px;
   }
+
   /* PRODUCT PURCHASE */
   .dashboard_purchase .product_archive .single_product .product__description img {
     width: 120px;
