@@ -249,6 +249,7 @@ a {
 .form-group.half, .form-group.one-third{width: 48%; float: left; margin-right: 17px;}
 .form-group.one-third{width: 32%;}
 .form-group.half.last, .form-group.one-third.last{margin-right: 0;}
+.form-group.cvv label{display: block;}
 .form-group.cvv input{width: 48%; float: left; margin-right: 10px;}
 .form-group.cvv figure{float: left; width: 17%;}
 input[type=number]::-webkit-inner-spin-button, 
@@ -10049,7 +10050,6 @@ span.counter {
 .affilated_dashboard .estimate_section .estimate_earning:last-child{padding-right: 0; margin-right: 0; border-width: 0;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td{font-weight: bold; padding: 0 12px;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td span{display: block; font-weight: normal;}
-.estimate_earning h3{padding-bottom: 20px;}
 .single_item_visitor .dashboard__title {
   border-bottom: 0;
 }

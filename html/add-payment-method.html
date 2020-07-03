@@ -50,56 +50,14 @@
                     <!-- start .col-md-5 -->
                     <div class="col-lg-8 offset-lg-1 col-md-9 col-6 v_middle">
                         <!-- start .author-area -->
-                        <div class="author-area after-login">
+                        <div class="author-area">
                            
 
                            
                            
 
-                           
-
-                            <!--start .author-author__info-->
-                            <div class="author-author__info inline has_dropdown p-0 d-flex align-items-center align-content-center">
-                                <div class="author__avatar">
-                                    <img src="images/usr_avatar.png" alt="user avatar">
-
-                                </div>
-                                <div class="autor__info">
-                                    <p class="name">
-                                        Jhon Doe
-                                    </p>
-                                    
-                                </div>
-
-                                <div class="dropdowns dropdown--author">
-                                    <ul>
-                                        <li>
-                                            <a href="edit-profile.html">
-                                                <span class="lnr lnr-user"></span>Edit Profile</a>
-                                        </li>
-                                               
-                                       
-                                        <li>
-                                            <a href="cart.html">
-                                                <span class="lnr lnr-cart"></span>My Purchases</a>
-                                        </li>
-                                        <li>
-                                            <a href="favourites.html">
-                                                <span class="lnr lnr-heart"></span>My Favourite</a>
-                                        </li>
-                                        <li>
-                                            <a href="favourites.html">
-                                                <span class="lnr lnr-briefcase"></span>Membership</a>
-                                        </li>
-                                       
-                                        <li>
-                                            <a href="#">
-                                                <span class="lnr lnr-exit"></span>Logout</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!--end /.author-author__info-->
+                            <a href="login.html" class="author-area__seller-btn inline-block">Log In</a>
+                            <a href="signup.html" class="author-area__seller-btn inline-block mr-0">Sign Up</a>
                            
                         </div>
                         <!-- end .author-area -->
@@ -194,13 +152,12 @@
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li><a href="index.html">HOME</a></li>
-                                     <li><a href="javascript:void(0);">About us</a></li>
+                                     <li><a href="about.html">About us</a></li>
                                      <li><a href="javascript:void(0);">Services</a></li>
-                                     <li><a href="javascript:void(0);">Contact</a></li>
+                                     <li><a href="contact.html">Contact</a></li>
                                      <li><a href="javascript:void(0);">Legal</a></li>
-                                     
-                                     <li><a href="javascript:void(0);">Market Place</a></li>
-                                    
+                                     <li><a href="all-products.html">Market Place</a></li>
+                                     <li><a href="affilated-signup.html">Affiliate Signup</a></li>
                                 </ul>
                             </div>
                             <!-- /.navbar-collapse -->
@@ -259,7 +216,7 @@
             <div class="container">
                 
 
-                <form action="#" name="add_credit_form">
+                <form action="edit-profile.html" name="add_credit_form">
 
 
                     <div class="credit_modules">
@@ -341,10 +298,13 @@
                                     <!-- end /.row -->
 
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="form-group cvv">
                                                 <label for="cv_code">CVV Code</label>
-                                                <input id="cv_code" type="text" class="text_field" placeholder="Enter code here...">
+                                                <input id="cv_code" type="text" class="text_field" placeholder="Enter CVV here...">
+                                                <figure>
+                                                    <img src="images/CVV.png" alt="">
+                                                </figure>
                                             </div>
 
                                             
