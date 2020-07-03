@@ -24,8 +24,6 @@ class AdminHelper
 
    public const ADMIN_BANNER_THUMB_IMAGE_WIDTH  = '1920';   // Admin BANNER thumb image width
    public const ADMIN_BANNER_THUMB_IMAGE_HEIGHT = '812';   // Admin BANNER thumb image height
-   public const ADMIN_BANNER_MOBILE_THUMB_IMAGE_WIDTH  = '796';   // Admin BANNER Mobile thumb image width
-   public const ADMIN_BANNER_MOBILE_THUMB_IMAGE_HEIGHT = '812';   // Admin BANNER Mobile thumb image height
 
    public const ADMIN_BRAND_THUMB_IMAGE_WIDTH  = '117';   // Admin BRAND thumb image width
    public const ADMIN_BRAND_THUMB_IMAGE_HEIGHT = '115';   // Admin BRAND thumb image height

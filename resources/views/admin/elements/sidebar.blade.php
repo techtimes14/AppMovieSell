@@ -107,6 +107,27 @@
         </li>
     @endif
     <!-- Product management End -->
+    <!-- Banner management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.banner.list',$getAllRoles) || in_array('admin.banner.add',$getAllRoles) || (in_array('admin.banner.list',$getAllRoles) && in_array('admin.banner.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.banner.list' || Route::current()->getName() == 'admin.banner.add' || Route::current()->getName() == 'admin.banner.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                <span>Banner Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.banner.list' || Route::current()->getName() == 'admin.banner.add' || Route::current()->getName() == 'admin.banner.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.banner.list',$getAllRoles) || (in_array('admin.banner.list',$getAllRoles) && in_array('admin.banner.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.banner.list')class="active" @endif><a href="{{ route('admin.banner.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.banner.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.banner.add')class="active" @endif><a href="{{ route('admin.banner.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Banner management End -->
 
     
     <!-- Website management start -->    

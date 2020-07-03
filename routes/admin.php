@@ -84,6 +84,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::any('/delete-product-feature', 'ProductsController@deleteProductFeature')->name('delete-product-feature')->where('id','[0-9]+');
         });
 
+        Route::group(['prefix' => 'banner', 'as' => 'banner.'], function () {
+            Route::get('/', 'BannersController@list')->name('list');
+            Route::get('/add', 'BannersController@add')->name('add');
+            Route::post('/add-submit', 'BannersController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'BannersController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'BannersController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'BannersController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'BannersController@delete')->name('delete')->where('id','[0-9]+');
+        });
+
 
     
 		
