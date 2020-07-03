@@ -64,7 +64,7 @@
                                     <p class="recover">forgot
                                         <a href="{{route('site.users.forgot-password')}}">password</a>?</p>
                                     <p class="signup">Don't have an
-                                        <a href="{{route('site.users.login')}}">account</a>?</p>
+                                        <a href="{{route('site.users.sign-up')}}">account</a>?</p>
                                 </div>
                             </div>
                             <!-- end .login--form -->

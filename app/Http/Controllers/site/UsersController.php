@@ -34,90 +34,48 @@ class UsersController extends Controller
     /*****************************************************/
     public function signUp( Request $request )
     {
-        $currentLang = $lang = App::getLocale();
         $cmsData = $metaData = Helper::getMetaData();
 
         if (Auth::guard('web')->check()) {
-            return redirect()->route('site.'.$currentLang.'.home');
+            return redirect()->route('site.home');
         }
         
         if ($request->isMethod('POST')) {
-            $currentDateTime    = date('Y-m-d H:i:s');
-
-            $siteSetting        = Helper::getSiteSettings();
             $validationCondition = array(
-                'first_name'    => 'required|min:2|max:255',
-                'last_name'     => 'required|min:2|max:255',
+                'full_name'     => 'required|min:2|max:255',
                 'email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email',
+                'user_name'     => 'required|unique:'.(new User)->getTable().',user_name',
                 'password'      => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-                'agree'         => 'required',
                 
             ); 
             $validationMessages = array(
-                'first_name.required'   => trans('custom.please_enter_first_name'),
-                'first_name.min'        => trans('custom.first_name_min_length_check'),
-                'first_name.max'        => trans('custom.first_name_max_length_check'),
-                'last_name.required'    => trans('custom.please_enter_last_name'),
-                'last_name.min'         => trans('custom.last_name_min_length_check'),
-                'last_name.max'         => trans('custom.last_name_max_length_check'),
-                'email.required'        => trans('custom.please_enter_email'),
-                'email.regex'           => trans('custom.please_enter_valid_email'),
-                'email.unique'          => trans('custom.please_enter_unique_email'),
-                'password.required'     => trans('custom.please_enter_password'),
-                'password.regex'        => trans('custom.password_regex'),
-                'agree.required'        => trans('custom.please_agree'),
+                'full_name.required'    => 'PLease enter full name',
+                'full_name.min'         => 'Full name should be at least 2 characters',
+                'full_name.max'         => 'Full name must not be more than 255 characters',
+                'email.required'        => 'Please enter email address',
+                'email.regex'           => 'Please enter valid email address',
+                'email.unique'          => 'Please enter unique email address',
+                'user_name.required'    => 'Please enter user name',
+                'user_name.unique'      => 'Please enter unique user name',
+                'password.required'     => 'Please enter password',
+                'password.regex'        => 'Min. 8, alphanumeric and special character',
             );
 
             $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
-                $siteSetting = Helper::getSiteSettings();                
                 $password = $request->password;
-                
-                $newUser = new User;
-                $newUser->first_name            = trim($request->first_name, ' ');
-                $newUser->last_name             = trim($request->last_name, ' ');
-                $newUser->full_name             = $newUser->first_name.' '.$newUser->last_name;
-                $newUser->email                 = trim($request->email, ' ');
-                $newUser->password              = $request->password;
-                $newUser->status                = '1';
-                $newUser->agree                 = $request->agree;
-                $saveUser = $newUser->save();
-                if ($saveUser) {
-                    // Mail to customer
-                    \Mail::send('email_templates.site.registration',
-                    [
-                        'user' => $newUser,
-                        'password'  => $password,
-                        'siteSetting'   => $siteSetting,
-                        'app_config'    => [
-                            'appname'       => $siteSetting->website_title,
-                            'appLink'       => Helper::getBaseUrl(),
-                            'controllerName'=> 'users',
-                            'currentLang'=> $currentLang,
-                        ],
-                    ], function ($m) use ($newUser) {
-                        $m->to($newUser->email, $newUser->full_name)->subject('Thank You - Cordon Bleu X');
-                    });
 
-                    // Mail to admin
-                    \Mail::send('email_templates.site.registration_details_to_admin',
-                    [
-                        'user' => $newUser,
-                        'siteSetting'   => $siteSetting,
-                        'app_config'    => [
-                            'appname'       => $siteSetting->website_title,
-                            'appLink'       => Helper::getBaseUrl(),
-                            'controllerName'=> 'users',
-                            'currentLang'=> $currentLang,
-                        ],
-                    ], function ($m) use ($siteSetting) {
-                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('New Registration - Cordon Bleu X');
-                    });
+                Session::put([
+                    'full_name'     => trim($request->first_name, ' '),
+                    'email'         => trim($request->email, ' '),
+                    'user_name'     => trim($request->user_name, ' '),
+                    'password'      => $password,
+                ]);
 
-                    $request->session()->flash('alert-success',trans('custom.registration_success_for_email'));
-                    return redirect()->back();
+                if (Session::get('email') != '') {
+                    return redirect()->route('site.users.add-payment-method');
                 } else {
                     $request->session()->flash('alert-danger', trans('custom.please_try_again'));
                     return redirect()->back();
@@ -126,6 +84,78 @@ class UsersController extends Controller
         }
         
         return view('site.user.sign_up',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData
+            ]);
+    }
+    
+    /*****************************************************/
+    # Function name : addPaymentMethod
+    # Params        : 
+    /*****************************************************/
+    public function addPaymentMethod( Request $request )
+    {
+        $cmsData = $metaData = Helper::getMetaData();
+        if (Session::get('email') == '') {
+            return redirect()->route('site.users.sign-up');
+        }
+
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.home');
+        }
+        
+        if ($request->isMethod('POST')) {
+            $siteSetting        = Helper::getSiteSettings();
+            $validationCondition = array(
+                'name_on_card'  => 'required|min:2|max:255',
+                'card_number'   => 'required',
+                'expiry_month'  => 'required|regex:/^[0-9]{2,2}$/',
+                'expiry_year'   => 'required|regex:/^[0-9]{4,4}$/',
+                'cvv'           => 'required|regex:/^[0-9]{3,3}$/',
+            ); 
+            $validationMessages = array(
+                'name_on_card.required' => 'PLease enter name',
+                'name_on_card.min'      => 'Name should be at least 2 characters',
+                'name_on_card.max'      => 'Name must not be more than 255 characters',
+                'card_number.required'  => 'Please enter card number',
+                'expiry_month.required' => 'Please enter expiry month',
+                'expiry_month.regex'    => 'Please enter valid expiry month',
+                'expiry_year.required'  => 'Please enter expiry year',
+                'expiry_year.regex'     => 'Please enter valid expiry year',
+                'cvv.required'          => 'Please enter cvv',
+                'cvv.regex'             => 'Please enter valid cvv',
+            );
+
+            $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
+            } else {
+                echo date('m');
+                dd($request);
+
+
+
+                $password = $request->password;
+
+                Session::put([
+                    'full_name'     => trim($request->first_name, ' '),
+                    'email'         => trim($request->email, ' '),
+                    'user_name'     => trim($request->user_name, ' '),
+                    'password'      => $password,
+                ]);
+
+                if (Session::get('email') != '') {
+                    return redirect()->route('site.users.add-payment-method');
+                } else {
+                    $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                    return redirect()->back();
+                }
+            }
+        }
+        
+        return view('site.user.add_payment_method',[
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],

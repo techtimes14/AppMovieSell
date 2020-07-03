@@ -41,17 +41,17 @@
 									'method'=> 'POST',
 									'class' => '',
 									'route' => ['site.users.sign-up'],
-									'name'  => 'registrationForm',
-									'id'    => 'registrationForm',
+									'name'  => 'signUpForm',
+									'id'    => 'signUpForm',
 									'files' => true,
 									'autocomplete' => false,
 									'novalidate' => true)) }}
                         <div class="cardify signup_form">
                             <div class="login--header">
+                                @include('admin.elements.notification')
+                                
                                 <h3>Create Your Account</h3>
-                                <p>Please fill the following fields with appropriate information to register a new MartPlace
-                                    account.
-                                </p>
+                                <p>Please fill the following fields with appropriate information to register a new MartPlace account.</p>
                             </div>
                             <!-- end .login_header -->
 
@@ -59,27 +59,52 @@
 
                                 <div class="form-group">
                                     <label for="urname">Your Name</label>
-                                    <input id="urname" type="text" class="text_field" placeholder="Enter your Name">
+                                    {{ Form::text('full_name', null, array(
+                                                                'id' => 'full_name',
+                                                                'placeholder' => 'Enter your Name',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="email_ad">Email Address</label>
-                                    <input id="email_ad" type="text" class="text_field" placeholder="Enter your email address">
+                                    {{ Form::text('email', null, array(
+                                                                'id' => 'email',
+                                                                'placeholder' => 'Enter your email address',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="user_name">Username</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username...">
+                                    {{ Form::text('user_name', null, array(
+                                                                'id' => 'user_name',
+                                                                'placeholder' => 'Enter your username',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="text" class="text_field" placeholder="Enter your password...">
+                                    {{ Form::password('password', array(
+                                                                'id' => 'password',
+                                                                'placeholder' => 'Enter your password',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="con_pass">Confirm Password</label>
-                                    <input id="con_pass" type="text" class="text_field" placeholder="Confirm password">
+                                    {{ Form::password('confirm_password', array(
+                                                                'id' => 'confirm_password',
+                                                                'placeholder' => 'Enter your confirm password',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <button class="btn btn--md btn--round register_btn" type="submit">Register Now</button>
@@ -102,7 +127,7 @@
         <!-- end .container -->
     </section>
     <!--================================
-            END SIGNUP AREA
+        END SIGNUP AREA
     =================================-->
     
   @endsection

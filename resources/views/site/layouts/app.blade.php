@@ -30,13 +30,19 @@
     	@include('site.elements.footer')
 
 		{{-- <script type="text/javascript" src="{{asset('js/site/bootstrap.min.js')}}"></script> --}}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script>
+		{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script> --}}
     	<!-- inject:js -->
     	<script type="text/javascript" src="{{ asset('js/site/plugins.min.js')}}"></script>		
-		<script type="text/javascript" src="{{ asset('js/site/script.min.js')}}"></script>	
+		{{-- <script type="text/javascript" src="{{ asset('js/site/script.min.js')}}"></script>	 --}}
+		
 		<script type="text/javascript" src="{{asset('js/site/jquery.validate.min.js')}}"></script>		
 		<script type="text/javascript" src="{{asset('js/site/development.js')}}"></script>
 		<script type="text/javascript" src="{{asset('js/site/sweetalert2.js')}}"></script>
 		{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> --}}
+
+		@if(Route::current()->getName() == 'site.users.add-payment-method')
+		<script type="text/javascript" src="{{asset('js/site/creditCardValidator.js')}}"></script>
+		@endif
+		
 	</body>
 </html>
