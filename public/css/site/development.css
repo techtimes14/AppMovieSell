@@ -29,17 +29,3 @@ label.error{color: #FF0000 !important; text-transform: none !important; font-wei
 }
 .whole-area{ position: fixed; /*background:rgba(255, 255, 255, 0.6);*/ background:rgba(0,0,0,0.6); top: 0; left: 0; width: 100%; height: 100%; z-index: 999999; display: flex; align-items: center; justify-content: center; overflow: hidden;}
 .text_center{text-align: center !important;}
-.create_board_popup form input[type="text"]{text-transform: none;}
-.browse_by .board_section{min-height: 199px !important;}
-
-.swal_confirm{background-color: #d6f55b !important; color: #141414 !important;}
-.swal_cancel{background-color: #141516 !important; color: #ffffff !important;}
-
-.s-icon.popupfavourited {background-position: -800px -100px; width: 31px; height: 27px;}
-.popupfaviconholder, #makeFavouriteForm input[type="submit"], #createBoardForm input[type="submit"], #forgotPasswordForm input[type="submit"], #registrationForm input[type="submit"], #loginForm input[type="submit"]{cursor: pointer;}
-
-.modal-backdrop{z-index: 990;}
-#browseby_ifrmae{z-index: 999;}
-#add_to_favouite{z-index: 1000;}
-#create_board{z-index: 1000;}
-.login_section{z-index: 999999;}

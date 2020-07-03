@@ -18,7 +18,6 @@ use App\SiteSetting;
 use App\Cms;
 Use App\User;
 Use App\Banner;
-Use App\Video;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -33,22 +32,15 @@ class HomeController extends Controller
         $homeData       = Helper::getData('cms', '1');
         $aboutData      = Helper::getData('cms', '2');
         $trendingData   = Helper::getData('cms', '6');
-        $favouritesData = Helper::getData('cms', '7');
         $browseByData   = Helper::getData('cms', '8');
         $siteSetting    = Helper::getSiteSettings();
 
-        $recentlyAddedVideos    = Video::where(['status' => '1'])->whereNull('deleted_at')->limit(10)->orderBy('id','desc')->get();
-        $trendingVideos         = Video::where(['status' => '1'])->whereNull('deleted_at')->limit(10)->orderBy('view_count','desc')->get();
-        
         return view('site.home',[
             'title'                 => $homeData['title'], 
             'keyword'               => $homeData['keyword'], 
             'description'           => $homeData['description'],
             'aboutData'             => $aboutData,
             'trendingData'          => $trendingData,
-            'recentlyAddedVideos'   => $recentlyAddedVideos,
-            'trendingVideos'        => $trendingVideos,
-            'favouritesData'        => $favouritesData,
             'browseByData'          => $browseByData,
             'siteSetting'           => $siteSetting,
             ]);

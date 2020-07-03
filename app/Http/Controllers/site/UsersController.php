@@ -19,9 +19,11 @@ use \Response;
 Use Redirect;
 use App\User;
 use App\Cms;
-use App\Video;
-use App\Board;
-use App\FavouriteVideo;
+use App\Notification;
+use App\DeliveryAddress;
+use App\Avatar;
+use App\AvatarLocal;
+use App\PinCode;
 use App;
 
 class UsersController extends Controller
@@ -32,70 +34,103 @@ class UsersController extends Controller
     /*****************************************************/
     public function register( Request $request )
     {
-        $response = [];
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.'.$currentLang.'.home');
+        }
+        
         if ($request->isMethod('POST')) {
+            $currentDateTime    = date('Y-m-d H:i:s');
+
+            $siteSetting        = Helper::getSiteSettings();
             $validationCondition = array(
-                'first_name'        => 'required|min:2|max:255',
-                'last_name'         => 'required|min:2|max:255',
-                'email_register'    => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email',
-                'password_register' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-                'agree'             =>  'required',
+                'first_name'    => 'required|min:2|max:255',
+                'last_name'     => 'required|min:2|max:255',
+                'email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email',
+                'password'      => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+                'agree'         => 'required',
+                
             ); 
             $validationMessages = array(
-                'first_name.required'       => 'Plese enter first name',
-                'first_name.min'            => 'First name should be atleast 2 characters',
-                'first_name.max'            => 'First name must not be more than 255 characters',
-                'last_name.required'        => 'Plese enter last name',
-                'last_name.min'             => 'Last name should be atleast 2 characters',
-                'last_name.max'             => 'Last name must not be more than 255 characters',
-                'email_register.required'   => 'Plese enter email',
-                'email_register.regex'      => 'Please enter valid email',
-                'email_register.unique'     => 'Email should be unique',
-                'password.required'         => 'Please enter password',
-                'password.regex'            => 'Password should be minimum 8 characters, alphanumeric and special character',
+                'first_name.required'   => trans('custom.please_enter_first_name'),
+                'first_name.min'        => trans('custom.first_name_min_length_check'),
+                'first_name.max'        => trans('custom.first_name_max_length_check'),
+                'last_name.required'    => trans('custom.please_enter_last_name'),
+                'last_name.min'         => trans('custom.last_name_min_length_check'),
+                'last_name.max'         => trans('custom.last_name_max_length_check'),
+                'email.required'        => trans('custom.please_enter_email'),
+                'email.regex'           => trans('custom.please_enter_valid_email'),
+                'email.unique'          => trans('custom.please_enter_unique_email'),
+                'password.required'     => trans('custom.please_enter_password'),
+                'password.regex'        => trans('custom.password_regex'),
+                'agree.required'        => trans('custom.please_agree'),
             );
 
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'This email is already registered with us';
+            $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
             } else {
+                $siteSetting = Helper::getSiteSettings();                
+                $password = $request->password;
+                
                 $newUser = new User;
-                $newUser->first_name    = trim($request->first_name, ' ');
-                $newUser->last_name     = trim($request->last_name, ' ');
-                $newUser->full_name     = $newUser->first_name.' '.$newUser->last_name;
-                $newUser->email         = trim($request->email_register, ' ');                
-                $newUser->password      = $request->password_register;
-                $newUser->status        = '1';
-                $newUser->agree         = isset($request->agree) ? $request->agree : 0;
+                $newUser->first_name            = trim($request->first_name, ' ');
+                $newUser->last_name             = trim($request->last_name, ' ');
+                $newUser->full_name             = $newUser->first_name.' '.$newUser->last_name;
+                $newUser->email                 = trim($request->email, ' ');
+                $newUser->password              = $request->password;
+                $newUser->status                = '1';
+                $newUser->agree                 = $request->agree;
                 $saveUser = $newUser->save();
                 if ($saveUser) {
-                    $siteSetting = Helper::getSiteSettings();
-
-                    \Mail::send('email_templates.site.verification',
+                    // Mail to customer
+                    \Mail::send('email_templates.site.registration',
                     [
                         'user' => $newUser,
-                        'password'      => $request->password_register,
+                        'password'  => $password,
                         'siteSetting'   => $siteSetting,
-                        'app_config' => [
-                        'appname'       => $siteSetting->website_title,
-                        'appLink'       => Helper::getBaseUrl(),
+                        'app_config'    => [
+                            'appname'       => $siteSetting->website_title,
+                            'appLink'       => Helper::getBaseUrl(),
+                            'controllerName'=> 'users',
+                            'currentLang'=> $currentLang,
                         ],
                     ], function ($m) use ($newUser) {
-                        $m->to($newUser->email, $newUser->full_name)->subject('Registration Successful - Stream Fit');
+                        $m->to($newUser->email, $newUser->full_name)->subject('Thank You - Cordon Bleu X');
                     });
 
-                    $response['has_error'] = 0;
-                    $response['msg'] = 'Your registration was successful';
+                    // Mail to admin
+                    \Mail::send('email_templates.site.registration_details_to_admin',
+                    [
+                        'user' => $newUser,
+                        'siteSetting'   => $siteSetting,
+                        'app_config'    => [
+                            'appname'       => $siteSetting->website_title,
+                            'appLink'       => Helper::getBaseUrl(),
+                            'controllerName'=> 'users',
+                            'currentLang'=> $currentLang,
+                        ],
+                    ], function ($m) use ($siteSetting) {
+                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('New Registration - Cordon Bleu X');
+                    });
+
+                    $request->session()->flash('alert-success',trans('custom.registration_success_for_email'));
+                    return redirect()->back();
                 } else {
-                    $response['has_error'] = 1;
-                    $response['msg'] = 'Something went wrong, please try again later';
+                    $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                    return redirect()->back();
                 }
             }
-        }        
-        echo json_encode($response);
-        // exit(0);
+        }
+        
+        return view('site.user.register',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData
+            ]);
     }
 
     /*****************************************************/
@@ -104,480 +139,758 @@ class UsersController extends Controller
     /*****************************************************/
     public function login( Request $request )
     {
-        $response = [];
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        if (Auth::guard('web')->check()) {
+            if (Auth::user()->login_language != null) {
+                $currentLang = Auth::user()->login_language;
+            }
+            return redirect()->route('site.'.$currentLang.'.home');
+        }
+
         if ($request->isMethod('POST')) {
             $validationCondition = array(
                 'email'     => 'required',
                 'password'  => 'required'
             );
             $validationMessages = array(
-                'email.required'    => 'Please enter email',
-                'password.required' => 'Please enter password',
+                'email.required'    => trans('custom.please_enter_email'),
+                'password.required' => trans('custom.please_enter_password')
             );
 
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'Please enter your email and password';
+            $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
             } else {
                 if ($request->email && $request->password) {
-                    if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                    if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => '1'])) {
                         $user = Auth::user();
                         if ($user->status == 0) {
-                            $response['has_error'] = 1;
-                            $response['msg'] = 'Inactive user, please contact with administrator';
+                            $request->session()->flash('alert-danger',trans('custom.inactive_user'));
                             Auth::guard('web')->logout();
+                            return redirect()->route('site.'.$currentLang.'.users.login');
                         } else if ($user->role_id) {
-                            $response['has_error'] = 1;
-                            $response['msg'] = 'You are not authorised';
+                            $request->session()->flash('alert-danger',trans('custom.not_authorized'));
                             Auth::guard('web')->logout();
+                            return redirect()->route('site.'.$currentLang.'.users.login');
                         } else {
                             $userData                = Auth::user();
                             $userData->lastlogintime = strtotime(date('Y-m-d H:i:s'));
                             $userData->save();
 
-                            $response['has_error'] = 0;
-                            $response['msg'] = 'Login successful';
-                            $response['temp_password'] = 0;
-                            if ($userData->password_reset_token != null) {
-                                $response['temp_password'] = 1;
+                            // Update session cart details with previous saved cart start //
+                            if (Session::get('cartSessionId') != '') {
+                                $this->mergeCartItemDetails();
                             }
+                            // Update session cart details with previous saved cart end //
+
+                            // Redirect to login language
+                            if (Auth::user()->login_language != null) {
+                                $currentLang = Auth::user()->login_language;
+                            }
+
+                            // Checkout status & redirect
+                            if (Session::get('redirectTo') != '') {
+                                if (Session::get('redirectTo') == 'checkout_page') {   // redirect to checkout page
+                                    Session::put('redirectTo','');
+                                    return redirect()->route('site.'.$currentLang.'.users.checkout');
+                                } else {
+                                    return redirect()->route('site.'.$currentLang.'.home');
+                                } 
+                            }                           
+
+                            return redirect()->route('site.'.$currentLang.'.home');
                         }
                     } else {
-                        $response['has_error'] = 1;
-                        $response['msg'] = 'Invalid email or password';
+                        $request->session()->flash('alert-danger',trans('custom.credential_mismatch'));
+                        return redirect()->route('site.'.$currentLang.'.users.login');
                     }
                 } else {
-                    $response['has_error'] = 1;
-                    $response['msg'] = 'Please enter your email and password';
+                    $request->session()->flash('alert-danger',trans('custom.please_provide_credential'));
+                    return redirect()->route('site.'.$currentLang.'.users.login');
                 }
             }
-        }        
-        echo json_encode($response);
-        // exit(0);
+        }
+        
+        return view('site.user.login',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData
+            ]);
     }
 
     /*****************************************************/
     # Function name : forgotPassword
-    # Params        : 
+    # Params        : Request $request
     /*****************************************************/
     public function forgotPassword( Request $request )
     {
-        $response = [];
+        $currentLang = $lang = App::getLocale();
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.'.$currentLang.'.home');
+        }
+        $cmsData = $metaData = Helper::getMetaData();
+
         if ($request->isMethod('POST')) {
+            $siteSetting = Helper::getSiteSettings();
+            
             $validationCondition = array(
-                'forgot_email'    => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/',
-            ); 
+                'email'    => 'required'
+            );
             $validationMessages = array(
-                'forgot_email.required'   => 'Plese enter email',
-                'forgot_email.regex'      => 'Please enter valid email',
+                'email.required'   => trans('custom.please_enter_email')
             );
 
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'This email is not registered with us';
+            $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
             } else {
-                $emailExist = User::where(['email' => $request->forgot_email])->whereNull('deleted_at')->first();
-                if ($emailExist != null) {
-                    if ($emailExist->status == '0') {
-                        $response['has_error'] = 1;
-                        $response['msg'] = 'This user inactive';
+                $email   = $request->email;
+                if ($email) {
+                    $siteSetting = Helper::getSiteSettings();
 
-                    } else {
-                        $randomPassword = Helper::generateRandomPassword();
-
-                        $emailExist->password               = $randomPassword;
-                        $emailExist->password_reset_token   = strtotime(date('Y-m-d H:i:s'));
-                        $saveUser = $emailExist->save();
-                        if ($saveUser) {
-                            $siteSetting = Helper::getSiteSettings();
-
-                            \Mail::send('email_templates.site.forgot_password',
-                            [
-                                'user'          => $emailExist,
-                                'password'      => $randomPassword,
-                                'siteSetting'   => $siteSetting,
-                                'app_config'    => [
-                                    'appname'       => $siteSetting->website_title,
-                                    'appLink'       => Helper::getBaseUrl(),
-                                ],
-                            ], function ($m) use ($emailExist) {
-                                $m->to($emailExist->email, $emailExist->full_name)->subject('Forgot Password - Stream Fit');
-                            });
-
-                            $response['has_error'] = 0;
-                            $response['msg'] = 'Please check your email for temporary password';
-                        } else {
-                            $response['has_error'] = 1;
-                            $response['msg'] = 'Something went wrong, please try again later';
+                    $user = User::where('email', $email)->first();
+                    if ($user) {
+                        if($user->role_id != null){
+                            $request->session()->flash('alert-danger',trans('custom.admin_user'));
+                            return Redirect::back()->withErrors($Validator)->withInput();
                         }
+                        if ($user->status == 0) {
+                            $request->session()->flash('alert-danger',trans('custom.inactive_user'));
+                            return redirect()->back();
+                        } else {
+                            $user->remember_token = md5($email);
+                            $saveUser = $user->save();
+
+                            if ($saveUser) {            
+                                \Mail::send('email_templates.site.change_password_link',
+                                [
+                                    'user' => $user,
+                                    'siteSetting'   => $siteSetting,
+                                    'app_config'    => [
+                                        'appname'       => $siteSetting->website_title,
+                                        'appLink'       => Helper::getBaseUrl(),
+                                        'controllerName'=> 'users',
+                                        'currentLang'=> $currentLang,
+                                    ],
+                                ], function ($m) use ($user) {
+                                    $m->to($user->email, $user->full_name)->subject('Change Password Link - Cordon Bleu X');
+                                });
+                                $request->session()->flash('alert-success',trans('custom.change_password_success_for_email'));
+                                return redirect()->route('site.'.$currentLang.'.users.forgot-password');
+                            } else {
+                                $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                                return redirect()->back();
+                            }
+                        }
+                    } else {
+                        $request->session()->flash('alert-danger',trans('custom.email_not_found'));
                     }
                 } else {
-                    $response['has_error'] = 1;
-                    $response['msg'] = 'This user either not registered with us or deleted';
+                    $request->session()->flash('alert-danger',trans('custom.please_provide_emil'));
                 }
             }
-        }        
-        echo json_encode($response);
-        // exit(0);
+        }
+        return view('site.user.forgot_password',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData
+        ]);
     }
 
     /*****************************************************/
-    # Function name : editProfile
+    # Function name : resetPassword
+    # Params        : $token, Request $request
+    /*****************************************************/
+    public function resetPassword($token, Request $request)
+    {
+        $currentLang = $lang = App::getLocale();
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.'.$currentLang.'.home');
+        }
+        if ($token == '') {
+            return redirect()->route('site.'.$currentLang.'.users.forgot-password');
+        }
+        $cmsData = $metaData = Helper::getMetaData();
+
+        if ($request->isMethod('POST')) {
+            $validationCondition = array(
+                'password' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+                'confirm_password' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/|same:password',
+            );
+            $validationMessages = array(
+                'password.required' => trans('custom.please_enter_password'),
+                'password.regex' => trans('custom.password_regex'),
+                'confirm_password.required' => trans('custom.confirm_password'),
+                'confirm_password.regex' => trans('custom.password_regex'),
+                'confirm_password.same' => trans('custom.confirm_password_password'),
+            );
+            $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
+            } else {
+                $userData = User::where('remember_token', $token)->first();
+                if ($userData != '') {
+                    if ($userData->status == 0) {
+                        $request->session()->flash('alert-danger',trans('custom.inactive_user'));
+                        return redirect()->back();
+                    } else {
+                        $password   = $request->password;
+                        $id         = $userData->id;
+                        
+                        if ($password && $id) {                         
+                            $userData->remember_token = '';
+                            $userData->password = $password;
+                            $userData->save();
+
+                            $request->session()->flash('alert-success',trans('custom.password_changed_sucess'));
+                            return redirect()->route('site.'.$currentLang.'.users.login');
+                        } else {
+                            $request->session()->flash('alert-danger',trans('custom.please_try_again'));
+                        }
+                    }
+                } else {
+                    $request->session()->flash('alert-danger',trans('custom.reset_already_done'));
+                }
+                return redirect()->back();
+            }
+        }
+        return view('site.user.reset_password',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData,
+            'token'     => $token,
+        ]);
+        
+    }
+
+    /*****************************************************/
+    # Function name : personalDetails
     # Params        : Request $request
     /*****************************************************/
-    public function editProfile(Request $request)
+    public function personalDetails(Request $request)
     {
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
         try
         {
-            $cmsData = Helper::getData();
-            $userDetail = Auth::guard('web')->user();            
+            $userDetail = Auth::guard('web')->user();
+            $avatarList = Avatar::where(['status' => '1'])
+									->whereNull('deleted_at')
+									->with([
+                                        'local'=> function($query) use ($currentLang) {
+                                            $query->where('lang_code','=', $currentLang);
+                                        }
+                                    ])
+                                    ->orderBy('sort', 'asc')
+                                    ->get();
+            $data['avatarList'] = $avatarList;
             $data['userDetail'] = $userDetail;
 
             if ($request->isMethod('POST')) {
                 // dd($request);
                 $validationCondition = array(
+                    'nickname'      => 'required',
+                    'title'         => 'required',                    
                     'first_name'    => 'required|min:2|max:255',
                     'last_name'     => 'required|min:2|max:255',
+                    'login_language'=> 'required',
                     'email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email,'.Auth::user()->id,
-                    'phone_no'      => 'required|unique:'.(new User)->getTable().',phone_no,'.Auth::user()->id,
-                    'gender'        =>  'required',
+                    'phone_no'      => 'required',
+                    'dob'           =>  'required|date_format:d/m/Y',
                 );
                 $validationMessages = array(
-                    'first_name.required' => 'Please enter first name',
-                    'first_name.min' => 'First name should be atleast 2 characters',
-                    'first_name.max' => 'First name must not be more than 255 characters',
-                    'last_name.required' => 'Please enter last name',
-                    'last_name.min' => 'Last name should be atleast 2 characters',
-                    'last_name.max' => 'Last name must not be more than 255 characters',
-                    'email.required' => 'Please enter email',
-                    'email.regex' => 'Please enter valid email',
-                    'email.unique' => 'Please enter unique email',
-                    'phone_no.required' => 'Please enter phone number',
-                    'phone_no.unique' => 'Please enter unique phone number',
-                    'gender.required' => 'Please select gender',
+                    'nickname.required'     => trans('custom.please_enter_nick_name'),
+                    'title.required'        => trans('custom.please_select_title'),
+                    'first_name.required'   => trans('custom.please_enter_first_name'),
+                    'first_name.min'        => trans('custom.first_name_min_length_check'),
+                    'first_name.max'        => trans('custom.first_name_max_length_check'),
+                    'last_name.required'    => trans('custom.please_enter_last_name'),
+                    'last_name.min'         => trans('custom.last_name_min_length_check'),
+                    'last_name.max'         => trans('custom.last_name_max_length_check'),
+                    'login_language.required'=> trans('custom.please_select_language'),
+                    'email.required'        => trans('custom.please_enter_email'),
+                    'email.regex'           => trans('custom.please_enter_valid_email'),
+                    'email.unique'          => trans('custom.please_enter_unique_email'),
+                    'phone_no.required'     => trans('custom.please_enter_phone'),
+                    'dob.required'          => trans('custom.please_select_dob'),
+                    'dob.date_format'       => trans('custom.please_select_dob_format'),
                 );
                 $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($Validator->fails()) {
-                    return redirect()->route('site.users.edit-profile')->withErrors($Validator)->withInput();
+                    return redirect()->route('site.'.\App::getLocale().'.users.personal-details')->withErrors($Validator)->withInput();
                 } else {
-                    if ($request->current_password != '') {
-                        $valiPass = array(
-                            'current_password'  => 'regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-                            'password'          => 'regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-                            'confirm_password'  => 'regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/|same:password',
-                        );
-                        $validaPass = array(
-                            'current_password.regex' => 'Password should be minimum 8 characters, alphanumeric and special character',
-                            'password.regex' => 'Password should be minimum 8 characters, alphanumeric and special character',
-                            'confirm_password.regex' => 'Password should be minimum 8 characters, alphanumeric and special character',
-                            'confirm_password.same' => 'Confirm password should be same as new password',
-                        );
-                        $ValidatorPass = Validator::make($request->all(), $valiPass, $validaPass);
-                        if ($ValidatorPass->fails()) {
-                            return redirect()->route('site.users.edit-profile')->withErrors($ValidatorPass)->withInput();
-                        } else {
-                            $userDetail = Auth::guard('web')->user();
-                            $hashedPassword = $userDetail->password;
-
-                            // check if current password matches with the saved password
-                            if (Hash::check($request->current_password, $hashedPassword)) {
-                                $updateUserData['password'] = Hash::make($request->password);
-
-                                $updateUserData['password_reset_token'] = null;
-                            } else {
-                                $request->session()->flash('alert-danger', 'Current password doesn\'t match');
-                                return redirect()->back()->withInput();
-                            }
-                        }
-                    }
+                    $updateUserData['nickname']     = $request->nickname;
+                    $updateUserData['title']        = $request->title;
                     $updateUserData['first_name']   = $request->first_name;
                     $updateUserData['last_name']    = $request->last_name;
                     $updateUserData['full_name']    = ucwords($request->first_name).' '.ucwords($request->last_name);
+                    $updateUserData['login_language']= $request->login_language;
                     $updateUserData['email']        = $request->email;
                     $updateUserData['phone_no']     = $request->phone_no;
-                    $updateUserData['gender']       = $request->gender;
+                    $updateUserData['dob']          = date('Y-m-d',strtotime(str_replace('/','-',$request->dob)));
                     
                     $saveUserData = User::where('id', $userDetail->id)->update($updateUserData);
                     if ($saveUserData) {
-                        Auth::guard('web')->loginUsingId($userDetail->id);                        
-                        $request->session()->flash('alert-success', 'Profile updated successfully');
+                        Auth::guard('web')->loginUsingId($userDetail->id);
+                        $request->session()->flash('alert-success', trans('custom.success_profile_update'));
                         return redirect()->back();
                     } else {
-                        $request->session()->flash('alert-danger', 'Something went wrong, please try again later');
+                        $request->session()->flash('alert-danger', trans('custom.please_try_again'));
                         return redirect()->back();
                     }
                 }
             }
-            return view('site.user.edit_profile',[
-                'title'     => $cmsData['title'],
-                'keyword'   => $cmsData['keyword'],
-                'description'=>$cmsData['description'],
-                'cmsData'   => $cmsData,
-                'userDetail'=> $userDetail,
-            ]);
-
         } catch (Exception $e) {
-            return redirect()->route('site.users.edit-profile')->with('error', $e->getMessage());
+            return redirect()->route('site.users.personal-details')->with('error', $e->getMessage());
         }
-    }
 
-    /*****************************************************/
-    # Function name : profileVideos
-    # Params        : Request $request
-    /*****************************************************/
-    public function profileVideos(Request $request)
-    {
-        $cmsData   = Helper::getData('cms', '10');
-        $favVideoIds = [];
-        $profileVideosList = FavouriteVideo::where(['user_id' => Auth::user()->id])
-                                            ->whereHas('videoDetails', function ($query) {
-                                                $query->where('status', '1');
-                                                $query->whereNull('deleted_at');
-                                            })
-                                            ->orderBy('created_at', 'desc')
-                                            ->paginate(Helper::PROFILE_VIDEO_LIMIT);
-
-        // Loggedin user faviourite video ids
-        if (Auth::user()) {
-            $favVideoIds = Helper::userFavouiteVideoIds();
-        }
-                                            
-        return view('site.user.profile_videos',[
-            'title'                 => $cmsData['title'],
-            'keyword'               => $cmsData['keyword'], 
-            'description'           => $cmsData['description'],
-            'cmsData'               => $cmsData,
-            'profileVideosList'     => $profileVideosList,
-            'favVideoIds'           => $favVideoIds,
+        return view('site.user.personal_details',[
+            'title'         => $cmsData['title'],
+            'keyword'       => $cmsData['keyword'],
+            'description'   =>$cmsData['description'],
+            'cmsData'       => $cmsData,
+            'userDetail'    => $userDetail,
+            'avatarList'    => $avatarList,
         ]);
     }
 
     /*****************************************************/
-    # Function name : myFavourite
+    # Function name : changeUserPassword
     # Params        : Request $request
     /*****************************************************/
-    public function myFavourite(Request $request)
+    public function changeUserPassword(Request $request)
     {
-        $cmsData   = Helper::getData('cms', '11');
-        $favVideoIds = [];
-        $boardList = Board::where(['user_id' => Auth::user()->id, 'status' => '1'])->get();
-        $favouriteBoardVideoList = FavouriteVideo::where(['user_id' => Auth::user()->id, 'board_id' => '0'])
-                                                    ->whereHas('videoDetails', function ($query) {
-                                                        $query->where('status', '1');
-                                                        $query->whereNull('deleted_at');
-                                                    })
-                                                    ->orderBy('created_at', 'desc')
-                                                    ->paginate(Helper::MY_FAVOURITE_VIDEO_LIMIT);
-        // Loggedin user faviourite video ids
-        if (Auth::user()) {
-            $favVideoIds = Helper::userFavouiteVideoIds();
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        try
+        {
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'current_password' => 'required|min:8',
+                    'password' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+                    'confirm_password' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/|same:password',
+                );
+                $validationMessages = array(
+                    'current_password.required' => trans('custom.current_password'),
+                    'password.required'         => trans('custom.passwords'),
+                    'password.regex'            => trans('custom.password_regex'),
+                    'confirm_password.required' => trans('custom.confirm_password'),
+                    'confirm_password.regex'    => trans('custom.password_regex'),
+                    'confirm_password.same'     => trans('custom.confirm_password_password'),
+                );
+                $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($Validator->fails()) {
+                    return redirect()->route('site.'.\App::getLocale().'.users.change-user-password')->withErrors($Validator);
+                } else {
+                    $userDetail = Auth::guard('web')->user();
+                    $user_id = Auth::guard('web')->user()->id;
+                    $hashed_password = $userDetail->password;
+
+                    // check if current password matches with the saved password
+                    if (Hash::check($request->current_password, $hashed_password)) {
+                        $userDetail->password = $request->password;
+                        $updatePassword = $userDetail->save();
+
+                        if ($updatePassword) {
+                            $request->session()->flash('alert-success', trans('custom.password_update_success'));
+                            return redirect()->route('site.'.\App::getLocale().'.users.change-user-password');
+                        } else {
+                            $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                            return redirect()->back();
+                        }
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.old_password_not_match'));
+                        return redirect()->back();
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        
-        return view('site.user.my_favourite',[
-            'title'                 => $cmsData['title'],
-            'keyword'               => $cmsData['keyword'], 
-            'description'           => $cmsData['description'],
-            'cmsData'               => $cmsData,
-            'boardList'             => $boardList,
-            'favouriteBoardVideoList'=> $favouriteBoardVideoList,
-            'favVideoIds'           => $favVideoIds,
+
+        return view('site.user.change_user_password',[
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+        ]);
+    }
+
+    /*****************************************************/
+    # Function name : notifications
+    # Params        : Request $request
+    /*****************************************************/
+    public function notifications(Request $request)
+    {
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        try
+        {
+            $notificationDetails = Notification::where('user_id', Auth::user()->id)->first();
+
+            if ($request->isMethod('POST')) {
+
+                if ($notificationDetails == null) {
+                    $newNotification = new Notification;
+                    $newNotification->user_id           = Auth::user()->id;
+                    $newNotification->order_update      = isset($request->order_update) ? '1' : '0';
+                    $newNotification->rate_your_meal    = isset($request->rate_your_meal) ? '1' : '0';
+                    $newNotification->sms               = isset($request->sms) ? '1' : '0';
+                    $save = $newNotification->save();
+                    if ($save) {
+                        $request->session()->flash('alert-success', trans('custom.notification_update_success'));
+                        return redirect()->back();
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                        return redirect()->back();
+                    }
+                } else {
+                    $notificationDetails->order_update      = isset($request->order_update) ? '1' : '0';
+                    $notificationDetails->rate_your_meal    = isset($request->rate_your_meal) ? '1' : '0';
+                    $notificationDetails->sms               = isset($request->sms) ? '1' : '0';
+                    $update = $notificationDetails->save();
+                    if ($update) {
+                        $request->session()->flash('alert-success', trans('custom.notification_update_success'));
+                        return redirect()->back();
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                        return redirect()->back();
+                    }
+                }                
+            }            
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return view('site.user.notification',[
+            'title'                 => $metaData['title'],
+            'keyword'               => $metaData['keyword'],
+            'description'           =>$metaData['description'],
+            'notificationDetails'   => $notificationDetails
         ]);
     }
     
     /*****************************************************/
-    # Function name : favouriteBoardList
+    # Function name : deliveryAddress
     # Params        : Request $request
     /*****************************************************/
-    public function favouriteBoardList($encryptedBoardId)
+    public function deliveryAddress(Request $request)
     {
-        $cmsData   = Helper::getData('cms', '11');
-        $favVideoIds = [];
-        $boardId = Helper::customEncryptionDecryption($encryptedBoardId, 'decrypt');
-        $boardData = Board::where(['id' => $boardId])->first();
-        $favouriteBoardVideoList = FavouriteVideo::where(['user_id' => Auth::user()->id, 'board_id' => $boardId])
-                                                    ->whereHas('videoDetails', function ($query) {
-                                                        $query->where('status', '1');
-                                                        $query->whereNull('deleted_at');
-                                                    })
-                                                    ->orderBy('created_at', 'desc')
-                                                    ->paginate(Helper::FAVOURITE_BOARD_VIDEO_LIMIT);
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
 
-        // Loggedin user faviourite video ids
-        if (Auth::user()) {
-            $favVideoIds = Helper::userFavouiteVideoIds();
+        try
+        {
+            $deliveryAddresses = DeliveryAddress::where('user_id', Auth::user()->id)->get();
+            
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        
-        return view('site.user.favourite_board',[
-            'title'                 => $cmsData['title'],
-            'keyword'               => $cmsData['keyword'], 
-            'description'           => $cmsData['description'],
-            'cmsData'               => $cmsData,
-            'boardData'             => $boardData,
-            'favouriteBoardVideoList'=> $favouriteBoardVideoList,
-            'favVideoIds'           => $favVideoIds,
+
+        return view('site.user.delivery_address',[
+            'title'             => $metaData['title'],
+            'keyword'           => $metaData['keyword'],
+            'description'       =>$metaData['description'],
+            'deliveryAddresses' => $deliveryAddresses
+        ]);
+    }    
+    
+    /*****************************************************/
+    # Function name : addAddress
+    # Params        : Request $request
+    /*****************************************************/
+    public function addAddress(Request $request)
+    {
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        try
+        {
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'company'   => 'required',
+                    'street'    => 'required',
+                    'floor'     => 'required',
+                    'door_code' => 'required',
+                    'post_code' => 'required',
+                    'city'  => 'required',
+                );
+                $validationMessages = array(
+                    'company.required'      => trans('custom.please_enter_company'),
+                    'street.required'       => trans('custom.please_enter_street'),
+                    'floor.required'        => trans('custom.please_enter_floor'),
+                    'door_code.required'    => trans('custom.please_enter_door_code'),
+                    'post_code.required'    => trans('custom.please_enter_post_code'),
+                    'city.required'         => trans('custom.please_enter_city'),
+                );
+                $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($Validator->fails()) {
+                    return redirect()->route('site.'.\App::getLocale().'.users.add-address')->withErrors($Validator)->withInput();
+                } else {
+                    $existPinCode = PinCode::where(['code' => $request->post_code, 'status' => '1'])->count();
+                    if ($existPinCode > 0) {
+                        $newAddress = new DeliveryAddress;
+                        $newAddress->user_id = Auth::user()->id;
+                        $newAddress->company = $request->company;
+                        $newAddress->street = $request->street;
+                        $newAddress->floor = $request->floor;
+                        $newAddress->door_code = $request->door_code;
+                        $newAddress->post_code = $request->post_code;
+                        $newAddress->city = $request->city;
+                        $newAddress->alias_type = $request->addressAlias;
+                        if ($request->addressAlias == 'Ot') {
+                            $newAddress->own_alias = isset($request->customAlias) ? $request->customAlias : null;
+                        } else {
+                            $newAddress->own_alias = null;
+                        }
+                        $save = $newAddress->save();
+                        if ($save) {
+                            $request->session()->flash('alert-success', trans('custom.address_add_success'));
+                            return redirect()->back();
+                        } else {
+                            $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                            return redirect()->back()->withInput();
+                        }
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.error_unavailability'));
+                        return redirect()->back()->withInput();
+                    }
+                }
+            }            
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return view('site.user.add_address',[
+            'title'             => $metaData['title'],
+            'keyword'           => $metaData['keyword'],
+            'description'       =>$metaData['description'],
         ]);
     }
 
     /*****************************************************/
-    # Function name : createBoard
-    # Params        : Request $request
+    # Function name : editAddress
+    # Params        : Request $request, $id
     /*****************************************************/
-    public function createBoard(Request $request)
+    public function editAddress(Request $request, $id)
     {
-        $response['has_error'] = 1;
-        $response['msg'] = 'Something went wrong, please try again later';
-        if ($request->isMethod('POST')) {
-            $validationCondition = array(
-                'board_name' => 'required|min:3|max:20',
-            ); 
-            $validationMessages = array(
-                'board_name.required'   => 'Plese enter board name',
-                'board_name.min'        => 'Board name should be atleast 3 characters',
-                'board_name.max'        => 'Board name must not be more than 20 characters',
-            );
-
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'Board name should be between 3 - 20 characters';
-            } else {
-                $countBoard = Board::where(['user_id' => Auth::user()->id])->count();
-                if ($countBoard < Helper::MAX_LIMIT_CREATE_BOARD) {
-                    $newBoard = new Board;
-                    $newBoard->title    = trim($request->board_name, ' ');
-                    $newBoard->user_id  = Auth::user()->id;
-
-                    $existCount = Board::where(['user_id' => Auth::user()->id, 'title' => $newBoard->title])->count();
-                    if ($existCount > 0) {
-                        $response['has_error'] = 1;
-                        $response['msg'] = 'This board is already exist';
-                    } else {
-                        $saveBoard = $newBoard->save();
-                        if ($saveBoard) {
-                            $response['has_error'] = 0;
-                            $response['msg'] = 'Board created successfully';
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+        
+        try
+        {
+            $decrypted = Helper::customEncryptionDecryption($id, 'decrypt');
+            $addressDetails = DeliveryAddress::where(['id' => $decrypted, 'user_id' => Auth::user()->id])->first();
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'company'   => 'required',
+                    'street'    => 'required',
+                    'floor'     => 'required',
+                    'door_code' => 'required',
+                    'post_code' => 'required',
+                    'city'  => 'required',
+                );
+                $validationMessages = array(
+                    'company.required'      => trans('custom.please_enter_company'),
+                    'street.required'       => trans('custom.please_enter_street'),
+                    'floor.required'        => trans('custom.please_enter_floor'),
+                    'door_code.required'    => trans('custom.please_enter_door_code'),
+                    'post_code.required'    => trans('custom.please_enter_post_code'),
+                    'city.required'         => trans('custom.please_enter_city'),
+                );
+                $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($Validator->fails()) {
+                    return redirect()->route('site.'.\App::getLocale().'.users.add-address')->withErrors($Validator);
+                } else {
+                    $existPinCode = PinCode::where(['code' => $request->post_code, 'status' => '1'])->count();
+                    if ($existPinCode > 0) {
+                        $addressDetails = DeliveryAddress::where(['id' => Helper::customEncryptionDecryption($request->address_id, 'decrypt'), 'user_id' => Auth::user()->id])->first();
+                        $addressDetails->company    = $request->company;
+                        $addressDetails->street     = $request->street;
+                        $addressDetails->floor      = $request->floor;
+                        $addressDetails->door_code  = $request->door_code;
+                        $addressDetails->post_code  = $request->post_code;
+                        $addressDetails->city       = $request->city;
+                        $addressDetails->alias_type = $request->addressAlias;
+                        if ($request->addressAlias == 'Ot') {
+                            $addressDetails->own_alias = isset($request->customAlias) ? $request->customAlias : null;
                         } else {
-                            $response['has_error'] = 1;
-                            $response['msg'] = 'Something went wrong, please try again later';
+                            $addressDetails->own_alias = null;
                         }
-                    }   
-                } else {
-                    $response['has_error'] = 1;
-                    $response['msg'] = 'You can create maximum '.Helper::MAX_LIMIT_CREATE_BOARD.' board';
-                }
-            }
-        }        
-        echo json_encode($response);
-        // exit(0);
-    }
-
-    /*****************************************************/
-    # Function name : makeFavourite
-    # Params        : Request $request
-    /*****************************************************/
-    public function makeFavourite(Request $request)
-    {
-        $response['has_error'] = 1;
-        $response['msg'] = 'Something went wrong, please try again later';
-        if ($request->isMethod('POST')) {
-            $validationCondition = array(
-                'fav_video_id'  => 'required',
-                'board'         => 'required',
-            ); 
-            $validationMessages = array(
-                'fav_video_id.required' => 'Please select video',
-                'board.required'        => 'Please select board',
-            );
-
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'Please select folder/board';
-            } else {
-                $favVideoId = $request->fav_video_id;
-                if ($request->board == 'Save' || $request->board == 'save') {
-                    $board  = 0;
-                } else {
-                    $board  = $request->board;
-                }
-
-                // If exist the delete
-                FavouriteVideo::where(['user_id' => Auth::user()->id, 'video_id' => $favVideoId])->delete();
-
-                if ($favVideoId != '') {
-                    $newFavouriteVideo = new FavouriteVideo;
-                    $newFavouriteVideo->user_id     = Auth::user()->id;
-                    $newFavouriteVideo->video_id    = $favVideoId;
-                    $newFavouriteVideo->board_id    = $board;
-                    $saveFavouriteVideo = $newFavouriteVideo->save();
-                    if ($saveFavouriteVideo) {
-                        $response['has_error'] = 0;
-                        $response['msg'] = 'Video added to favourite successfully';
+                        $update = $addressDetails->save();
+                        if ($update) {
+                            $request->session()->flash('alert-success', trans('custom.address_update_success'));
+                            return redirect()->back();
+                        } else {
+                            $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                            return redirect()->back();
+                        }
                     } else {
-                        $response['has_error'] = 1;
-                        $response['msg'] = 'Something went wrong, please try again later';
+                        $request->session()->flash('alert-danger', trans('custom.error_unavailability'));
+                        return redirect()->back();
                     }
-                } else {
-                    $response['has_error'] = 1;
-                    $response['msg'] = 'Something went wrong, please try again later';
                 }
             }
-        }        
-        echo json_encode($response);
-        // exit(0);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return view('site.user.edit_address',[
+            'title'             => $metaData['title'],
+            'keyword'           => $metaData['keyword'],
+            'description'       => $metaData['description'],
+            'id'                => $id,
+            'addressDetails'    => $addressDetails,
+        ]);
     }
 
     /*****************************************************/
-    # Function name : removeFavourite
+    # Function name : deleteAddress
     # Params        : Request $request
     /*****************************************************/
-    public function removeFavourite(Request $request)
+    public function deleteAddress(Request $request)
     {
-        $response['has_error'] = 1;
-        $response['msg'] = 'Something went wrong, please try again later';
+        $title      = trans('custom.error');
+        $message    = trans('custom.please_try_again');
+        $type       = 'error';
+        
         if ($request->isMethod('POST')) {
-            $validationCondition = array(
-                'video_id'  => 'required',
-            ); 
-            $validationMessages = array(
-                'video_id.required' => 'Something went wrong, please try again later',
-            );
+            $addressId = Helper::customEncryptionDecryption($request->addressId, 'decrypt');
 
-            $Validation = Validator::make($request->all(), $validationCondition, $validationMessages);
-            if ($Validation->fails()) {
-                $response['has_error'] = 1;
-                $response['error'] = $Validation->errors();
-                $response['msg'] = 'Something went wrong, please try again later';
-            } else {
-                $videoId = $request->video_id;
-                
-                // If exist the delete
-                FavouriteVideo::where(['user_id' => Auth::user()->id, 'video_id' => $videoId])->delete();
+            $getData = DeliveryAddress::where(['id' => $addressId, 'user_id' => Auth::user()->id])->first();
+            if ($getData != null) {
+                $getData->delete();
 
-                $response['has_error'] = 0;
-                $response['msg'] = 'Video has been removed from board successfully';
+                $title      = trans('custom.success');
+                $message    = trans('custom.address_delete_successful');
+                $type       = 'success';
             }
-        }        
-        echo json_encode($response);
-        // exit(0);
-    }
 
+            return json_encode([
+                'title'     => $title,
+                'message'   => $message,
+                'type'      => $type,
+            ]);
+        }
+    }
+    
+    /*****************************************************/
+    # Function name : changeAvatar
+    # Params        : Request $request
+    /*****************************************************/
+    public function changeAvatar(Request $request)
+    {
+        $title      = trans('custom.error');
+        $message    = trans('custom.please_try_again');
+        $type       = 'error';
+        $image      = '';
+        
+        if ($request->isMethod('POST')) {
+            $avatarId = $request->avatarId;
+
+            User::where('id', Auth::user()->id)->update(['avatar_id' => $avatarId]);
+            
+            $getData = User::where(['id' => Auth::user()->id])->first();
+            $updatedAvatar = asset('uploads/avatar/thumbs/').'/'.$getData->avatarDetails->image;
+
+            return json_encode([
+                'updatedAvatar' => $updatedAvatar,
+            ]);
+        }
+    }
+    
+    /*****************************************************/
+    # Function name : checkoutAddAddress
+    # Params        : Request $request
+    /*****************************************************/
+    public function checkoutAddAddress(Request $request)
+    {
+        $currentLang = $lang = App::getLocale();
+        $cmsData = $metaData = Helper::getMetaData();
+
+        try
+        {
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'company'   => 'required',
+                    'street'    => 'required',
+                    'floor'     => 'required',
+                    'door_code' => 'required',
+                    'post_code' => 'required',
+                    'city'  => 'required',
+                );
+                $validationMessages = array(
+                    'company.required'      => trans('custom.please_enter_company'),
+                    'street.required'       => trans('custom.please_enter_street'),
+                    'floor.required'        => trans('custom.please_enter_floor'),
+                    'door_code.required'    => trans('custom.please_enter_door_code'),
+                    'post_code.required'    => trans('custom.please_enter_post_code'),
+                    'city.required'         => trans('custom.please_enter_city'),
+                );
+                $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($Validator->fails()) {
+                    return redirect()->route('site.'.\App::getLocale().'.users.add-address')->withErrors($Validator)->withInput();
+                } else {
+                    $existPinCode = PinCode::where(['code' => $request->post_code, 'status' => '1'])->count();
+                    if ($existPinCode > 0) {
+                        $newAddress = new DeliveryAddress;
+                        $newAddress->user_id = Auth::user()->id;
+                        $newAddress->company = $request->company;
+                        $newAddress->street = $request->street;
+                        $newAddress->floor = $request->floor;
+                        $newAddress->door_code = $request->door_code;
+                        $newAddress->post_code = $request->post_code;
+                        $newAddress->city = $request->city;
+                        $newAddress->alias_type = $request->addressAlias;
+                        if ($request->addressAlias == 'Ot') {
+                            $newAddress->own_alias = isset($request->customAlias) ? $request->customAlias : null;
+                        } else {
+                            $newAddress->own_alias = null;
+                        }
+                        $save = $newAddress->save();
+                        if ($save) {
+                            $request->session()->flash('alert-success', trans('custom.address_add_success'));
+                            return redirect()->route('site.'.$currentLang.'.users.checkout');
+                        } else {
+                            $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                            return redirect()->back()->withInput();
+                        }
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.error_unavailability'));
+                        return redirect()->back()->withInput();
+                    }
+                }
+            }    
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return view('site.user.checkout_add_address',[
+            'title'             => $metaData['title'],
+            'keyword'           => $metaData['keyword'],
+            'description'       =>$metaData['description'],
+        ]);
+    }
+    
     /*****************************************************/
     # Function name : logout
     # Params        : 
     /*****************************************************/
     public function logout()
     {
+        $currentLang = App::getLocale();
         if (Auth::guard('web')->logout()) {
-            return redirect()->route('site.home');
+            Session::put('redirectTo', '');
+            return redirect()->route('site.'.$currentLang.'.users.login');
         } else {
-            return redirect()->route('site.users.edit-profile');
+            return redirect()->route('site.'.$currentLang.'.home');
         }
     }
 
