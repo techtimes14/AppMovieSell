@@ -81,6 +81,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::any('/edit-submit/{id}', 'ProductsController@edit')->name('editsubmit')->where('id','[0-9]+');
             Route::get('/status/{id}', 'ProductsController@status')->name('change-status')->where('id','[0-9]+');
             Route::get('/delete/{id}', 'ProductsController@delete')->name('delete')->where('id','[0-9]+');
+            Route::any('/delete-product-feature', 'ProductsController@deleteProductFeature')->name('delete-product-feature')->where('id','[0-9]+');
         });
 
 

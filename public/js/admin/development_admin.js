@@ -479,6 +479,90 @@ $(document).ready(function() {
     });
     /* TAG end */
 
+     /* Product start */
+     $("#addProductForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            Price: {
+                required: true,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters",
+                maxlength: "Description must not be more than 255 characters"
+            },
+            Price: {
+                required: "Please enter price",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#editProductForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            Price: {
+                required: true,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters",
+                maxlength: "Description must not be more than 255 characters"
+            },
+            Price: {
+                required: "Please enter price",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* Product end */
+
     
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({

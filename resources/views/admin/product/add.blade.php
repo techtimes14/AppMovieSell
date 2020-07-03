@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                         <label for="price">Price<span class="red_star">*</span></label><br>
                                         
-                                        {{ Form::text('price',null, array(       'id' => 'price',
+                                        {{ Form::text('price',null, array(  'id' => 'price',
                                                                             'class' => 'form-control',
                                                                             'placeholder' => 'Price',
                                                                             'required' => 'required' )) }}

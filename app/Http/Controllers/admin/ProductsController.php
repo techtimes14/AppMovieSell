@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Helper;
 use AdminHelper;
 use App\Product;
+use App\ProductFeature;
 
 class ProductsController extends Controller
 {
@@ -56,15 +57,15 @@ class ProductsController extends Controller
     # Params        : Request $request
     /*****************************************************/
     public function add(Request $request) {
-        $data['page_title']     = 'Product Tag';
-        $data['panel_title']    = 'Product Tag';
+        $data['page_title']     = 'Add Product';
+        $data['panel_title']    = 'Add Product';
     
         try
         {
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title' => 'required|min:2|max:255',
+                    'title' => 'required|min:2|max:255|unique:'.(new Product)->getTable().',title',
                     'description' => 'required|min:2|max:255',
                     'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 				);
@@ -76,22 +77,35 @@ class ProductsController extends Controller
 					'description.min'         => 'Description should be should be at least 2 characters',
                     'description.max'         => 'Description should not be more than 255 characters',
                     'price.required'          => 'Please enter Price',
+                    
 				);
 
 				$Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
 				if ($Validator->fails()) {
 					return redirect()->route('admin.product.add')->withErrors($Validator)->withInput();
 				} else {
-                    // $newSlug = Helper::generateUniqueSlug(new Tag(), $request->name);
+                    $newSlug = Helper::generateUniqueSlug(new Product(), $request->title);
 
                     $new = new Product;
                     $new->title = trim($request->title, ' ');
                     $new->description = $request->description;
                     $new->price = $request->price;
-                    // $new->slug  = $newSlug;
+                    $new->slug  = $newSlug;
                     $save = $new->save();
+                    
                 
-					if ($save) {						
+					if ($save) {
+                        $insertedId   	                  = $new->id;
+                        foreach ($request->feature_label as $key => $val) {
+                            $newProductFeature                 = new ProductFeature;
+                            $newProductFeature->product_id     = $insertedId;
+                            $newProductFeature->feature_label  = $val;
+                            $newProductFeature->feature_value  = $request->feature_value[$key];
+                            $saveProductFeature                = $newProductFeature->save();
+                        }
+                        
+                        
+
 						$request->session()->flash('alert-success', 'Product has been added successfully');
 						return redirect()->route('admin.product.list');
 					} else {
@@ -124,7 +138,7 @@ class ProductsController extends Controller
                     return redirect()->route('admin.product.list');
                 }
                 $validationCondition = array(
-                    'title'         => 'required|min:2|max:255',
+                    'title'         => 'required|min:2|max:255|unique:' .(new Product)->getTable().',title,' .$id,
                     'description'   => 'required|min:2|max:255',
                     'price'         => 'required|regex:/^\d+(\.\d{1,2})?$/',
                 );
@@ -142,15 +156,27 @@ class ProductsController extends Controller
                 if ($Validator->fails()) {
                     return redirect()->back()->withErrors($Validator)->withInput();
                 } else {   
-                    // $newSlug = Helper::generateUniqueSlug(new Tag(), $request->name, $id);
+                    $newSlug = Helper::generateUniqueSlug(new Product(), $request->title, $id);
 
                     $update = array(
                         'title' => trim($request->title, ' '),
-                        'description' => $request->name,
-                        'price' => $request->name
+                        'description' => $request->description,
+                        'price' => $request->price,
+                        'slug'  => $newSlug
                     ); 
                     $save = Product::where('id', $id)->update($update);                        
                     if ($save) {
+                        $deleteProductFeature = ProductFeature::where('product_id',$id)->delete();
+                        if (array_key_exists('feature_label', $request)) {
+                            foreach ($request->feature_label as $key => $val) {
+                                $newProductFeature                 = new ProductFeature;
+                                $newProductFeature->product_id     = $id;
+                                $newProductFeature->feature_label  = $val;
+                                $newProductFeature->feature_value  = $request->feature_value[$key];
+                                $saveProductFeature                = $newProductFeature->save();
+                            }
+                        }
+
                         $request->session()->flash('alert-success', 'Product has been updated successfully');
                         return redirect()->route('admin.product.list', ['page' => $pageNo]);
                     } else {
@@ -240,6 +266,40 @@ class ProductsController extends Controller
         } catch (Exception $e) {
             return redirect()->route('admin.product.list')->with('error', $e->getMessage());
         }
+    }
+
+    /*****************************************************/
+    # Function name : deleteProductFeature
+    # Params        : Request $request, $id
+    /*****************************************************/
+    public function deleteProductFeature(Request $request)
+    {
+        try
+        {
+            $title      = 'Error';
+            $message    = 'Something went wrong, please try again later';
+            $type       = 'error';
+
+            if ($request->isMethod('POST')) {
+                $details = ProductFeature::where('id', $request->product_feature_id)->first();
+                if ($details != null) {                
+                    $delete = $details->delete();
+                    if ($delete) {
+                        $title      = 'Success';
+                        $message    = 'Product feature has been deleted successfully';
+                        $type       = 'success';
+                    }
+                }
+            }
+            
+        } catch (Exception $e) {            
+        }
+
+        return response()->json(array(
+            'title'     => $title,
+            'message'   => $message,
+            'type'      => $type,
+        ));
     }
     
 }
