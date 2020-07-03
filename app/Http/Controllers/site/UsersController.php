@@ -29,10 +29,10 @@ use App;
 class UsersController extends Controller
 {
     /*****************************************************/
-    # Function name : register
+    # Function name : signUp
     # Params        : 
     /*****************************************************/
-    public function register( Request $request )
+    public function signUp( Request $request )
     {
         $currentLang = $lang = App::getLocale();
         $cmsData = $metaData = Helper::getMetaData();
@@ -125,7 +125,7 @@ class UsersController extends Controller
             }
         }
         
-        return view('site.user.register',[
+        return view('site.user.sign_up',[
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],

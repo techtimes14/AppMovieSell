@@ -18,7 +18,7 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
     /* User */
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
         Route::any('/login', 'UsersController@login')->name('login');
-        Route::any('/register', 'UsersController@register')->name('register');
+        Route::any('/sign-up', 'UsersController@signUp')->name('sign-up');
         Route::any('/forgot-password', 'UsersController@forgotPassword')->name('forgot-password');
         Route::any('/change-password', 'UsersController@changePassword')->name('change-password');
         Route::any('/reset-password/{token}', 'UsersController@resetPassword')->name('reset-password');

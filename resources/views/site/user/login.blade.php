@@ -61,10 +61,10 @@
                                 <button class="btn btn--md btn--round" type="submit">Login Now</button>
 
                                 <div class="login_assist">
-                                    <p class="recover">forget
-                                        <a href="pass-recovery.html">password</a>?</p>
+                                    <p class="recover">forgot
+                                        <a href="{{route('site.users.forgot-password')}}">password</a>?</p>
                                     <p class="signup">Don't have an
-                                        <a href="signup.html">account</a>?</p>
+                                        <a href="{{route('site.users.login')}}">account</a>?</p>
                                 </div>
                             </div>
                             <!-- end .login--form -->

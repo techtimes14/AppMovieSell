@@ -11,10 +11,10 @@
                     <div class="breadcrumb">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <a href="{{url('/')}}">Home</a>
                             </li>
                             <li class="active">
-                                <a href="#">Signup</a>
+                                <a href="{{route('site.users.sign-up')}}">Signup</a>
                             </li>
                         </ul>
                     </div>
@@ -37,7 +37,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="#">
+                    {{ Form::open(array(
+									'method'=> 'POST',
+									'class' => '',
+									'route' => ['site.users.sign-up'],
+									'name'  => 'registrationForm',
+									'id'    => 'registrationForm',
+									'files' => true,
+									'autocomplete' => false,
+									'novalidate' => true)) }}
                         <div class="cardify signup_form">
                             <div class="login--header">
                                 <h3>Create Your Account</h3>
@@ -78,14 +86,14 @@
 
                                 <div class="login_assist">
                                     <p>Already have an account?
-                                        <a href="signup.html">Login</a>
+                                        <a href="{{route('site.users.login')}}">Login</a>
                                     </p>
                                 </div>
                             </div>
                             <!-- end .login--form -->
                         </div>
                         <!-- end .cardify -->
-                    </form>
+                    {{Form::close()}}
                 </div>
                 <!-- end .col-md-6 -->
             </div>

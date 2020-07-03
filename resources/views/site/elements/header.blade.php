@@ -20,7 +20,7 @@
 					<!-- start .author-area -->
 					<div class="author-area">
 						<a href="{{route('site.users.login')}}" class="author-area__seller-btn inline-block">Log In</a>
-						<a href="{{route('site.users.register')}}" class="author-area__seller-btn inline-block mr-0">Sign Up</a>
+						<a href="{{route('site.users.sign-up')}}" class="author-area__seller-btn inline-block mr-0">Sign Up</a>
 					</div>
 					<!-- end .author-area -->
 
