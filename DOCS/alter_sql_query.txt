@@ -2,3 +2,5 @@ ALTER TABLE `ams_users` ADD `user_name` VARCHAR(255) NULL DEFAULT NULL AFTER `em
 
 ALTER TABLE `ams_users` ADD `name_on_card` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Name on card' AFTER `user_type`, ADD `card_number` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Card number' AFTER `name_on_card`, ADD `expiry_month` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Expiry month' AFTER `card_number`, ADD `expiry_year` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Expiry year' AFTER `expiry_month`;
 ALTER TABLE `ams_users` ADD `cvv` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Cvv number' AFTER `expiry_year`;
+
+ALTER TABLE `ams_site_settings` CHANGE `website_link` `website_link` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;

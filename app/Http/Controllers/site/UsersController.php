@@ -68,13 +68,13 @@ class UsersController extends Controller
                 $password = $request->password;
 
                 Session::put([
-                    'full_name'     => trim($request->first_name, ' '),
+                    'full_name'     => trim($request->full_name, ' '),
                     'email'         => trim($request->email, ' '),
                     'user_name'     => trim($request->user_name, ' '),
                     'password'      => $password,
                 ]);
 
-                if (Session::get('email') != '') {
+                if (Session::get('full_name') != '' && Session::get('email') != '') {
                     return redirect()->route('site.users.add-payment-method');
                 } else {
                     $request->session()->flash('alert-danger', trans('custom.please_try_again'));
@@ -98,7 +98,7 @@ class UsersController extends Controller
     public function addPaymentMethod( Request $request )
     {
         $cmsData = $metaData = Helper::getMetaData();
-        if (Session::get('email') == '') {
+        if (Session::get('full_name') != '' && Session::get('email') == '') {
             return redirect()->route('site.users.sign-up');
         }
 
@@ -132,25 +132,66 @@ class UsersController extends Controller
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
-                echo date('m');
-                dd($request);
-
-
-
-                $password = $request->password;
-
-                Session::put([
-                    'full_name'     => trim($request->first_name, ' '),
-                    'email'         => trim($request->email, ' '),
-                    'user_name'     => trim($request->user_name, ' '),
-                    'password'      => $password,
-                ]);
-
-                if (Session::get('email') != '') {
-                    return redirect()->route('site.users.add-payment-method');
-                } else {
-                    $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                $currentMonthYear  = date('Y').'-'.date('m');
+                $cardMonthYear     = $request->expiry_year.'-'.$request->expiry_month;
+                
+                if (strtotime($cardMonthYear) < strtotime($currentMonthYear)) {
+                    $request->session()->flash('alert-danger', 'Please enter valid expiry month & year');
                     return redirect()->back();
+                } else {
+                    $name = explode(' ', Session::get('full_name'));
+                    
+                    $newUser = new User;
+                    $newUser->first_name            = isset($name[0]) ? $name[0] : '';
+                    $newUser->last_name             = isset($name[1]) ? $name[1] : '';
+                    $newUser->full_name             = Session::get('full_name');
+                    $newUser->email                 = Session::get('email');
+                    $newUser->user_name             = Session::get('user_name');
+                    $newUser->password              = Session::get('password');
+                    $newUser->name_on_card          = $request->name_on_card;
+                    $newUser->expiry_month          = Helper::customEncryptionDecryption($request->card_number);
+                    $newUser->expiry_year           = Helper::customEncryptionDecryption($request->expiry_month);
+                    $newUser->expiry_year           = Helper::customEncryptionDecryption($request->expiry_year);
+                    $newUser->cvv                   = Helper::customEncryptionDecryption($request->cvv);                    
+                    $newUser->status                = '1';
+                    $saveUser = $newUser->save();
+
+                    if ($saveUser) {
+                        // Mail to customer
+                        \Mail::send('email_templates.site.registration',
+                        [
+                            'user'          => $newUser,
+                            'password'      => Session::get('password'),
+                            'siteSetting'   => $siteSetting,
+                            'app_config'    => [
+                                'appname'       => $siteSetting->website_title,
+                                'appLink'       => Helper::getBaseUrl(),
+                                'controllerName'=> 'users',
+                            ],
+                        ], function ($m) use ($newUser, $siteSetting) {
+                            $m->to($newUser->email, $newUser->full_name)->subject('Thank you - '.$siteSetting->website_title);
+                        });
+    
+                        // Mail to admin
+                        \Mail::send('email_templates.site.registration_details_to_admin',
+                        [
+                            'user' => $newUser,
+                            'siteSetting'   => $siteSetting,
+                            'app_config'    => [
+                                'appname'       => $siteSetting->website_title,
+                                'appLink'       => Helper::getBaseUrl(),
+                                'controllerName'=> 'users',
+                            ],
+                        ], function ($m) use ($siteSetting) {
+                            $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('New Registration - '.$siteSetting->website_title);
+                        });
+    
+                        $request->session()->flash('alert-success', 'Thank you for registering with us');
+                        return redirect()->route('site.users.login');
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                        return redirect()->route('site.users.sign-up');
+                    }
                 }
             }
         }
