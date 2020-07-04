@@ -10096,6 +10096,12 @@ span.counter {
   font-size: 15px;
   line-height: 30px;
 }
+/*  Service PAGE */
+.services_section .service_sec{display: flex; align-items: center; flex-wrap: wrap; flex-direction: row; justify-content: space-between;}
+.services_section .service_sec:nth-child(even){flex-direction: row-reverse;}
+.services_section .service_sec figure{width: 26%; position: relative; overflow: hidden; box-shadow: 0 0 10px rgba(6, 166, 236, 0.4); border: 6px solid #0674ec; padding-top: 25%; -webkit-border-radius: 50%; border-radius: 50%;}
+.services_section .service_sec figure img{position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover; object-position: center;}
+.services_section .service_sec .service_content{width: 70%;}
 /* Legal PAGE */
 .legal_section .legal_contents{margin-bottom: 35px;}
 .legal_section .legal_contents h2{margin-bottom: 15px;}
