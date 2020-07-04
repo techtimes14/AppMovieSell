@@ -32,7 +32,16 @@ label.error{color: #FF0000 !important; text-transform: none !important; font-wei
 
 #paymentMethodForm #card_number {
     background-image: url("../../images/site/validate_cards.png"), url("../../images/site/validate_cards.png");
-    background-position: 10px -116px, 450px -55px;
+    background-position: 10px -116px, 454px -55px;
+    background-repeat: no-repeat;
+    background-size: 120px 361px, 120px 361px;
+    padding-left: 65px;
+    height: 41px;
+}
+
+#affiliatedPaymentForm #card_number {
+    background-image: url("../../images/site/validate_cards.png"), url("../../images/site/validate_cards.png");
+    background-position: 10px -116px, 415px -55px;
     background-repeat: no-repeat;
     background-size: 120px 361px, 120px 361px;
     padding-left: 65px;

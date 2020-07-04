@@ -4,28 +4,7 @@
     <!--================================
         START BREADCRUMB AREA
     =================================-->
-    <section class="breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="breadcrumb">
-                        <ul>
-                            <li>
-                                <a href="{{url('/')}}">Home</a>
-                            </li>
-                            <li class="active">
-                                <a href="{{route('site.users.sign-up')}}">Signup</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <h1 class="page-title">Sign up</h1>
-                </div>
-                <!-- end /.col-md-12 -->
-            </div>
-            <!-- end /.row -->
-        </div>
-        <!-- end /.container -->
-    </section>
+    @include('site.elements.breadcrumb')
     <!--================================
         END BREADCRUMB AREA
     =================================-->
@@ -56,12 +35,11 @@
                             <!-- end .login_header -->
 
                             <div class="login--form">
-
                                 <div class="form-group">
                                     <label for="urname">Your Name</label>
                                     {{ Form::text('full_name', null, array(
                                                                 'id' => 'full_name',
-                                                                'placeholder' => 'Enter your Name',
+                                                                'placeholder' => 'Enter your name',
                                                                 'class' => 'text_field',
                                                                 'required' => 'required'
                                                                  )) }}

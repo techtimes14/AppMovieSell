@@ -19,11 +19,6 @@ use \Response;
 Use Redirect;
 use App\User;
 use App\Cms;
-use App\Notification;
-use App\DeliveryAddress;
-use App\Avatar;
-use App\AvatarLocal;
-use App\PinCode;
 use App;
 
 class UsersController extends Controller
@@ -34,6 +29,7 @@ class UsersController extends Controller
     /*****************************************************/
     public function signUp( Request $request )
     {
+        $pageTitle = 'Signup';
         $cmsData = $metaData = Helper::getMetaData();
 
         if (Auth::guard('web')->check()) {
@@ -55,8 +51,8 @@ class UsersController extends Controller
                 'email.required'        => 'Please enter email address',
                 'email.regex'           => 'Please enter valid email address',
                 'email.unique'          => 'Please enter unique email address',
-                'user_name.required'    => 'Please enter user name',
-                'user_name.unique'      => 'Please enter unique user name',
+                'user_name.required'    => 'Please enter username',
+                'user_name.unique'      => 'Please enter unique username',
                 'password.required'     => 'Please enter password',
                 'password.regex'        => 'Min. 8, alphanumeric and special character',
             );
@@ -84,10 +80,11 @@ class UsersController extends Controller
         }
         
         return view('site.user.sign_up',[
+            'pageTitle' => $pageTitle,
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],
-            'cmsData'   => $cmsData
+            'cmsData'   => $cmsData,
             ]);
     }
     
@@ -97,15 +94,17 @@ class UsersController extends Controller
     /*****************************************************/
     public function addPaymentMethod( Request $request )
     {
+        $pageTitle = 'Add Payment Method';
         $cmsData = $metaData = Helper::getMetaData();
-        if (Session::get('full_name') != '' && Session::get('email') == '') {
-            return redirect()->route('site.users.sign-up');
-        }
 
         if (Auth::guard('web')->check()) {
             return redirect()->route('site.home');
         }
-        
+
+        if (Session::get('full_name') == '' && Session::get('email') == '') {
+            return redirect()->route('site.users.sign-up');
+        }
+
         if ($request->isMethod('POST')) {
             $siteSetting        = Helper::getSiteSettings();
             $validationCondition = array(
@@ -185,6 +184,13 @@ class UsersController extends Controller
                         ], function ($m) use ($siteSetting) {
                             $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('New Registration - '.$siteSetting->website_title);
                         });
+
+                        Session::put([
+                            'full_name'     => '',
+                            'email'         => '',
+                            'user_name'     => '',
+                            'password'      => '',
+                        ]);
     
                         $request->session()->flash('alert-success', 'Thank you for registering with us');
                         return redirect()->route('site.users.login');
@@ -197,6 +203,193 @@ class UsersController extends Controller
         }
         
         return view('site.user.add_payment_method',[
+            'pageTitle' => $pageTitle,
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData
+            ]);
+    }
+
+    /*****************************************************/
+    # Function name : affiliatedSignUp
+    # Params        : 
+    /*****************************************************/
+    public function affiliatedSignUp( Request $request )
+    {
+        $pageTitle = 'Affilated User Sign Up';
+        $cmsData = $metaData = Helper::getMetaData();
+
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.home');
+        }
+        
+        if ($request->isMethod('POST')) {
+            $validationCondition = array(
+                'email'     => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email',
+                'password'  => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+                
+            ); 
+            $validationMessages = array(
+                'email.required'        => 'Please enter email address',
+                'email.regex'           => 'Please enter valid email address',
+                'email.unique'          => 'Please enter unique email address',
+                'password.required'     => 'Please enter password',
+                'password.regex'        => 'Min. 8, alphanumeric and special character',
+            );
+
+            $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
+            } else {
+                $password = $request->password;
+
+                Session::put([
+                    'affiliated_email'      => trim($request->email, ' '),
+                    'affiliated_password'   => $password,
+                ]);
+
+                if (Session::get('affiliated_email') != '' && Session::get('affiliated_password') != '') {
+                    return redirect()->route('site.users.affiliated-payment');
+                } else {
+                    $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                    return redirect()->back();
+                }
+            }
+        }
+        
+        return view('site.user.affiliated_sign_up',[
+            'pageTitle' => $pageTitle,
+            'title'     => $metaData['title'],
+            'keyword'   => $metaData['keyword'],
+            'description'=>$metaData['description'],
+            'cmsData'   => $cmsData,
+            ]);
+    }
+
+    /*****************************************************/
+    # Function name : affiliatedPayment
+    # Params        : 
+    /*****************************************************/
+    public function affiliatedPayment( Request $request )
+    {
+        $pageTitle = 'Affilated Payment';
+        $cmsData = $metaData = Helper::getMetaData();
+
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('site.home');
+        }
+
+        if (Session::get('affiliated_email') == '' && Session::get('affiliated_password') == '') {
+            return redirect()->route('site.users.affiliated-sign-up');
+        }        
+        
+        if ($request->isMethod('POST')) {
+            $siteSetting        = Helper::getSiteSettings();
+            $validationCondition = array(
+                'first_name'    => 'required|min:2|max:255',
+                'last_name'     => 'required|min:2|max:255',
+                'postal_code'   => 'required',
+                'name_on_card'  => 'required|min:2|max:255',
+                'card_number'   => 'required',
+                'expiry_month'  => 'required|regex:/^[0-9]{2,2}$/',
+                'expiry_year'   => 'required|regex:/^[0-9]{4,4}$/',
+                'cvv'           => 'required|regex:/^[0-9]{3,3}$/',
+            ); 
+            $validationMessages = array(
+                'first_name.required'   => 'Please enter first name',
+                'first_name.min'        => 'First name should be at least 2 characters',
+                'first_name.max'        => 'First name must not be more than 255 characters',
+                'last_name.required'    => 'Please enter last name',
+                'last_name.min'         => 'Last name should be at least 2 characters',
+                'last_name.max'         => 'Last name must not be more than 255 characters',
+                'postal_code.required'  => 'Please enter postal code',
+                'name_on_card.required' => 'Please enter name on card',
+                'name_on_card.min'      => 'Name should be at least 2 characters',
+                'name_on_card.max'      => 'Name must not be more than 255 characters',
+                'card_number.required'  => 'Please enter card number',
+                'expiry_month.required' => 'Please enter expiry month',
+                'expiry_month.regex'    => 'Please enter valid expiry month',
+                'expiry_year.required'  => 'Please enter expiry year',
+                'expiry_year.regex'     => 'Please enter valid expiry year',
+                'cvv.required'          => 'Please enter cvv',
+                'cvv.regex'             => 'Please enter valid cvv',
+            );
+
+            $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
+            if ($Validator->fails()) {
+                return Redirect::back()->withErrors($Validator)->withInput();
+            } else {
+                $currentMonthYear  = date('Y').'-'.date('m');
+                $cardMonthYear     = $request->expiry_year.'-'.$request->expiry_month;
+                
+                if (strtotime($cardMonthYear) < strtotime($currentMonthYear)) {
+                    $request->session()->flash('alert-danger', 'Please enter valid expiry month & year');
+                    return redirect()->back();
+                } else {
+                    $newUser = new User;
+                    $newUser->first_name    = isset($request->first_name) ? $request->first_name : '';
+                    $newUser->last_name     = isset($request->last_name) ? $request->last_name : '';
+                    $newUser->full_name     = $newUser->first_name.' '.$newUser->last_name;
+                    $newUser->postal_code   = trim($request->postal_code, ' ');
+                    $newUser->email         = Session::get('affiliated_email');
+                    $newUser->password      = Session::get('affiliated_password');
+                    $newUser->name_on_card  = $request->name_on_card;
+                    $newUser->expiry_month  = Helper::customEncryptionDecryption($request->card_number);
+                    $newUser->expiry_year   = Helper::customEncryptionDecryption($request->expiry_month);
+                    $newUser->expiry_year   = Helper::customEncryptionDecryption($request->expiry_year);
+                    $newUser->cvv           = Helper::customEncryptionDecryption($request->cvv);                    
+                    $newUser->user_type     = 'AU';
+                    $newUser->status        = '1';
+                    $saveUser = $newUser->save();
+
+                    if ($saveUser) {
+                        // Mail to customer
+                        \Mail::send('email_templates.site.registration',
+                        [
+                            'user'          => $newUser,
+                            'password'      => Session::get('affiliated_password'),
+                            'siteSetting'   => $siteSetting,
+                            'app_config'    => [
+                                'appname'       => $siteSetting->website_title,
+                                'appLink'       => Helper::getBaseUrl(),
+                                'controllerName'=> 'users',
+                            ],
+                        ], function ($m) use ($newUser, $siteSetting) {
+                            $m->to($newUser->email, $newUser->full_name)->subject('Thank you - '.$siteSetting->website_title);
+                        });
+    
+                        // Mail to admin
+                        \Mail::send('email_templates.site.registration_details_to_admin',
+                        [
+                            'user' => $newUser,
+                            'siteSetting'   => $siteSetting,
+                            'app_config'    => [
+                                'appname'       => $siteSetting->website_title,
+                                'appLink'       => Helper::getBaseUrl(),
+                                'controllerName'=> 'users',
+                            ],
+                        ], function ($m) use ($siteSetting) {
+                            $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('New Registration - '.$siteSetting->website_title);
+                        });
+
+                        Session::put([
+                            'affiliated_email'      => '',
+                            'affiliated_password'   => '',
+                        ]);
+    
+                        $request->session()->flash('alert-success', 'Thank you for registering with us');
+                        return redirect()->route('site.users.login');
+                    } else {
+                        $request->session()->flash('alert-danger', trans('custom.please_try_again'));
+                        return redirect()->route('site.users.affiliated-sign-up');
+                    }
+                }
+            }
+        }
+        
+        return view('site.user.affiliated_payment',[
+            'pageTitle' => $pageTitle,
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],
@@ -210,81 +403,59 @@ class UsersController extends Controller
     /*****************************************************/
     public function login( Request $request )
     {
+        $pageTitle = 'Login';
         $currentLang = $lang = App::getLocale();
         $cmsData = $metaData = Helper::getMetaData();
 
         if (Auth::guard('web')->check()) {
-            if (Auth::user()->login_language != null) {
-                $currentLang = Auth::user()->login_language;
-            }
-            return redirect()->route('site.'.$currentLang.'.home');
+            return redirect()->route('site.home');
         }
 
         if ($request->isMethod('POST')) {
             $validationCondition = array(
-                'email'     => 'required',
-                'password'  => 'required'
+                'user_name'     => 'required',
+                'password'      => 'required'
             );
             $validationMessages = array(
-                'email.required'    => trans('custom.please_enter_email'),
-                'password.required' => trans('custom.please_enter_password')
+                'user_name.required'    => 'Please enter username',
+                'password.required'     => 'Please enter password',
             );
 
             $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
-                if ($request->email && $request->password) {
-                    if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => '1'])) {
+                if ($request->user_name && $request->password) {
+                    if (Auth::guard('web')->attempt(['user_name' => $request->user_name, 'password' => $request->password, 'status' => '1'])) {
                         $user = Auth::user();
                         if ($user->status == 0) {
-                            $request->session()->flash('alert-danger',trans('custom.inactive_user'));
+                            $request->session()->flash('alert-danger', 'User is inactive');
                             Auth::guard('web')->logout();
-                            return redirect()->route('site.'.$currentLang.'.users.login');
+                            return redirect()->route('site.users.login');
                         } else if ($user->role_id) {
-                            $request->session()->flash('alert-danger',trans('custom.not_authorized'));
+                            $request->session()->flash('alert-danger', 'You are not authorized');
                             Auth::guard('web')->logout();
-                            return redirect()->route('site.'.$currentLang.'.users.login');
+                            return redirect()->route('site.users.login');
                         } else {
                             $userData                = Auth::user();
                             $userData->lastlogintime = strtotime(date('Y-m-d H:i:s'));
                             $userData->save();
 
-                            // Update session cart details with previous saved cart start //
-                            if (Session::get('cartSessionId') != '') {
-                                $this->mergeCartItemDetails();
-                            }
-                            // Update session cart details with previous saved cart end //
-
-                            // Redirect to login language
-                            if (Auth::user()->login_language != null) {
-                                $currentLang = Auth::user()->login_language;
-                            }
-
-                            // Checkout status & redirect
-                            if (Session::get('redirectTo') != '') {
-                                if (Session::get('redirectTo') == 'checkout_page') {   // redirect to checkout page
-                                    Session::put('redirectTo','');
-                                    return redirect()->route('site.'.$currentLang.'.users.checkout');
-                                } else {
-                                    return redirect()->route('site.'.$currentLang.'.home');
-                                } 
-                            }                           
-
-                            return redirect()->route('site.'.$currentLang.'.home');
+                            return redirect()->route('site.home');
                         }
                     } else {
-                        $request->session()->flash('alert-danger',trans('custom.credential_mismatch'));
-                        return redirect()->route('site.'.$currentLang.'.users.login');
+                        $request->session()->flash('alert-danger', "Your email or password doesn't match");
+                        return redirect()->route('site.users.login');
                     }
                 } else {
-                    $request->session()->flash('alert-danger',trans('custom.please_provide_credential'));
-                    return redirect()->route('site.'.$currentLang.'.users.login');
+                    $request->session()->flash('alert-danger', 'Please provide you username and password');
+                    return redirect()->route('site.users.login');
                 }
             }
         }
         
         return view('site.user.login',[
+            'pageTitle' => $pageTitle,
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],
@@ -956,12 +1127,10 @@ class UsersController extends Controller
     /*****************************************************/
     public function logout()
     {
-        $currentLang = App::getLocale();
         if (Auth::guard('web')->logout()) {
-            Session::put('redirectTo', '');
-            return redirect()->route('site.'.$currentLang.'.users.login');
+            return redirect()->route('site.users.login');
         } else {
-            return redirect()->route('site.'.$currentLang.'.home');
+            return redirect()->route('site.home');
         }
     }
 

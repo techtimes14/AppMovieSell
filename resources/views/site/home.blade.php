@@ -7,13 +7,13 @@
     <section class="hero-area bgimage">
         <div class="banner-slider ">
             <div class="">
-                <img src="images/hero_area_bg1.jpg" alt="background-image">
+                <img src="{{asset('images/site/hero_area_bg1.jpg')}}" alt="background-image">
             </div>
             <div class="">
-                <img src="images/hero_bnner_2.jpg" alt="background-image">
+                <img src="{{asset('images/site/hero_bnner_2.jpg')}}" alt="background-image">
             </div>
             <div class="">
-                <img src="images/hero_banner_3.jpg" alt="background-image">
+                <img src="{{asset('images/site/hero_banner_3.jpg')}}" alt="background-image">
             </div>
         </div>
         

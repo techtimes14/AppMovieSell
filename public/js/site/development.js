@@ -240,9 +240,6 @@ $(document).ready(function() {
                 valid_password: true,
                 equalTo: "#password"
             },
-            agree: {
-                required: true
-            },            
         },
         messages: {
            full_name: {
@@ -255,7 +252,7 @@ $(document).ready(function() {
                 valid_email: "Please enter valid email address",
             },
             user_name: {
-                required: "Please enter user name",
+                required: "Please enter username",
             },
             password: {
                 required: "Please enter password",
@@ -276,7 +273,7 @@ $(document).ready(function() {
     });
 
     /* Payment method Form */
-    $('#paymentMethodForm #card_number, #paymentMethodForm #expiry_month, #paymentMethodForm #expiry_year, #paymentMethodForm #cvv').on('keyup',function(){
+    $('#paymentMethodForm .card_validation').on('keyup',function(){
 		cardFormValidate();
 	});
     $("#paymentMethodForm").validate({
@@ -332,11 +329,34 @@ $(document).ready(function() {
         }
     });
 
-
-
-
     /* User Login Form */
     $("#loginForm").validate({
+        rules: {
+            user_name: {
+                required: true,
+            },
+            password: {
+                required: true,
+            }
+        },
+        messages: {
+            user_name: {
+                required: "Please enter username"
+            },
+            password: {
+                required: "Please enter password",
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    /* Affiliated sign up Form */
+    $("#affiliatedSignUpForm").validate({
         rules: {
             email: {
                 required: true,
@@ -344,15 +364,111 @@ $(document).ready(function() {
             },
             password: {
                 required: true,
-            }
+                valid_password: true,
+            },
+            confirm_password: {
+                required: true,
+                valid_password: true,
+                equalTo: "#password"
+            },
         },
         messages: {
-            credential: {
-                required: "Please enter email"
+            email: {
+                required: "Please enter email address",
+                valid_email: "Please enter valid email address",
             },
             password: {
                 required: "Please enter password",
-            }
+                valid_password: "Min. 8, alphanumeric and special character"
+            },
+            confirm_password: {
+                required: "Please enter confirm password",
+                valid_password: "Min. 8, alphanumeric and special character",
+                equalTo: "Password should be same as password",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    /* Affiliated Payment method Form */
+    $('#affiliatedPaymentForm .card_validation').on('keyup',function(){
+		affiliatedCardFormValidate();
+	});
+    $("#affiliatedPaymentForm").validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            last_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            postal_code: {
+                required: true,
+            },
+            name_on_card: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            card_number: {
+                required: true,
+            },
+            expiry_month: {
+                required: true,
+                valid_month: true
+            },            
+            expiry_year: {
+                required: true,
+                valid_four_digit_number: true,
+            },
+            cvv: {
+                required: true,
+                valid_three_digit_number: true,
+            },
+        },
+        messages: {
+            first_name: {
+                required: "Please enter first name",
+                minlength: "First name should be at least 2 characters",
+                maxlength: "First name must not be more than 255 characters"
+            },
+            last_name: {
+                required: "Please enter last name",
+                minlength: "Last name should be at least 2 characters",
+                maxlength: "Last name must not be more than 255 characters"
+            },
+            postal_code: {
+                required: "Please enter postal code",
+            },
+            name_on_card: {
+                required: "Please enter name on card",
+                minlength: "Name should be at least 2 characters",
+                maxlength: "Name must not be more than 255 characters"
+            },
+            card_number: {
+                required: "Please enter card number",
+            },
+            expiry_month: {
+                required: "Please enter expiry month",
+                valid_month: "Please enter valid expiry month",
+            },            
+            expiry_year: {
+                required: "Please enter expiry year",
+                valid_four_digit_number: "Please enter valid expiry year",
+            },
+            cvv: {
+                required: "Please enter cvv",
+                valid_three_digit_number: "Please enter valid cvv",
+            },
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1197,22 +1313,87 @@ function cardFormValidate(){
 	  
 	//card number validation
 	$('#card_number').validateCreditCard(function(result) {
-        console.log(result);
+        // console.log(result);
 		var cardType = (result.card_type == null)?'':result.card_type.name;
 		if (cardType == 'Visa') {
-			var backPosition = result.valid?'10px -158px, 450px -82px':'10px -158px, 450px -55px';
+			var backPosition = result.valid?'10px -158px, 454px -82px':'10px -158px, 454px -55px';
 		} else if(cardType == 'visa_electron') {
-			var backPosition = result.valid?'10px -200px, 450px -82px':'10px -200px, 450px -55px';
+			var backPosition = result.valid?'10px -200px, 454px -82px':'10px -200px, 454px -55px';
 		} else if(cardType == 'MasterCard') {
-			var backPosition = result.valid?'10px -242px, 450px -82px':'10px -242px, 450px -55px';
+			var backPosition = result.valid?'10px -242px, 454px -82px':'10px -242px, 454px -55px';
 		} else if(cardType == 'Maestro') {
-			var backPosition = result.valid?'10px -284px, 450px -82px':'10px -284px, 450px -55px';
+			var backPosition = result.valid?'10px -284px, 454px -82px':'10px -284px, 454px -55px';
 		} else if(cardType == 'Discover') {
-			var backPosition = result.valid?'10px -326px, 450px -82px':'10px -326px, 450px -55px';
+			var backPosition = result.valid?'10px -326px, 454px -82px':'10px -326px, 454px -55px';
 		} else if(cardType == 'Amex') {
-			var backPosition = result.valid?'10px -116px, 450px -82px':'10px -116px, 450px -55px';
+			var backPosition = result.valid?'10px -116px, 454px -82px':'10px -116px, 454px -55px';
 		} else {
-			var backPosition = result.valid?'10px -116px, 450px -82px':'10px -116px, 450px -55px';
+			var backPosition = result.valid?'10px -116px, 454px -82px':'10px -116px, 454px -55px';
+		}
+		$('#card_number').css("background-position", backPosition);
+		if (result.valid) {
+			$("#card_type").val(cardType);
+			$("#card_number").removeClass('required');
+			cardValid = 1;
+		}else{
+			$("#card_type").val('');
+			$("#card_number").addClass('required');
+			cardValid = 0;
+		}
+	});
+	  
+	//card details validation
+	var cardName = $("#name_on_card").val();
+	var expMonth = $("#expiry_month").val();
+	var expYear = $("#expiry_year").val();
+	var cvv = $("#cvv").val();
+	var regName = /^[a-z ,.'-]+$/i;
+	var regMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+	// var regYear = /^2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
+    var regYear = /^[0-9]{4,4}$/;
+	var regCVV = /^[0-9]{3,3}$/;
+
+    if (!regName.test(cardName)) {
+		$("#name_on_card").focus();
+		return false;
+	} else if (cardValid == 0) {
+		$("#card_number").focus();
+		return false;
+	} else if (!regMonth.test(expMonth)) {
+		$("#expiry_month").focus();
+		return false;
+	} else if (!regYear.test(expYear)) {
+		$("#expiry_year").focus();
+		return false;
+	} else if (!regCVV.test(cvv)) {
+		$("#cvv").focus();
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function affiliatedCardFormValidate(){
+	var cardValid = 0;
+	  
+	//card number validation
+	$('#card_number').validateCreditCard(function(result) {
+        // console.log(result);
+		var cardType = (result.card_type == null)?'':result.card_type.name;
+		if (cardType == 'Visa') {
+			var backPosition = result.valid?'10px -158px, 415px -82px':'10px -158px, 415px -55px';
+		} else if(cardType == 'visa_electron') {
+			var backPosition = result.valid?'10px -200px, 415px -82px':'10px -200px, 415px -55px';
+		} else if(cardType == 'MasterCard') {
+			var backPosition = result.valid?'10px -242px, 415px -82px':'10px -242px, 415px -55px';
+		} else if(cardType == 'Maestro') {
+			var backPosition = result.valid?'10px -284px, 415px -82px':'10px -284px, 415px -55px';
+		} else if(cardType == 'Discover') {
+			var backPosition = result.valid?'10px -326px, 415px -82px':'10px -326px, 415px -55px';
+		} else if(cardType == 'Amex') {
+			var backPosition = result.valid?'10px -116px, 415px -82px':'10px -116px, 415px -55px';
+		} else {
+			var backPosition = result.valid?'10px -116px, 415px -82px':'10px -116px, 415px -55px';
 		}
 		$('#card_number').css("background-position", backPosition);
 		if (result.valid) {

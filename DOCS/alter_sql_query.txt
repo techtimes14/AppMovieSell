@@ -4,3 +4,5 @@ ALTER TABLE `ams_users` ADD `name_on_card` VARCHAR(255) NULL DEFAULT NULL COMMEN
 ALTER TABLE `ams_users` ADD `cvv` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Cvv number' AFTER `expiry_year`;
 
 ALTER TABLE `ams_site_settings` CHANGE `website_link` `website_link` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+
+ALTER TABLE `ams_users` ADD `postal_code` VARCHAR(255) NULL DEFAULT NULL AFTER `agree`;

@@ -4,28 +4,7 @@
     <!--================================
         START BREADCRUMB AREA
     =================================-->
-    <section class="breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="breadcrumb">
-                        <ul>
-                            <li>
-                                <a href="index.html">Home</a>
-                            </li>
-                            <li class="active">
-                                <a href="#">Login</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <h1 class="page-title">Login</h1>
-                </div>
-                <!-- end /.col-md-12 -->
-            </div>
-            <!-- end /.row -->
-        </div>
-        <!-- end /.container -->
-    </section>
+    @include('site.elements.breadcrumb')
     <!--================================
         END BREADCRUMB AREA
     =================================-->
@@ -36,10 +15,20 @@
     <section class="login_area section--padding2">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 offset-lg-3">
-                    <form action="#">
+                <div class="col-lg-6 offset-lg-3">                    					
+					{{ Form::open(array(
+									'method'=> 'POST',
+									'class' => '',
+									'route' => ['site.users.login'],
+									'name'  => 'loginForm',
+									'id'    => 'loginForm',
+									'files' => true,
+									'autocomplete' => false,
+									'novalidate' => true)) }}
                         <div class="cardify login">
                             <div class="login--header">
+                                @include('admin.elements.notification')
+
                                 <h3>Welcome Back</h3>
                                 <p>You can sign in with your username</p>
                             </div>
@@ -48,15 +37,23 @@
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Username</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username...">
+                                    {{ Form::text('user_name', null, array(
+                                                                'id' => 'user_name',
+                                                                'placeholder' => 'Enter your username',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass">Password</label>
-                                    <input id="pass" type="text" class="text_field" placeholder="Enter your password...">
-                                </div>
-
-                                
+                                    {{ Form::password('password', array(
+                                                                'id' => 'password',
+                                                                'placeholder' => 'Enter your password',
+                                                                'class' => 'text_field',
+                                                                'required' => 'required'
+                                                                 )) }}
+                                </div>                                
 
                                 <button class="btn btn--md btn--round" type="submit">Login Now</button>
 
@@ -70,7 +67,7 @@
                             <!-- end .login--form -->
                         </div>
                         <!-- end .cardify -->
-                    </form>
+                    {{Form::close()}}
                 </div>
                 <!-- end .col-md-6 -->
             </div>

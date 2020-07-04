@@ -18,10 +18,43 @@
 				<!-- start .col-md-5 -->
 				<div class="col-lg-8 offset-lg-1 col-md-9 col-6 v_middle">
 					<!-- start .author-area -->
+				@if (!Auth::user())
 					<div class="author-area">
 						<a href="{{route('site.users.login')}}" class="author-area__seller-btn inline-block">Log In</a>
 						<a href="{{route('site.users.sign-up')}}" class="author-area__seller-btn inline-block mr-0">Sign Up</a>
 					</div>
+				@else
+					<div class="author-author__info inline has_dropdown p-0 d-flex align-items-center align-content-center">
+						<div class="author__avatar">
+							<img src="{{asset('images/site/usr_avatar.png')}}" alt="user avatar">
+						</div>
+						<div class="autor__info">
+							<p class="name">
+								{{Auth::user()->full_name}}
+							</p>							
+						</div>
+
+						<div class="dropdowns dropdown--author">
+							<ul>
+								<li class="active">
+									<a href="edit-profile.html"><span class="lnr lnr-user"></span>Edit Profile</a>
+								</li>
+								<li>
+									<a href="my-purchase.html"><span class="lnr lnr-cart"></span>My Purchases</a>
+								</li>
+								<li>
+									<a href="favourites.html"><span class="lnr lnr-heart"></span>My Favourite</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);"><span class="lnr lnr-briefcase"></span>Membership</a>
+								</li>								
+								<li>
+									<a href="{{route('site.users.logout')}}"><span class="lnr lnr-exit"></span>Logout</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				@endif
 					<!-- end .author-area -->
 
 					<!-- author area restructured for mobile -->
@@ -30,13 +63,47 @@
 
 						<!-- offcanvas menu -->
 						<div class="offcanvas-menu closed">
-							<span class="lnr lnr-cross close_menu"></span>
-							
-
+							<span class="lnr lnr-cross close_menu"></span>							
+						@if (!Auth::user())
 							<div class="text-center mbl-signbtn">
-								<a href="login.html" class="author-area__seller-btn">Log In</a>
-								<a href="signup.html" class="author-area__seller-btn">Sign Up</a>
+								<a href="{{route('site.users.login')}}" class="author-area__seller-btn">Log In</a>
+								<a href="{{route('site.users.sign-up')}}" class="author-area__seller-btn">Sign Up</a>
 							</div>
+						@else
+							<div class="offcanvas-menu closed pt-0">
+                                <span class="lnr lnr-cross close_menu"></span>
+                                <div class="author-author__info d-flex justify-content-center align-items-center align-content-center">
+                                    <div class="author__avatar v_middle">
+                                        <img src="{{asset('images/site/usr_avatar.png')}}" alt="user avatar">
+                                    </div>
+                                    <div class="autor__info v_middle">
+                                        <p class="name">
+                                            {{Auth::user()->full_name}}
+                                        </p>                                        
+                                    </div>
+                                </div>
+                                <!--end /.author-author__info-->
+                                <div class="dropdowns dropdown--author">
+                                    <ul>
+                                        <li class="active">
+                                            <a href="edit-profile.html"><span class="lnr lnr-user"></span>Edit Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="cart.html"><span class="lnr lnr-cart"></span>My Purchases</a>
+                                        </li>
+                                        <li>
+                                            <a href="favourites.html"><span class="lnr lnr-heart"></span>My Favourite</a>
+                                        </li>
+                                        <li>
+                                            <a href="favourites.html"><span class="lnr lnr-briefcase"></span>Membership</a>
+                                        </li>                                       
+                                        <li>
+                                            <a href="{{route('site.users.logout')}}"><span class="lnr lnr-exit"></span>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>                               
+                            </div>
+						@endif
 						</div>
 					</div>
 					<!-- end /.mobile_content -->
@@ -57,11 +124,8 @@
 			<div class="row">
 				<!-- start .col-md-12 -->
 				<div class="col-md-12">
-					
-
-						<div class="navbar-header navbar-header-mbl">
-							
-						</div>
+					<div class="navbar-header navbar-header-mbl">							
+					</div>
 					<nav class="navbar navbar-expand-md navbar-light mainmenu__menu">
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
 							aria-label="Toggle navigation">
@@ -70,14 +134,13 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
-								<li class="active"><a href="index.html">HOME</a></li>
-									<li><a href="about.html">About us</a></li>
-									<li><a href="javascript:void(0);">Services</a></li>
-									<li><a href="javascript:void(0);">Contact</a></li>
-									<li><a href="javascript:void(0);">Legal</a></li>
-									
-									<li><a href="javascript:void(0);">Market Place</a></li>
-								
+								<li class="active"><a href="{{url('/')}}">HOME</a></li>
+								<li><a href="about.html">About us</a></li>
+								<li><a href="javascript:void(0);">Services</a></li>
+								<li><a href="javascript:void(0);">Contact</a></li>
+								<li><a href="javascript:void(0);">Legal</a></li>									
+								<li><a href="javascript:void(0);">Market Place</a></li>
+								<li><a href="{{route('site.users.affiliated-sign-up')}}">Affiliate Signup</a></li>
 							</ul>
 						</div>
 						<!-- /.navbar-collapse -->
