@@ -19,9 +19,9 @@
 					{{ Form::open(array(
 									'method'=> 'POST',
 									'class' => '',
-									'route' => ['site.users.login'],
-									'name'  => 'loginForm',
-									'id'    => 'loginForm',
+									'route' => ['site.users.forgot-password'],
+									'name'  => 'forgetPasswordForm',
+									'id'    => 'forgetPasswordForm',
 									'files' => true,
 									'autocomplete' => false,
 									'novalidate' => true)) }}
@@ -29,8 +29,8 @@
                             <div class="login--header">
                                 @include('admin.elements.notification')
 
-                                <h3>Welcome Back</h3>
-                                <p>You can sign in with your email address</p>
+                                <h3>Forgot Password</h3>
+                                <p>You can retrieve reset password link with your email address</p>
                             </div>
                             <!-- end .login_header -->
 
@@ -45,23 +45,11 @@
                                                                  )) }}
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="pass">Password</label>
-                                    {{ Form::password('password', array(
-                                                                'id' => 'password',
-                                                                'placeholder' => 'Enter your password',
-                                                                'class' => 'text_field',
-                                                                'required' => 'required'
-                                                                 )) }}
-                                </div>                                
-
-                                <button class="btn btn--md btn--round" type="submit">Login Now</button>
+                                <button class="btn btn--md btn--round" type="submit">Send Link</button>
 
                                 <div class="login_assist">
-                                    <p class="recover">forgot
-                                        <a href="{{route('site.users.forgot-password')}}">password</a>?</p>
-                                    <p class="signup">Don't have an
-                                        <a href="{{route('site.users.sign-up')}}">account</a>?</p>
+                                    <p>Already have an account?
+                                        <a href="{{route('site.users.login')}}">Login</a></p>
                                 </div>
                             </div>
                             <!-- end .login--form -->

@@ -332,16 +332,18 @@ $(document).ready(function() {
     /* User Login Form */
     $("#loginForm").validate({
         rules: {
-            user_name: {
+            email: {
                 required: true,
+                valid_email: true,
             },
             password: {
                 required: true,
             }
         },
         messages: {
-            user_name: {
-                required: "Please enter username"
+            email: {
+                required: "Please enter email address",
+                valid_email: "Please enter valid email address"
             },
             password: {
                 required: "Please enter password",

@@ -404,7 +404,6 @@ class UsersController extends Controller
     public function login( Request $request )
     {
         $pageTitle = 'Login';
-        $currentLang = $lang = App::getLocale();
         $cmsData = $metaData = Helper::getMetaData();
 
         if (Auth::guard('web')->check()) {
@@ -413,11 +412,12 @@ class UsersController extends Controller
 
         if ($request->isMethod('POST')) {
             $validationCondition = array(
-                'user_name'     => 'required',
+                'email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/',
                 'password'      => 'required'
             );
             $validationMessages = array(
-                'user_name.required'    => 'Please enter username',
+                'email.required'        => 'Please enter email address',
+                'email.regex'           => 'Please enter valid email address',
                 'password.required'     => 'Please enter password',
             );
 
@@ -425,8 +425,8 @@ class UsersController extends Controller
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
-                if ($request->user_name && $request->password) {
-                    if (Auth::guard('web')->attempt(['user_name' => $request->user_name, 'password' => $request->password, 'status' => '1'])) {
+                if ($request->email && $request->password) {
+                    if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => '1'])) {
                         $user = Auth::user();
                         if ($user->status == 0) {
                             $request->session()->flash('alert-danger', 'User is inactive');
@@ -469,9 +469,11 @@ class UsersController extends Controller
     /*****************************************************/
     public function forgotPassword( Request $request )
     {
-        $currentLang = $lang = App::getLocale();
+        $pageTitle = 'Forgot Password';
+        $cmsData = $metaData = Helper::getMetaData();
+
         if (Auth::guard('web')->check()) {
-            return redirect()->route('site.'.$currentLang.'.home');
+            return redirect()->route('site.home');
         }
         $cmsData = $metaData = Helper::getMetaData();
 
@@ -482,7 +484,7 @@ class UsersController extends Controller
                 'email'    => 'required'
             );
             $validationMessages = array(
-                'email.required'   => trans('custom.please_enter_email')
+                'email.required'   => 'Please enter email address',
             );
 
             $Validator = Validator::make($request->all(), $validationCondition,$validationMessages);
@@ -496,11 +498,11 @@ class UsersController extends Controller
                     $user = User::where('email', $email)->first();
                     if ($user) {
                         if($user->role_id != null){
-                            $request->session()->flash('alert-danger',trans('custom.admin_user'));
+                            $request->session()->flash('alert-danger', 'Admin User');
                             return Redirect::back()->withErrors($Validator)->withInput();
                         }
                         if ($user->status == 0) {
-                            $request->session()->flash('alert-danger',trans('custom.inactive_user'));
+                            $request->session()->flash('alert-danger', 'Your account is inactive');
                             return redirect()->back();
                         } else {
                             $user->remember_token = md5($email);
@@ -515,23 +517,24 @@ class UsersController extends Controller
                                         'appname'       => $siteSetting->website_title,
                                         'appLink'       => Helper::getBaseUrl(),
                                         'controllerName'=> 'users',
-                                        'currentLang'=> $currentLang,
                                     ],
-                                ], function ($m) use ($user) {
-                                    $m->to($user->email, $user->full_name)->subject('Change Password Link - Cordon Bleu X');
+                                ], function ($m) use ($user, $siteSetting) {
+                                    $m->to($user->email, $user->full_name)->subject('Change Password Link - '.$siteSetting->website_title);
                                 });
-                                $request->session()->flash('alert-success',trans('custom.change_password_success_for_email'));
-                                return redirect()->route('site.'.$currentLang.'.users.forgot-password');
+                                $request->session()->flash('alert-success', 'Please check your email for reset password link');
+                                return redirect()->route('site.users.forgot-password');
                             } else {
                                 $request->session()->flash('alert-danger', trans('custom.please_try_again'));
                                 return redirect()->back();
                             }
                         }
                     } else {
-                        $request->session()->flash('alert-danger',trans('custom.email_not_found'));
+                        $request->session()->flash('alert-danger', 'This email is not registered with us');
+                        return redirect()->back();
                     }
                 } else {
-                    $request->session()->flash('alert-danger',trans('custom.please_provide_emil'));
+                    $request->session()->flash('alert-danger', 'Please provide email');
+                    return redirect()->back();
                 }
             }
         }
@@ -539,7 +542,8 @@ class UsersController extends Controller
             'title'     => $metaData['title'],
             'keyword'   => $metaData['keyword'],
             'description'=>$metaData['description'],
-            'cmsData'   => $cmsData
+            'cmsData'   => $cmsData,
+            'pageTitle' => $pageTitle,
         ]);
     }
 
