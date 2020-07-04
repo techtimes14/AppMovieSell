@@ -13,7 +13,7 @@
     <meta name="keywords" content="app, app landing, product landing, digital, material, html5">
 
 
-    <title>Martplace - Sign Up</title>
+    <title>Martplace - Affilated Dashboard</title>
 
     <!-- inject:css -->
     <link rel="stylesheet" href="css/plugins.min.css">
@@ -107,7 +107,7 @@
                                      <li><a href="about.html">About us</a></li>
                                      <li><a href="javascript:void(0);">Services</a></li>
                                      <li><a href="contact.html">Contact</a></li>
-                                     <li><a href="javascript:void(0);">Legal</a></li>
+                                     <li><a href="legal.html">Legal</a></li>
                                      <li><a href="all-products.html">Market Place</a></li>
                                      <li><a href="affilated-signup.html">Affiliate Signup</a></li>
                                 </ul>
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                         <div>
-                            
+                            <div id="curve_chart"></div>
                         </div>
                     </div>
                 </div>
@@ -227,13 +227,12 @@
                         <div class="footer-menu">
                             <h4 class="footer-widget-title text--white">Our Company</h4>
                             <ul>
-                                     <li ><a href="index.html">Home</a></li>
-                                     <li><a href="javascript:void(0);">About us</a></li>
-                                     <li><a href="javascript:void(0);">Services</a></li>
-                                     <li><a href="javascript:void(0);">Contact</a></li>
-                                     <li><a href="javascript:void(0);">Legal</a></li>
-                                     
-                                     <li><a href="javascript:void(0);">Market Place</a></li>
+                                <li ><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About us</a></li>
+                                <li><a href="javascript:void(0);">Services</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="legal.html">Legal</a></li>
+                                <li><a href="all-products.html">Market Place</a></li>
                             </ul>
                         </div>
                         <!-- end /.footer-menu -->
@@ -332,6 +331,35 @@
     <!-- inject:js -->
     <script src="js/plugins.min.js"></script>
     <script src="js/script.min.js"></script>
+    <script src="js/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+  
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['Days', 'Earning'],
+            ['2004-6-23',  1000],
+            ['2004-8-12',  1170],
+            ['2004-12-30',  660],
+            ['2005-4-20',  1030],
+            ['2006-6-20',  1030],
+            ['2007-8-25',  1530]
+          ]);
+  
+          var options = {
+            chartArea: {width: '87%'},
+            title: 'Earning Graph',
+            curveType: 'function',
+            backgroundColor: '#eff1f5',
+            legend: { position: 'bottom' }
+          };
+  
+          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+  
+          chart.draw(data, options);
+        }
+      </script>
 </body>
 
 
