@@ -10050,6 +10050,10 @@ span.counter {
 .affilated_dashboard .estimate_section .estimate_earning:last-child{padding-right: 0; margin-right: 0; border-width: 0;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td{font-weight: bold; padding: 0 12px;}
 .estimate_earning h3{margin-bottom: 25px;}
+.invitation_sec{color: #fff; text-align: right;}
+.invitation_sec h2{margin-bottom: 15px;}
+.invitation_sec span{margin-right: 10px;}
+.invitation_sec i{cursor: pointer;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td span{display: block; font-weight: normal; margin-top: 8px;}
 #curve_chart{height: 600px;}
 .single_item_visitor .dashboard__title {
