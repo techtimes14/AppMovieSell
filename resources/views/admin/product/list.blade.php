@@ -45,17 +45,29 @@
                 <div class="box-body table-responsive">
                   <table class="table table-bordered">
                       <tr>
+                          <th>Image</th>
                           <th>Title</th>
                           <th>Description</th>
                           <th>Price</th>
                           <th>Status</th>
-                          <th class="action_width text_align_center">Action</th>
+                          <th class="action_width_product_request text_align_center">Action</th>
                       </tr>
-                    @if(count($list) > 0)
+                      @if(count($list) > 0)
                       @foreach ($list as $row)
-                      <tr>                            
+                      
+                      <tr>
+                        <td>
+                          @php        
+                          if(file_exists(public_path('/uploads/product'.'/'.$row->productDefaultImage[0]->image))) {
+                              $imgPath = \URL::asset('uploads/product').'/'.$row->productDefaultImage[0]->image;
+                          } else {
+                              $imgPath = \URL:: asset('images').'/site/'.Helper::NO_IMAGE;
+                          }
+                          @endphp
+                          <img src="{{ $imgPath }}" alt="" height="50px">
+                        </td>                            
                         <td>{{ $row->title }}</td>
-                        <td>{{ $row->description }}</td>
+                        <td>{!! $row->description !!}</td>
                         <td>{{ $row->price }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">
@@ -73,6 +85,10 @@
                           <td class="text_align_center">
                             <a href="{{ route('admin.product.edit', [$row->id]) }}" title="Edit" class="btn btn-info btn-sm">
                               <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                             &nbsp;
+                             <a href="{{ route('admin.product.multiple-image', [$row->id]) }}" title="Product gallery" class="btn btn-info btn-sm">
+                              <i class="fa fa-file-image-o" aria-hidden="true"></i>
                             </a>
                              &nbsp;
                             <a onclick="return sweetalertMessageRender(this, 'Are you sure you want to delete?', 'error',  true)" href="javascript:void(0)" title="Delete" data-href="{{ route('admin.product.delete', [$row->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a> 
