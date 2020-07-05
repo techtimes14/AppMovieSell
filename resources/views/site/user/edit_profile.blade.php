@@ -255,14 +255,14 @@
                                         <span class="lnr lnr-chevron-down"></span>
                                     </h4>
                                 </a>
-                                @if ($userDetail->profile_pic != null)
-                                    @php
-                                    $profileImg = URL:: asset('images').'/site/authplc.png';
+                                @php
+                                $profileImg = URL:: asset('images').'/site/authplc.png';
+                                if ($userDetail->profile_pic != null) {
                                     if (file_exists(public_path('/uploads/users/thumbs/'.$userDetail->profile_pic))) {
                                         $profileImg = URL::to('/').'/uploads/users/thumbs/'.$userDetail->profile_pic;
                                     }
-                                    @endphp
-                                @endif
+                                }
+                                @endphp
                                 <div class="information__set profile_images toggle_module collapse" id="collapse3">
                                     <div class="information_wrapper">
                                         <div class="profile_image_area flx-area">
