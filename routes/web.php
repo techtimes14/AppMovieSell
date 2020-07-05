@@ -29,7 +29,10 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
 
         /* Authenticated sections */
         Route::group(['middleware' => 'guest:web'], function () {
-            Route::any('/personal-details', 'UsersController@personalDetails')->name('personal-details');
+            Route::any('/edit-profile', 'UsersController@editProfile')->name('edit-profile');
+            Route::any('/my-purchases', 'UsersController@editProfile')->name('my-purchases');
+            Route::any('/my-favourites', 'UsersController@editProfile')->name('my-favourites');
+            Route::any('/membership', 'UsersController@editProfile')->name('membership');
             
             Route::any('/change-user-password', 'UsersController@changeUserPassword')->name('change-user-password');
             Route::any('/logout', 'UsersController@logout')->name('logout');

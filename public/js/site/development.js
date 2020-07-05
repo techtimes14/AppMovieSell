@@ -4,7 +4,7 @@ $.validator.addMethod("valid_email", function(value, element) {
     } else {
         return false;
     }
-}, "Please enter a valid email address");
+}, "Please enter valid email address");
 
 //Phone number eg. (+91)9876543210
 $.validator.addMethod("valid_number", function(value, element) {    
@@ -522,7 +522,7 @@ $(document).ready(function() {
             confirm_password: {
                 required: "Please enter confirm password",
                 valid_password: "Min. 8, alphanumeric and special character",
-                equalTo: "Password should be same as password",
+                equalTo: "Confirm password should be same as new password",
             }
         },
         errorPlacement: function(error, element) {
@@ -533,15 +533,9 @@ $(document).ready(function() {
         }
     });
 
-    /* Personal Details Form */
-    $("#personalDetails").validate({
+    /* Edit profile Form */
+    $("#editProfile").validate({
         rules: {
-            nickname: {
-                required: true,
-            },
-            title: {
-                required: true,
-            },
             first_name: {
                 required: true,
                 minlength: 2,
@@ -552,50 +546,92 @@ $(document).ready(function() {
                 minlength: 2,
                 maxlength: 255
             },
-            login_language: {
+            user_name: {
                 required: true,
             },
             email: {
                 required: true,
                 valid_email: true
             },
-            phone_no: {
+            author_bio: {
                 required: true
             },
-            dob: {
-                required: true
+            billing_first_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
             },
-            
+            billing_last_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            billing_email: {
+                required: true,
+                valid_email: true
+            },
+            billing_country: {
+                required: true,
+            },
+            billing_address_line_1: {
+                required: true,
+            },
+            billing_address_line_2: {
+                required: true,
+            },
+            billing_city: {
+                required: true,
+            },
         },
         messages: {
-            nickname: {
-                required: "Please enter nickname",
-            },
-            title: {
-                required: "Please select title",
-            },
             first_name: {
                 required: "Please enter first name",
-                minlength: "First Name should be at least 2 characters",
-                maxlength: "First Name must not be more than 255 characters"
+                minlength: "First name should be at least 2 characters",
+                maxlength: "First name must not be more than 255 characters"
             },
             last_name: {
                 required: "Please enter last name",
-                minlength: "Last Name should be at least 2 characters",
-                maxlength: "Last Name must not be more than 255 characters"
+                minlength: "Last name should be at least 2 characters",
+                maxlength: "Last name must not be more than 255 characters"
             },
-            login_language: {
-                required: "Please select login language",
+            user_name: {
+                required: "Please enter username",
             },
             email: {
-                required: "Please enter email",
-                valid_email: "Please enter valid email",
+                required: "Please enter email address",
+                valid_email: "Please enter valid email address",
             },
-            phone_no: {
-                required: "Please enter phone number",
+            author_bio: {
+                required: "Please enter brief about yourself",
             },
-            dob: {
-                required: "Please select date of birth",
+            billing_first_name: {
+                required: "Please enter first name",
+                minlength: "First name should be at least 2 characters",
+                maxlength: "First name must not be more than 255 characters"
+            },
+            billing_last_name: {
+                required: "Please enter last name",
+                minlength: "Last name should be at least 2 characters",
+                maxlength: "Last name must not be more than 255 characters"
+            },
+            billing_email: {
+                required: "Please enter email address",
+                valid_email: "Please enter valid email address",
+            },
+            billing_country: {
+                required: "Please select country",
+            },
+            billing_address_line_1: {
+                required: "Please enter address line one",
+            },
+            billing_address_line_2: {
+                required: "Please enter address line two",
+            },
+            billing_city: {
+                required: "Please enter city",
+            },
+            billing_postal_code: {
+                required: "Please enter zip/postal code",
             },
         },
         errorPlacement: function(error, element) {

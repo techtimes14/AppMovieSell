@@ -18,6 +18,7 @@ use AdminHelper;
 use \Response;
 Use Redirect;
 use App\User;
+use App\UserDetail;
 use App\Cms;
 use App;
 
@@ -45,7 +46,7 @@ class UsersController extends Controller
                 
             ); 
             $validationMessages = array(
-                'full_name.required'    => 'PLease enter full name',
+                'full_name.required'    => 'Please enter full name',
                 'full_name.min'         => 'Full name should be at least 2 characters',
                 'full_name.max'         => 'Full name must not be more than 255 characters',
                 'email.required'        => 'Please enter email address',
@@ -553,12 +554,12 @@ class UsersController extends Controller
     /*****************************************************/
     public function resetPassword($token, Request $request)
     {
-        $currentLang = $lang = App::getLocale();
+        $pageTitle = 'Reset Password';
         if (Auth::guard('web')->check()) {
-            return redirect()->route('site.'.$currentLang.'.home');
+            return redirect()->route('site.home');
         }
         if ($token == '') {
-            return redirect()->route('site.'.$currentLang.'.users.forgot-password');
+            return redirect()->route('site.users.forgot-password');
         }
         $cmsData = $metaData = Helper::getMetaData();
 
@@ -568,11 +569,11 @@ class UsersController extends Controller
                 'confirm_password' => 'required|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/|same:password',
             );
             $validationMessages = array(
-                'password.required' => trans('custom.please_enter_password'),
-                'password.regex' => trans('custom.password_regex'),
-                'confirm_password.required' => trans('custom.confirm_password'),
-                'confirm_password.regex' => trans('custom.password_regex'),
-                'confirm_password.same' => trans('custom.confirm_password_password'),
+                'password.required'         => 'Please enter password',
+                'password.regex'            => 'Min. 8, alphanumeric and special character',
+                'confirm_password.required' => 'Please enter confirm password',
+                'confirm_password.regex'    => 'Min. 8, alphanumeric and special character',
+                'confirm_password.same'     => 'Confirm password should be same as new password',
             );
             $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
             if ($Validator->fails()) {
@@ -581,7 +582,7 @@ class UsersController extends Controller
                 $userData = User::where('remember_token', $token)->first();
                 if ($userData != '') {
                     if ($userData->status == 0) {
-                        $request->session()->flash('alert-danger',trans('custom.inactive_user'));
+                        $request->session()->flash('alert-danger', 'Your account is inactive');
                         return redirect()->back();
                     } else {
                         $password   = $request->password;
@@ -592,14 +593,14 @@ class UsersController extends Controller
                             $userData->password = $password;
                             $userData->save();
 
-                            $request->session()->flash('alert-success',trans('custom.password_changed_sucess'));
-                            return redirect()->route('site.'.$currentLang.'.users.login');
+                            $request->session()->flash('alert-success', 'Your password has been changed successfully');
+                            return redirect()->route('site.users.login');
                         } else {
                             $request->session()->flash('alert-danger',trans('custom.please_try_again'));
                         }
                     }
                 } else {
-                    $request->session()->flash('alert-danger',trans('custom.reset_already_done'));
+                    $request->session()->flash('alert-danger', 'You have already reset your password');
                 }
                 return redirect()->back();
             }
@@ -610,81 +611,131 @@ class UsersController extends Controller
             'description'=>$metaData['description'],
             'cmsData'   => $cmsData,
             'token'     => $token,
+            'pageTitle' => $pageTitle,
         ]);
         
     }
 
     /*****************************************************/
-    # Function name : personalDetails
+    # Function name : editProfile
     # Params        : Request $request
     /*****************************************************/
-    public function personalDetails(Request $request)
+    public function editProfile(Request $request)
     {
-        $currentLang = $lang = App::getLocale();
-        $cmsData = $metaData = Helper::getMetaData();
+        $pageTitle  = 'Edit Profile';
+        $cmsData    = $metaData = Helper::getMetaData();
 
         try
         {
-            $userDetail = Auth::guard('web')->user();
-            $avatarList = Avatar::where(['status' => '1'])
-									->whereNull('deleted_at')
-									->with([
-                                        'local'=> function($query) use ($currentLang) {
-                                            $query->where('lang_code','=', $currentLang);
-                                        }
-                                    ])
-                                    ->orderBy('sort', 'asc')
-                                    ->get();
-            $data['avatarList'] = $avatarList;
+            $userDetail = Auth::guard('web')->user();            
             $data['userDetail'] = $userDetail;
 
             if ($request->isMethod('POST')) {
-                // dd($request);
                 $validationCondition = array(
-                    'nickname'      => 'required',
-                    'title'         => 'required',                    
-                    'first_name'    => 'required|min:2|max:255',
-                    'last_name'     => 'required|min:2|max:255',
-                    'login_language'=> 'required',
-                    'email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email,'.Auth::user()->id,
-                    'phone_no'      => 'required',
-                    'dob'           =>  'required|date_format:d/m/Y',
+                    'first_name'            => 'required|min:2|max:255',
+                    'last_name'             => 'required|min:2|max:255',
+                    'user_name'             => 'required|unique:'.(new User)->getTable().',email,'.Auth::user()->id,
+                    // 'email'                 => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/|unique:'.(new User)->getTable().',email,'.Auth::user()->id,
+                    'author_bio'            => 'required',
+                    'billing_first_name'    => 'required|min:2|max:255',
+                    'billing_last_name'     => 'required|min:2|max:255',
+                    'billing_email'         => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/',
+                    'billing_country'       => 'required',
+                    'billing_address_line_1'=> 'required',
+                    'billing_address_line_2'=> 'required',
+                    'billing_city'          => 'required',
+                    'billing_postal_code'   => 'required',
+                    'cover_photo'           => 'mimes:jpeg,jpg,png,svg|max:'.Helper::IMAGE_MAX_UPLOAD_SIZE,
+                    'cover_photo'           => 'dimensions:min_width='.Helper::PROFILE_THUMB_IMAGE_WIDTH.', min_height='.Helper::PROFILE_THUMB_IMAGE_HEIGHT,
                 );
                 $validationMessages = array(
-                    'nickname.required'     => trans('custom.please_enter_nick_name'),
-                    'title.required'        => trans('custom.please_select_title'),
-                    'first_name.required'   => trans('custom.please_enter_first_name'),
-                    'first_name.min'        => trans('custom.first_name_min_length_check'),
-                    'first_name.max'        => trans('custom.first_name_max_length_check'),
-                    'last_name.required'    => trans('custom.please_enter_last_name'),
-                    'last_name.min'         => trans('custom.last_name_min_length_check'),
-                    'last_name.max'         => trans('custom.last_name_max_length_check'),
-                    'login_language.required'=> trans('custom.please_select_language'),
-                    'email.required'        => trans('custom.please_enter_email'),
-                    'email.regex'           => trans('custom.please_enter_valid_email'),
-                    'email.unique'          => trans('custom.please_enter_unique_email'),
-                    'phone_no.required'     => trans('custom.please_enter_phone'),
-                    'dob.required'          => trans('custom.please_select_dob'),
-                    'dob.date_format'       => trans('custom.please_select_dob_format'),
+                    'first_name.required'    => 'Please enter first name',
+                    'first_name.min'         => 'First name should be at least 2 characters',
+                    'first_name.max'         => 'First name must not be more than 255 characters',
+                    'last_name.required'    => 'Please enter last name',
+                    'last_name.min'         => 'Last name should be at least 2 characters',
+                    'last_name.max'         => 'Last name must not be more than 255 characters',
+                    'user_name.required'    => 'Please enter username',
+                    'user_name.unique'      => 'Please enter unique username',
+                    // 'email.required'        => 'Please enter email address',
+                    // 'email.regex'           => 'Please enter valid email address',
+                    // 'email.unique'          => 'Please enter unique email address',                    
+                    'author_bio.required'               => 'Please enter brief about yourself',
+                    'billing_first_name.required'       => 'Please enter billing first name',
+                    'billing_first_name.min'            => 'First name should be at least 2 characters',
+                    'billing_first_name.max'            => 'First name must not be more than 255 characters',
+                    'billing_last_name.required'        => 'Please enter last name',
+                    'billing_last_name.min'             => 'Last name should be at least 2 characters',
+                    'billing_last_name.max'             => 'Last name must not be more than 255 characters',
+                    'billing_email.required'            => 'Please enter email address',
+                    'billing_email.regex'               => 'Please enter valid email address',
+                    'billing_country.required'          => 'Please select country',
+                    'billing_address_line_1.required'   => 'Please enter address line one',
+                    'billing_address_line_2.required'   => 'Please enter address line two',
+                    'billing_city.required'             => 'Please enter city',
+                    'billing_postal_code.required'      => 'Please enter zip/postal code',
                 );
                 $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($Validator->fails()) {
-                    return redirect()->route('site.'.\App::getLocale().'.users.personal-details')->withErrors($Validator)->withInput();
+                    return redirect()->route('site.users.edit-profile')->withErrors($Validator)->withInput();
                 } else {
-                    $updateUserData['nickname']     = $request->nickname;
-                    $updateUserData['title']        = $request->title;
+                    $image = $request->file('cover_photo');
+                    if ($image != '') {                        
+                        $originalFileName   = $image->getClientOriginalName();
+                        $extension          = pathinfo($originalFileName, PATHINFO_EXTENSION);
+                        $filename           = 'profile_pic_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;                        
+                        $imageResize        = Image::make($image->getRealPath());
+                        $imageResize->save(public_path('uploads/users/' . $filename));
+                        $imageResize->resize(Helper::PROFILE_THUMB_IMAGE_WIDTH, Helper::PROFILE_THUMB_IMAGE_HEIGHT,
+                            function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                        $imageResize->save(public_path('uploads/users/thumbs/' . $filename));
+
+                        $largeImage = public_path().'/uploads/users/'.$userDetail->profile_pic;
+                        @unlink($largeImage);
+                        $thumbImage = public_path().'/uploads/users/thumbs/'.$userDetail->profile_pic;
+                        @unlink($thumbImage);
+
+                        $updateUserData['profile_pic']= $filename;
+                    }                    
                     $updateUserData['first_name']   = $request->first_name;
                     $updateUserData['last_name']    = $request->last_name;
                     $updateUserData['full_name']    = ucwords($request->first_name).' '.ucwords($request->last_name);
-                    $updateUserData['login_language']= $request->login_language;
-                    $updateUserData['email']        = $request->email;
-                    $updateUserData['phone_no']     = $request->phone_no;
-                    $updateUserData['dob']          = date('Y-m-d',strtotime(str_replace('/','-',$request->dob)));
+                    $updateUserData['user_name']    = $request->user_name;
+                    // $updateUserData['email']        = $request->email;
                     
                     $saveUserData = User::where('id', $userDetail->id)->update($updateUserData);
                     if ($saveUserData) {
+                        if ($userDetail->userDetail != null) {
+                            $updateUserDetails['author_bio']               = $request->author_bio;
+                            $updateUserDetails['billing_first_name']       = $request->billing_first_name;
+                            $updateUserDetails['billing_last_name']        = $request->billing_last_name;
+                            $updateUserDetails['billing_email']            = $request->billing_email;                            
+                            $updateUserDetails['billing_country']          = $request->billing_country;
+                            $updateUserDetails['billing_address_line_1']   = $request->billing_address_line_1;
+                            $updateUserDetails['billing_address_line_2']   = $request->billing_address_line_2;
+                            $updateUserDetails['billing_city']             = $request->billing_city;
+                            $updateUserDetails['billing_postal_code']      = $request->billing_postal_code;
+
+                            UserDetail::where('user_id', $userDetail->id)->update($updateUserDetails);
+                        } else {
+                            $newUserDetails = new UserDetail;
+                            $newUserDetails->user_id                  = $userDetail->id;
+                            $newUserDetails->author_bio               = $request->author_bio;
+                            $newUserDetails->billing_first_name       = $request->billing_first_name;
+                            $newUserDetails->billing_last_name        = $request->billing_last_name;
+                            $newUserDetails->billing_email            = $request->billing_email;                            
+                            $newUserDetails->billing_country          = $request->billing_country;
+                            $newUserDetails->billing_address_line_1   = $request->billing_address_line_1;
+                            $newUserDetails->billing_address_line_2   = $request->billing_address_line_2;
+                            $newUserDetails->billing_city             = $request->billing_city;
+                            $newUserDetails->billing_postal_code      = $request->billing_postal_code;
+                            $newUserDetails->save();
+                        }
+
                         Auth::guard('web')->loginUsingId($userDetail->id);
-                        $request->session()->flash('alert-success', trans('custom.success_profile_update'));
+                        $request->session()->flash('alert-success', 'Profile updated successfully');
                         return redirect()->back();
                     } else {
                         $request->session()->flash('alert-danger', trans('custom.please_try_again'));
@@ -693,16 +744,16 @@ class UsersController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return redirect()->route('site.users.personal-details')->with('error', $e->getMessage());
+            return redirect()->route('site.users.edit-profile')->with('error', $e->getMessage());
         }
 
-        return view('site.user.personal_details',[
+        return view('site.user.edit_profile',[
             'title'         => $cmsData['title'],
             'keyword'       => $cmsData['keyword'],
             'description'   =>$cmsData['description'],
             'cmsData'       => $cmsData,
             'userDetail'    => $userDetail,
-            'avatarList'    => $avatarList,
+            'pageTitle'     => $pageTitle,
         ]);
     }
 

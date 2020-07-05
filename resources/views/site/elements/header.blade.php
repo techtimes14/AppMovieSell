@@ -36,17 +36,17 @@
 
 						<div class="dropdowns dropdown--author">
 							<ul>
-								<li class="active">
-									<a href="edit-profile.html"><span class="lnr lnr-user"></span>Edit Profile</a>
+								<li @if(Route::current()->getName() == 'site.users.edit-profile') class="active" @endif>
+									<a href="{{route('site.users.edit-profile')}}"><span class="lnr lnr-user"></span>Edit Profile</a>
 								</li>
-								<li>
-									<a href="my-purchase.html"><span class="lnr lnr-cart"></span>My Purchases</a>
+								<li @if(Route::current()->getName() == 'site.users.my-purchases') class="active" @endif>
+									<a href="{{route('site.users.my-purchases')}}"><span class="lnr lnr-cart"></span>My Purchases</a>
 								</li>
-								<li>
-									<a href="favourites.html"><span class="lnr lnr-heart"></span>My Favourite</a>
+								<li @if(Route::current()->getName() == 'site.users.my-favourites') class="active" @endif>
+									<a href="{{route('site.users.my-favourites')}}"><span class="lnr lnr-heart"></span>My Favourite</a>
 								</li>
-								<li>
-									<a href="javascript:void(0);"><span class="lnr lnr-briefcase"></span>Membership</a>
+								<li @if(Route::current()->getName() == 'site.users.membership') class="active" @endif>
+									<a href="{{route('site.users.membership')}}"><span class="lnr lnr-briefcase"></span>Membership</a>
 								</li>								
 								<li>
 									<a href="{{route('site.users.logout')}}"><span class="lnr lnr-exit"></span>Logout</a>
@@ -84,23 +84,23 @@
                                 </div>
                                 <!--end /.author-author__info-->
                                 <div class="dropdowns dropdown--author">
-                                    <ul>
-                                        <li class="active">
-                                            <a href="edit-profile.html"><span class="lnr lnr-user"></span>Edit Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="cart.html"><span class="lnr lnr-cart"></span>My Purchases</a>
-                                        </li>
-                                        <li>
-                                            <a href="favourites.html"><span class="lnr lnr-heart"></span>My Favourite</a>
-                                        </li>
-                                        <li>
-                                            <a href="favourites.html"><span class="lnr lnr-briefcase"></span>Membership</a>
-                                        </li>                                       
-                                        <li>
-                                            <a href="{{route('site.users.logout')}}"><span class="lnr lnr-exit"></span>Logout</a>
-                                        </li>
-                                    </ul>
+									<ul>
+										<li @if(Route::current()->getName() == 'site.users.edit-profile') class="active" @endif>
+											<a href="{{route('site.users.edit-profile')}}"><span class="lnr lnr-user"></span>Edit Profile</a>
+										</li>
+										<li @if(Route::current()->getName() == 'site.users.my-purchases') class="active" @endif>
+											<a href="{{route('site.users.my-purchases')}}"><span class="lnr lnr-cart"></span>My Purchases</a>
+										</li>
+										<li @if(Route::current()->getName() == 'site.users.my-favourites') class="active" @endif>
+											<a href="{{route('site.users.my-favourites')}}"><span class="lnr lnr-heart"></span>My Favourite</a>
+										</li>
+										<li @if(Route::current()->getName() == 'site.users.membership') class="active" @endif>
+											<a href="{{route('site.users.membership')}}"><span class="lnr lnr-briefcase"></span>Membership</a>
+										</li>								
+										<li>
+											<a href="{{route('site.users.logout')}}"><span class="lnr lnr-exit"></span>Logout</a>
+										</li>
+									</ul>
                                 </div>                               
                             </div>
 						@endif

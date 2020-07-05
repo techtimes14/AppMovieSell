@@ -48,16 +48,8 @@ class User extends Authenticatable
     # Function name :  boardList
     # Params        : 
     /*****************************************************/
-    public function  boardList() {
-        return $this->hasMany('App\Board', 'user_id')->where('status', '1');
-    }
-
-    /*****************************************************/
-    # Function name :  favouriteVideoList
-    # Params        : 
-    /*****************************************************/
-    public function  favouriteVideoList() {
-        return $this->hasMany('App\FavouriteVideo', 'user_id');
+    public function  userDetail() {
+        return $this->hasOne('App\UserDetail', 'user_id');
     }
 
     /*****************************************************/

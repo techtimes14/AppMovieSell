@@ -35,7 +35,13 @@ class Helper
 
     public const PROFILE_IMAGE_MAX_UPLOAD_SIZE = 5120; // profile image upload max size (5mb)
 
+    public const IMAGE_MAX_UPLOAD_SIZE = 5120; // image upload max size (5mb)
+
     public const MINIMUM_ORDER_AMOUNT = 20; // Minimum order amount
+    
+    public const PROFILE_THUMB_IMAGE_WIDTH = '100'; // Profile image width
+
+    public const PROFILE_THUMB_IMAGE_HEIGHT = '100'; // Profile image height
     
     public const MY_ORDER_LISTING = 5; // My orders
 
