@@ -55,7 +55,7 @@
         </div>
         <div class="login-form-content">
             <div class="login-logo">
-                <a><img src="{{ asset('images/admin/logo.jpg') }}" alt=""></a>
+                <a><img src="{{ asset('images/admin/logo.png') }}" alt=""></a>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">

@@ -140,14 +140,13 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
-            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit' || Route::current()->getName() == 'admin.site-settings') style="display: block;" @endif> -->
-                
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit' || Route::current()->getName() == 'admin.site-settings') style="display: block;" @endif>                
                 <!-- Site settings start -->
                  <li @if (Route::current()->getName() == 'admin.site-settings')class="active" @endif>
                     <a href="{{ route('admin.site-settings') }}">
                         <i class="fa fa-cog" aria-hidden="true"></i> <span>Site Settings</span>
                     </a>
-                
+                </li>
                 
                 <!-- Cms start -->
                  <li @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit')class="active" @endif>

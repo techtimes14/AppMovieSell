@@ -3,7 +3,7 @@
     <span class="logo-lg"><b>{{ Helper::getAppName() }}</b></span>
     <img src="{{ asset('images/site/logo.jpg') }}"/>     --}}
     <span class="logo-mini"><b>{{ Helper::getAppNameFirstLetters() }}</b></span>
-    <img class="logo-lg" src="{{ asset('images/admin/logo.jpg') }}" width="100px" height="20px" />
+    <img class="logo-lg" src="{{ asset('images/admin/logo.png') }}" width="100px" height="20px" />
 </a>
 
 <nav class="navbar navbar-static-top">
