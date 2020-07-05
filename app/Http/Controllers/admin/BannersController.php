@@ -152,26 +152,26 @@ class BannersController extends Controller
                 } else {
                     $update['title']            = trim($request->title, ' ');
 
-                    // $image = $request->file('image');
-                    // if ($image != '') {                        
-                    //     $originalFileName   = $image->getClientOriginalName();
-                    //     $extension          = pathinfo($originalFileName, PATHINFO_EXTENSION);
-                    //     $filename           = 'banner_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;                        
-                    //     $imageResize        = Image::make($image->getRealPath());
-                    //     $imageResize->save(public_path('uploads/banner/' . $filename));
-                    //     $imageResize->resize(AdminHelper::ADMIN_BANNER_THUMB_IMAGE_WIDTH, AdminHelper::ADMIN_BANNER_THUMB_IMAGE_HEIGHT,
-                    //         function ($constraint) {
-                    //             $constraint->aspectRatio();
-                    //         });
-                    //     $imageResize->save(public_path('uploads/banner/thumbs/' . $filename));
+                    $image = $request->file('image');
+                    if ($image != '') {                        
+                        $originalFileName   = $image->getClientOriginalName();
+                        $extension          = pathinfo($originalFileName, PATHINFO_EXTENSION);
+                        $filename           = 'banner_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;                        
+                        $imageResize        = Image::make($image->getRealPath());
+                        $imageResize->save(public_path('uploads/banner/' . $filename));
+                        $imageResize->resize(AdminHelper::ADMIN_BANNER_THUMB_IMAGE_WIDTH, AdminHelper::ADMIN_BANNER_THUMB_IMAGE_HEIGHT,
+                            function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                        $imageResize->save(public_path('uploads/banner/thumbs/' . $filename));
 
-                    //     $largeImage = public_path().'/uploads/banner/'.$details->image;
-                    //     @unlink($largeImage);
-                    //     $thumbImage = public_path().'/uploads/banner/thumbs/'.$details->image;
-                    //     @unlink($thumbImage);
+                        $largeImage = public_path().'/uploads/banner/'.$details->image;
+                        @unlink($largeImage);
+                        $thumbImage = public_path().'/uploads/banner/thumbs/'.$details->image;
+                        @unlink($thumbImage);
 
-                    //     $update['image']= $filename;
-                    // }
+                        $update['image']= $filename;
+                    }
 
                     $save = Banner::where('id', $id)->update($update);
                     if ($save) {

@@ -23,7 +23,7 @@ class AdminHelper
    public const ICON_MAX_UPLOAD_SIZE = 1024; // Image upload max size (1mb)
 
    public const ADMIN_BANNER_THUMB_IMAGE_WIDTH  = '1920';   // Admin BANNER thumb image width
-   public const ADMIN_BANNER_THUMB_IMAGE_HEIGHT = '812';   // Admin BANNER thumb image height
+   public const ADMIN_BANNER_THUMB_IMAGE_HEIGHT = '745';   // Admin BANNER thumb image height
 
    public const ADMIN_PRODUCT_MAX_NUMBER_OF_IMAGE_UPLOAD = 10;   // Admin PRODUCT maximum no of image upload
    public const ADMIN_PRODUCT_SLIDER_IMAGE_WIDTH  = '750';   // Admin PRODUCT SLIDER image width
