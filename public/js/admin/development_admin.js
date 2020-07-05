@@ -497,6 +497,9 @@ $(document).ready(function() {
             Price: {
                 required: true,
             },
+            category_id: {
+                required: true,
+            },
         },
         messages: {
             title: {
@@ -511,6 +514,9 @@ $(document).ready(function() {
             },
             Price: {
                 required: "Please enter price",
+            },
+            category_id: {
+                required: "Please enter category",
             },
         },
         errorPlacement: function(error, element) {
@@ -538,6 +544,9 @@ $(document).ready(function() {
             Price: {
                 required: true,
             },
+            category_id: {
+                required: true,
+            },
         },
         messages: {
             title: {
@@ -552,6 +561,9 @@ $(document).ready(function() {
             },
             Price: {
                 required: "Please enter price",
+            },
+            category_id: {
+                required: "Please enter category",
             },
         },
         errorPlacement: function(error, element) {

@@ -82,6 +82,12 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/status/{id}', 'ProductsController@status')->name('change-status')->where('id','[0-9]+');
             Route::get('/delete/{id}', 'ProductsController@delete')->name('delete')->where('id','[0-9]+');
             Route::any('/delete-product-feature', 'ProductsController@deleteProductFeature')->name('delete-product-feature')->where('id','[0-9]+');
+
+            Route::get('/multiple-image/{id}', 'ProductsController@multifileupload')->name('multiple-image');
+            Route::any('/store/{id}', 'ProductsController@store')->name('store');
+            Route::any('/make_default_image', 'ProductsController@makeDefaultImage')->name('make_default_image');            
+            Route::any('/image-delete','ProductsController@imageDelete')->name('image-delete');
+            Route::any('/delete-product-image/{id}/{product_id}','ProductsController@deleteProductImage')->name('delete-product-image');
         });
 
         Route::group(['prefix' => 'banner', 'as' => 'banner.'], function () {

@@ -12,6 +12,12 @@ use Helper;
 use AdminHelper;
 use App\Product;
 use App\ProductFeature;
+use App\Category;
+use App\ProductImage;
+use Auth;
+use Image;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class ProductsController extends Controller
 {
@@ -28,7 +34,7 @@ class ProductsController extends Controller
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
-            $query = Product::whereNull('deleted_at');
+            $query = Product::with(['productDefaultImage'])->whereNull('deleted_at');
 
             $data['searchText'] = $key = $request->searchText;
 
@@ -68,6 +74,7 @@ class ProductsController extends Controller
                     'title' => 'required|min:2|max:255|unique:'.(new Product)->getTable().',title',
                     'description' => 'required|min:2|max:255',
                     'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+                    'category_id' => 'required',
 				);
 				$validationMessages = array(
 					'title.required'    => 'Please enter title',
@@ -77,6 +84,7 @@ class ProductsController extends Controller
 					'description.min'         => 'Description should be should be at least 2 characters',
                     'description.max'         => 'Description should not be more than 255 characters',
                     'price.required'          => 'Please enter Price',
+                    'category_id.required'    => 'Please select Category',
                     
 				);
 
@@ -90,9 +98,9 @@ class ProductsController extends Controller
                     $new->title = trim($request->title, ' ');
                     $new->description = $request->description;
                     $new->price = $request->price;
+                    $new->category_id = $request->category_id;
                     $new->slug  = $newSlug;
-                    $save = $new->save();
-                    
+                    $save = $new->save();                    
                 
 					if ($save) {
                         $insertedId   	                  = $new->id;
@@ -103,8 +111,6 @@ class ProductsController extends Controller
                             $newProductFeature->feature_value  = $request->feature_value[$key];
                             $saveProductFeature                = $newProductFeature->save();
                         }
-                        
-                        
 
 						$request->session()->flash('alert-success', 'Product has been added successfully');
 						return redirect()->route('admin.product.list');
@@ -113,7 +119,9 @@ class ProductsController extends Controller
 						return redirect()->back();
 					}
 				}
-			}
+            }
+            $categoryList = Category::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['categoryList'] = $categoryList;
 			return view('admin.product.add', $data);
 		} catch (Exception $e) {
 			return redirect()->route('admin.product.list')->with('error', $e->getMessage());
@@ -129,7 +137,8 @@ class ProductsController extends Controller
         $data['panel_title'] = 'Edit Product';
 
         try
-        {           
+        {   $categoryList = Category::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['categoryList'] = $categoryList;        
             $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
             $data['pageNo'] = $pageNo;
 
@@ -141,6 +150,7 @@ class ProductsController extends Controller
                     'title'         => 'required|min:2|max:255|unique:' .(new Product)->getTable().',title,' .$id,
                     'description'   => 'required|min:2|max:255',
                     'price'         => 'required|regex:/^\d+(\.\d{1,2})?$/',
+                    'category_id'   => 'required',
                 );
                 $validationMessages = array(
                     'title.required'          => 'Please enter title',
@@ -150,6 +160,7 @@ class ProductsController extends Controller
 					'description.min'         => 'Description should be should be at least 2 characters',
                     'description.max'         => 'Description should not be more than 255 characters',
                     'price.required'          => 'Please enter Price',
+                    'category_id.required'    => 'Please select Category',
                 );
                 
                 $Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
@@ -157,17 +168,17 @@ class ProductsController extends Controller
                     return redirect()->back()->withErrors($Validator)->withInput();
                 } else {   
                     $newSlug = Helper::generateUniqueSlug(new Product(), $request->title, $id);
-
                     $update = array(
                         'title' => trim($request->title, ' '),
                         'description' => $request->description,
                         'price' => $request->price,
+                        'category_id' => $request->category_id,
                         'slug'  => $newSlug
                     ); 
                     $save = Product::where('id', $id)->update($update);                        
                     if ($save) {
-                        $deleteProductFeature = ProductFeature::where('product_id',$id)->delete();
-                        if (array_key_exists('feature_label', $request)) {
+                        if (isset($request->feature_value) && $request->feature_value > 0) {
+                            $deleteProductFeature = ProductFeature::where('product_id',$id)->delete();
                             foreach ($request->feature_label as $key => $val) {
                                 $newProductFeature                 = new ProductFeature;
                                 $newProductFeature->product_id     = $id;
@@ -188,7 +199,7 @@ class ProductsController extends Controller
             
             $details = Product::find($id);
             $data['id'] = $id;
-            return view('admin.product.edit')->with(['details' => $details, 'data' => $data]);
+            return view('admin.product.edit')->with(['details' => $details, 'data' => $data, 'categoryList' =>$categoryList]);
 
         } catch (Exception $e) {
             return redirect()->route('admin.product.list')->with('error', $e->getMessage());
@@ -270,7 +281,7 @@ class ProductsController extends Controller
 
     /*****************************************************/
     # Function name : deleteProductFeature
-    # Params        : Request $request, $id
+    # Params        : Request $request
     /*****************************************************/
     public function deleteProductFeature(Request $request)
     {
@@ -300,6 +311,115 @@ class ProductsController extends Controller
             'message'   => $message,
             'type'      => $type,
         ));
+    }
+
+    public function multifileupload($productId = null){
+        $data['page_title']     = 'Product Image Upload';
+        $data['panel_title']    = 'Product Image Upload';
+
+
+        $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
+        $data['pageNo'] = $pageNo;
+
+        $products = Product::find($productId);
+        $data['products']   = $products;
+        return view('admin.product.product_image', $data);
+    }
+
+    public function store($product_id = null, Request $request){
+        $productId = $product_id;
+        $uploadSuccess = false;
+
+        $image = $request->file('file');
+        if ($image != null) {
+            $filename = $image->getClientOriginalName();
+            $location = public_path('/uploads/product/'.$filename);
+            if(Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_SLIDER_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_SLIDER_IMAGE_HEIGHT)->save($location)){
+                $product_image = [];
+                $product_image['product_id'] = $product_id;
+                $product_image['image']      = $filename;
+
+                $thumbLocation = public_path('/uploads/product/thumbs/'.$filename);
+                Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT)->save($thumbLocation);
+
+                $listLocation = public_path('/uploads/product/list_thumbs/'.$filename);
+                Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT)->save($listLocation);
+
+                $countDefaultImage = ProductImage::where(['product_id' => $product_id, 'default_image' => 'Y'])->count();
+                if($countDefaultImage == 0){
+                    $product_image['default_image'] = 'Y';
+                }
+                if(ProductImage::create($product_image)){
+                    $uploadSuccess = $filename;
+                }
+            }
+        }
+
+        if ($uploadSuccess) {
+            return response()->json(['success'=>$uploadSuccess]);
+        }
+        // Else, return error 400
+        else {
+            return response()->json('error', 400);
+        }
+    }
+
+    public function imageDelete(Request $request){
+        $filename =  $request->filename;
+        ProductImage::where(['image'=>$filename])->delete();
+        $path = public_path('/uploads/product/'.$filename);
+        $path = public_path('/uploads/product/thumb/'.$filename);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return $filename;
+    }
+
+    public function deleteProductImage($id = null, $product_id = null, Request $request){
+        if($id == null){
+            return redirect()->route('admin.dashboard');
+        }
+        
+        $get_image_data = ProductImage::where(['id' => $id,'product_id'=>$product_id])->first();
+        // dd($get_image_data);
+
+        if($get_image_data->default_image == 'N'){
+            @unlink(public_path() . '/uploads/product/' . $get_image_data->image);
+            @unlink(public_path() . '/uploads/product/list_thumbs/' . $get_image_data->image);
+            @unlink(public_path() . '/uploads/product/thumbs/' . $get_image_data->image);
+            $get_image_data->delete();
+            $request->session()->flash('alert-success', 'Image successfully deleted.');
+            return redirect()->back();
+        }else{
+            $request->session()->flash('alert-danger', 'Sorry! Default image can not deleted.');
+            return redirect()->back();
+        }
+
+    }
+
+    public function makeDefaultImage(Request $request){
+
+        $product_id = base64_decode($request->product_id);
+        // dd($product_id);
+        $image_id = base64_decode($request->image_id);
+        $res = 0;
+        if($product_id >0 && $image_id >0){
+            if(ProductImage::where(['product_id' => $product_id])->update(['default_image' => 'N'])){
+
+                if(ProductImage::where(['product_id' => $product_id,'id'=>$image_id])->update(['default_image' => 'Y'])){
+                    $res = 1;
+                }
+
+            }else{
+                $res = 0;
+            }
+        }
+        echo $res;
+    }
+
+    public function productUpload(Request $request){
+        $products = new ProductImage;
+        return view('admin.product.product_image', ['products' => $products]);
     }
     
 }

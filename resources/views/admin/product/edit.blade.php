@@ -30,6 +30,24 @@
                                     'files' => true,
 		                            'novalidate' => true)) }}
                     <div class="box-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">Category<span class="red_star">*</span></label>
+                                    <select name="category_id" id="category_id" class="form-control" value="{{old('category_id')}}">
+                                        <option value="">-Select-</option>
+                                @if (count($categoryList))
+                                    @foreach ($categoryList as $category)
+                                        <option value="{{$category->id}}" @if($category->id == $details['category_id']) selected="selected" @endif>{{$category->title}}</option>
+                                    @endforeach
+                                @endif
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -44,38 +62,34 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="price">Price<span class="red_star">*</span></label><br>
+                                    {{ Form::text('price', $details->price, array(
+                                                                'id' => 'price',
+                                                                'class' => 'form-control',
+                                                                'placeholder' => 'Price',
+                                                                    )) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="description">Description<span class="red_star">*</span></label>
-                                    {{ Form::text('description', $details->description, array(
+                                    {{ Form::textarea('description', $details->description, array(
                                                                 'id' => 'description',
+                                                                'rows' => 6,
                                                                 'placeholder' => 'Description',
                                                                 'class' => 'form-control',
                                                                 'required' => 'required'
                                                                  )) }}
                                 </div>
                             </div>
-                            
-                       
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                        <label for="price">Price<span class="red_star">*</span></label><br>
-                                        
-                                        {{ Form::text('price', $details->price, array(
-                                                                    'id' => 'price',
-                                                                    'class' => 'form-control',
-                                                                    'placeholder' => 'Price',
-                                                                     )) }}
-                                </div>
-                                
-                                
-                            </div>
                         </div>
                         <div class="addField">
                         @foreach ($details->features as $key => $feature)
                                        
                             <div class="row featured_div_{{$feature->id}}">
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                 @if ($key == 0)
                                     <label for="title">Label</label>
                                 @endif
@@ -85,12 +99,13 @@
                                                             'required' => 'required'
                                                                 )) }}
                                 </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-7">
                                     @if ($key == 0)
                                         <label for="title">Value</label>
                                     @endif
-                                            {{ Form::text('feature_value[]', $feature->feature_value, array(
+                                            {{ Form::textarea('feature_value[]', $feature->feature_value, array(
                                                             'placeholder' => 'Value',
+                                                            'rows' => 2,
                                                             'class' => 'form-control',
                                                             'required' => 'required'
                                                                 )) }}
@@ -130,8 +145,8 @@ $(function () {
         counter++;
         var cols = '';
         var newRow = $('<div class="row" style="margin-top: 10px;">');
-        cols += '<div class="col-md-5"><input placeholder="Label" class="form-control" required="required" name="feature_label[]" type="text"></div>';
-        cols += '<div class="col-md-5"><input placeholder="Value" class="form-control" required="required" name="feature_value[]" type="text"></div>';
+        cols += '<div class="col-md-3"><input placeholder="Label" class="form-control" required="required" name="feature_label[]" type="text"></div>';
+        cols += '<div class="col-md-7"><textarea placeholder="Value" class="form-control" required="required" name="feature_value[]"></textarea></div>';
         cols += '<div class="col-md-2"><a class="deleteRow btn btn-danger ibtnDel" href="javascript: void(0);"><i class="fa fa-trash" aria-hidden="true"></i></a></div>';
 
         newRow.append(cols);
@@ -212,6 +227,7 @@ $(function () {
 
     });
     // Delete Feature end //
+    CKEDITOR.replace('description');
 });
 </script>
 

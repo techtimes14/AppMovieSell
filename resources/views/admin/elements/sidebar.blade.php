@@ -132,7 +132,7 @@
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))
-        <!-- <li class="treeview @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit' || Route::current()->getName() == 'admin.site-settings') menu-open @endif">
+        <li class="treeview @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit' || Route::current()->getName() == 'admin.site-settings') menu-open @endif">
             <a href="#">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
                 <span>Website Management</span>
@@ -143,20 +143,20 @@
             <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit' || Route::current()->getName() == 'admin.site-settings') style="display: block;" @endif> -->
                 
                 <!-- Site settings start -->
-                <!-- <li @if (Route::current()->getName() == 'admin.site-settings')class="active" @endif>
+                 <li @if (Route::current()->getName() == 'admin.site-settings')class="active" @endif>
                     <a href="{{ route('admin.site-settings') }}">
                         <i class="fa fa-cog" aria-hidden="true"></i> <span>Site Settings</span>
                     </a>
-                </li> -->
+                
                 
                 <!-- Cms start -->
-                <!-- <li @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit')class="active" @endif>
+                 <li @if (Route::current()->getName() == 'admin.CMS.list' || Route::current()->getName() == 'admin.CMS.edit')class="active" @endif>
                     <a href="{{ route('admin.CMS.list') }}">
                         <i class="fa fa-database" aria-hidden="true"></i> <span>CMS</span>
                     </a>
                 </li>                
             </ul>
-        </li> -->
+        </li> 
     @endif   
     <!-- Website management end -->
     

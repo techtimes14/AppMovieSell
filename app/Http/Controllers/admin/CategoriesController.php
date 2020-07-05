@@ -156,25 +156,23 @@ class CategoriesController extends Controller
                         'slug'  => $newSlug
                     ); 
                     $image = $request->file('image');
-                        if ($image != '') {
-                            $originalFileNameCat = $image->getClientOriginalName();
-                            $extension = pathinfo($originalFileNameCat, PATHINFO_EXTENSION);
-                            $filename = 'category_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
+                    if ($image != '') {
+                        $originalFileNameCat = $image->getClientOriginalName();
+                        $extension = pathinfo($originalFileNameCat, PATHINFO_EXTENSION);
+                        $filename = 'category_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
 
-                            $image_resize = Image::make($image->getRealPath());
-                            $image_resize->save(public_path('uploads/category/' . $filename));
-                            $image_resize->save(public_path('uploads/category/thumbs/' . $filename));
-                            
-                            $largeImage = public_path().'/uploads/category/'.$categoryData->image;
-                            @unlink($largeImage);
-                            $thumbImage = public_path().'/uploads/category/thumbs/'.$categoryData->image;
-                            @unlink($thumbImage);
-                            $update = array(
-                                'image' => $filename,
-                            ); 
-                            
-                       
-                        }
+                        $image_resize = Image::make($image->getRealPath());
+                        $image_resize->save(public_path('uploads/category/' . $filename));
+                        $image_resize->save(public_path('uploads/category/thumbs/' . $filename));
+                        
+                        $largeImage = public_path().'/uploads/category/'.$categoryData->image;
+                        @unlink($largeImage);
+                        $thumbImage = public_path().'/uploads/category/thumbs/'.$categoryData->image;
+                        @unlink($thumbImage);
+                        $update = array(
+                            'image' => $filename,
+                        );
+                    }
 
                     $save = Category::where('id', $id)->update($update);                        
                     if ($save) {

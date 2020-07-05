@@ -25,10 +25,13 @@ class AdminHelper
    public const ADMIN_BANNER_THUMB_IMAGE_WIDTH  = '1920';   // Admin BANNER thumb image width
    public const ADMIN_BANNER_THUMB_IMAGE_HEIGHT = '812';   // Admin BANNER thumb image height
 
-   public const ADMIN_BRAND_THUMB_IMAGE_WIDTH  = '117';   // Admin BRAND thumb image width
-   public const ADMIN_BRAND_THUMB_IMAGE_HEIGHT = '115';   // Admin BRAND thumb image height
-   public const ADMIN_BRAND_MOBILE_THUMB_IMAGE_WIDTH  = '117';   // Admin BRAND Mobile thumb image width
-   public const ADMIN_BRAND_MOBILE_THUMB_IMAGE_HEIGHT = '115';   // Admin BRAND Mobile thumb image height
+   public const ADMIN_PRODUCT_MAX_NUMBER_OF_IMAGE_UPLOAD = 10;   // Admin PRODUCT maximum no of image upload
+   public const ADMIN_PRODUCT_SLIDER_IMAGE_WIDTH  = '750';   // Admin PRODUCT SLIDER image width
+   public const ADMIN_PRODUCT_SLIDER_IMAGE_HEIGHT = '430';   // Admin PRODUCT SLIDER image height
+   public const ADMIN_PRODUCT_THUMB_IMAGE_WIDTH  = '80';   // Admin PRODUCT thumb image width
+   public const ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT = '80';   // Admin PRODUCT thumb image height
+   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_WIDTH  = '160';   // Admin PRODUCT LIST thumb image width
+   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_HEIGHT = '193';   // Admin PRODUCT LIST thumb image height
 
    public const UPLOADED_IMAGE_FILE_TYPES = ['jpeg', 'jpg', 'png', 'svg']; //Uploaded image file types
 
