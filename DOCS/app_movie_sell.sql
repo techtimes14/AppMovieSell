@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2020 at 07:45 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.10
+-- Generation Time: Jul 05, 2020 at 04:39 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -21,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `app_movie_sell`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_banners`
+--
+
+CREATE TABLE `ams_banners` (
+  `id` int(11) NOT NULL,
+  `title` text CHARACTER SET utf8mb4 NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_croatian_ci DEFAULT NULL,
+  `status` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
+
+--
+-- Dumping data for table `ams_banners`
+--
+
+INSERT INTO `ams_banners` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'tests', 'banner_1593807172.png', '1', '2020-07-03 14:41:38', '2020-07-03 14:42:53', NULL),
+(2, 'Musics', 'banner_1593807414.jpg', '0', '2020-07-03 14:46:54', '2020-07-03 14:48:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -58,14 +81,14 @@ CREATE TABLE `ams_cms` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `description2` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description2` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `meta_keyword` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `meta_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_banner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `updated_by` int(11) NOT NULL DEFAULT '1' COMMENT '1 = Super Admin',
+  `updated_by` int(11) NOT NULL DEFAULT 1 COMMENT '1 = Super Admin',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -90,6 +113,83 @@ INSERT INTO `ams_cms` (`id`, `name`, `slug`, `title`, `description`, `descriptio
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ams_products`
+--
+
+CREATE TABLE `ams_products` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `title` text CHARACTER SET utf8mb4 DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb4 NOT NULL,
+  `price` float(8,2) DEFAULT NULL,
+  `slug` varchar(200) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `status` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1' COMMENT '1=active, 0=inactive',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
+
+--
+-- Dumping data for table `ams_products`
+--
+
+INSERT INTO `ams_products` (`id`, `category_id`, `title`, `description`, `price`, `slug`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 2, 'ABCD', 'Best movie', 122.00, 'abcd', '1', '2020-07-04 05:49:26', '2020-07-04 06:16:23', NULL),
+(2, 2, 'test', '<p>tests</p>', 12.30, 'test', '1', '2020-07-04 05:53:04', '2020-07-04 07:02:07', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_product_features`
+--
+
+CREATE TABLE `ams_product_features` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `feature_label` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `feature_value` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
+
+--
+-- Dumping data for table `ams_product_features`
+--
+
+INSERT INTO `ams_product_features` (`id`, `product_id`, `feature_label`, `feature_value`) VALUES
+(38, 2, 'advance', '23311'),
+(39, 2, 'advance1', '2999554545454'),
+(41, 2, 'basics', 'gdfhdgg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_product_images`
+--
+
+CREATE TABLE `ams_product_images` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `image` varchar(200) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `default_image` enum('Y','N') CHARACTER SET utf32 NOT NULL DEFAULT 'N' COMMENT 'Y=Yes, N=No'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
+
+--
+-- Dumping data for table `ams_product_images`
+--
+
+INSERT INTO `ams_product_images` (`id`, `product_id`, `image`, `default_image`) VALUES
+(1, 1, 'product-6945061593943264637.png', 'N'),
+(4, 1, 'product-7265381593943264645.png', 'Y'),
+(6, 2, 'product-1234481593945591543.png', 'N'),
+(7, 2, 'product-9788801593945591546.png', 'N'),
+(8, 2, 'product-9017271593945591548.png', 'N'),
+(9, 2, 'product-6298101593945591550.png', 'N'),
+(10, 2, 'product-1623021593945591552.png', 'N'),
+(11, 2, 'product-9068931593945591553.jpg', 'Y'),
+(12, 2, 'product-4017491593945627605.png', 'N');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ams_roles`
 --
 
@@ -98,8 +198,8 @@ CREATE TABLE `ams_roles` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_admin` enum('1','0') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '1 = Yes, 0 = No',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -379,7 +479,7 @@ CREATE TABLE `ams_site_settings` (
   `from_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `to_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `website_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `website_link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `facebook_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `linkedin_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `youtube_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -389,11 +489,11 @@ CREATE TABLE `ams_site_settings` (
   `pinterest_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `instagram_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `default_meta_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `default_meta_keywords` text COLLATE utf8mb4_unicode_ci,
-  `default_meta_description` text COLLATE utf8mb4_unicode_ci,
-  `address` text COLLATE utf8mb4_unicode_ci,
+  `default_meta_keywords` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `default_meta_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `home_short_description` text COLLATE utf8mb4_unicode_ci
+  `home_short_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -401,7 +501,7 @@ CREATE TABLE `ams_site_settings` (
 --
 
 INSERT INTO `ams_site_settings` (`id`, `from_email`, `to_email`, `website_title`, `website_link`, `facebook_link`, `linkedin_link`, `youtube_link`, `googleplus_link`, `twitter_link`, `rss_link`, `pinterest_link`, `instagram_link`, `default_meta_title`, `default_meta_keywords`, `default_meta_description`, `address`, `phone_no`, `home_short_description`) VALUES
-(1, 'olivia@streamfit.ca', 'olivia@streamfit.ca', 'Olivia @ StreamFit', 'https://www.streamfit.ca', NULL, NULL, 'https://www.youtube.com/channel/UCn8wkUp38QDjl7iH-6NwyRg?view_as=subscriber', NULL, NULL, NULL, NULL, 'www.instagram.com/Streamfitca', 'Stream Fit', 'Stream Fit', 'Stream Fit', 'Toronto, Ontario', NULL, 'The Pride of a good sweat and the community of a fitness class');
+(1, 'martplace@yopmail.com', 'martplace@yopmail.com', 'Mart Place', '', NULL, NULL, 'https://www.youtube.com', NULL, NULL, NULL, NULL, 'www.instagram.com', 'Mart Place', 'Mart Place', 'Mart Place', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -414,8 +514,8 @@ CREATE TABLE `ams_tags` (
   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `status` enum('0','1') COLLATE utf8mb4_croatian_ci NOT NULL DEFAULT '1' COMMENT '1=Active,0=Inactive',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
 
@@ -424,8 +524,8 @@ CREATE TABLE `ams_tags` (
 --
 
 INSERT INTO `ams_tags` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Movie', 'movie', '1', '2020-06-30 17:37:03', '2020-06-30 17:38:18', NULL),
-(2, 'Mp3', 'mp3', '1', '2020-06-30 17:38:41', '2020-06-30 17:38:41', NULL);
+(1, 'Movie', 'movie', '1', '2020-06-30 12:07:03', '2020-06-30 12:08:18', NULL),
+(2, 'Mp3', 'mp3', '1', '2020-06-30 12:08:41', '2020-06-30 12:08:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -439,21 +539,26 @@ CREATE TABLE `ams_users` (
   `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `profile_pic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gender` enum('M','F','NB') COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'M=Male, F=Female, NB=Non-Binary',
   `role_id` int(11) DEFAULT NULL,
-  `agree` int(11) NOT NULL DEFAULT '1',
+  `agree` int(11) NOT NULL DEFAULT 1,
+  `postal_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_type` enum('N','G','AU') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT 'N=Normal User, G=Gmail user,AU=Affiliate User',
-  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name_on_card` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Name on card',
+  `card_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Card number',
+  `expiry_month` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Expiry month',
+  `expiry_year` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Expiry year',
+  `cvv` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'CVV number',
   `lastlogintime` int(11) DEFAULT NULL,
   `remember_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `auth_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('1','0') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -461,12 +566,47 @@ CREATE TABLE `ams_users` (
 -- Dumping data for table `ams_users`
 --
 
-INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `phone_no`, `profile_pic`, `password`, `gender`, `role_id`, `agree`, `user_type`, `google_id`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 'M', 1, 1, 'N', NULL, 1593536116, 'ZkQVTBjP9Y6FA6KJqG1uyUQKEwtRdhcKMeCGkmStEHJdDBhpg3UnVUI5KbtE', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', '2020-03-13 05:30:26', '2020-06-30 16:55:16', NULL);
+INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1593536116, 'ZkQVTBjP9Y6FA6KJqG1uyUQKEwtRdhcKMeCGkmStEHJdDBhpg3UnVUI5KbtE', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', '2020-03-13 05:30:26', '2020-06-30 16:55:16', NULL),
+(4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
+(5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_user_details`
+--
+
+CREATE TABLE `ams_user_details` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `author_bio` text DEFAULT NULL,
+  `billing_first_name` varchar(255) DEFAULT NULL,
+  `billing_last_name` varchar(255) DEFAULT NULL,
+  `billing_email` varchar(255) DEFAULT NULL,
+  `billing_country` int(11) DEFAULT NULL,
+  `billing_address_line_1` varchar(255) DEFAULT NULL,
+  `billing_address_line_2` varchar(255) DEFAULT NULL,
+  `billing_city` varchar(255) DEFAULT NULL,
+  `billing_postal_code` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ams_user_details`
+--
+
+INSERT INTO `ams_user_details` (`id`, `user_id`, `author_bio`, `billing_first_name`, `billing_last_name`, `billing_email`, `billing_country`, `billing_address_line_1`, `billing_address_line_2`, `billing_city`, `billing_postal_code`) VALUES
+(2, 4, 'Test about you', '111', '222', '222@yopmail.com', 2, '1212121212', '84849494', '877878787878787', '77777');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ams_banners`
+--
+ALTER TABLE `ams_banners`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ams_categories`
@@ -478,6 +618,24 @@ ALTER TABLE `ams_categories`
 -- Indexes for table `ams_cms`
 --
 ALTER TABLE `ams_cms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_products`
+--
+ALTER TABLE `ams_products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_product_features`
+--
+ALTER TABLE `ams_product_features`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_product_images`
+--
+ALTER TABLE `ams_product_images`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -511,8 +669,20 @@ ALTER TABLE `ams_users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ams_user_details`
+--
+ALTER TABLE `ams_user_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `ams_banners`
+--
+ALTER TABLE `ams_banners`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ams_categories`
@@ -525,6 +695,24 @@ ALTER TABLE `ams_categories`
 --
 ALTER TABLE `ams_cms`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `ams_products`
+--
+ALTER TABLE `ams_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `ams_product_features`
+--
+ALTER TABLE `ams_product_features`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `ams_product_images`
+--
+ALTER TABLE `ams_product_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ams_roles`
@@ -554,7 +742,13 @@ ALTER TABLE `ams_tags`
 -- AUTO_INCREMENT for table `ams_users`
 --
 ALTER TABLE `ams_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `ams_user_details`
+--
+ALTER TABLE `ams_user_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
