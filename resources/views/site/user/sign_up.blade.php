@@ -85,6 +85,15 @@
                                                                  )) }}
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="con_pass">Referral Code</label>
+                                    {{ Form::text('referral_code', null, array(
+                                                                'id' => 'referral_code',
+                                                                'placeholder' => 'Enter your referral code',
+                                                                'class' => 'text_field',
+                                                                 )) }}
+                                </div>
+
                                 <button class="btn btn--md btn--round register_btn" type="submit">Register Now</button>
 
                                 <div class="login_assist">
