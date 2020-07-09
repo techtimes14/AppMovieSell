@@ -129,6 +129,28 @@
     @endif
     <!-- Banner management End -->
 
+    <!-- Banner management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.service.list',$getAllRoles) || in_array('admin.service.add',$getAllRoles) || (in_array('admin.service.list',$getAllRoles) && in_array('admin.service.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.service.list' || Route::current()->getName() == 'admin.service.add' || Route::current()->getName() == 'admin.service.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                <span>Service Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.service.list' || Route::current()->getName() == 'admin.service.add' || Route::current()->getName() == 'admin.service.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.service.list',$getAllRoles) || (in_array('admin.service.list',$getAllRoles) && in_array('admin.service.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.service.list')class="active" @endif><a href="{{ route('admin.service.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.service.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.service.add')class="active" @endif><a href="{{ route('admin.service.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Banner management End -->
+
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))
