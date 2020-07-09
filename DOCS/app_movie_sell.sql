@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2020 at 04:39 PM
+-- Generation Time: Jul 09, 2020 at 08:31 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -557,6 +557,8 @@ CREATE TABLE `ams_users` (
   `auth_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('1','0') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `referral_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `referred_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -566,10 +568,11 @@ CREATE TABLE `ams_users` (
 -- Dumping data for table `ams_users`
 --
 
-INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1593536116, 'ZkQVTBjP9Y6FA6KJqG1uyUQKEwtRdhcKMeCGkmStEHJdDBhpg3UnVUI5KbtE', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', '2020-03-13 05:30:26', '2020-06-30 16:55:16', NULL),
-(4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
-(5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL);
+INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `referral_code`, `referred_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1593960419, 'ZkQVTBjP9Y6FA6KJqG1uyUQKEwtRdhcKMeCGkmStEHJdDBhpg3UnVUI5KbtE', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-05 14:46:59', NULL),
+(4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', NULL, NULL, '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
+(5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL),
+(6, 'Dean', 'Elgar', 'Dean Elgar', 'dean@yopmail.com', 'dean', NULL, NULL, '$2y$10$osjBmcePMg/xZsR9XnWTx.oTVQusjLtI0H./Q/XLo9hfA.NWEXk2.', NULL, 1, NULL, 'N', 'Dean Elgar', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593965008, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-05 15:59:46', '2020-07-05 16:03:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -742,7 +745,7 @@ ALTER TABLE `ams_tags`
 -- AUTO_INCREMENT for table `ams_users`
 --
 ALTER TABLE `ams_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ams_user_details`
