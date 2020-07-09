@@ -10045,11 +10045,20 @@ span.counter {
   display: block;
   clear: both;
 }
-.affilated_dashboard .estimate_section{display: flex; flex-wrap: wrap; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid #d3d3d3;}
+.affilated_dashboard .estimate_section{display: flex; flex-wrap: wrap; padding-bottom: 30px; margin-bottom: 0; border-bottom: 1px solid #d3d3d3;}
 .affilated_dashboard .estimate_section .estimate_earning{padding-right: 20px; margin-right: 20px; border-right: 1px solid #d3d3d3;}
 .affilated_dashboard .estimate_section .estimate_earning:last-child{padding-right: 0; margin-right: 0; border-width: 0;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td{font-weight: bold; padding: 0 12px;}
+.affilated_dashboard .estimate_section .estimate_earning table tr td:first-child{padding-left: 0;}
+.affilated_dashboard .estimate_section .estimate_earning table tr td:last-child{padding-right: 0;}
+.estimate_earning h3{margin-bottom: 25px;}
+.invitation_sec{color: #fff; text-align: right;}
+.invitation_sec h2{margin-bottom: 15px;}
+.invitation_sec span{margin-right: 10px;}
+.invitation_sec i{cursor: pointer;}
 .affilated_dashboard .estimate_section .estimate_earning table tr td span{display: block; font-weight: normal;}
+.affilated_dashboard .estimate_section .estimate_earning table tr td span:first-of-type{margin-top: 8px;}
+#curve_chart{height: 600px;}
 .single_item_visitor .dashboard__title {
   border-bottom: 0;
 }
@@ -10090,7 +10099,33 @@ span.counter {
   font-size: 15px;
   line-height: 30px;
 }
+/*  Service PAGE */
+.services_section .service_sec{display: flex; align-items: center; margin-bottom: 80px; flex-wrap: wrap; flex-direction: row; justify-content: space-between;}
+.services_section .service_sec:nth-child(even){flex-direction: row-reverse;}
+.services_section .service_sec:last-child{margin-bottom: 0;}
+.services_section .service_sec figure{width: 26%; position: relative; overflow: hidden; box-shadow: 0 0 10px rgba(6, 166, 236, 0.4); border: 6px solid #0674ec; padding-top: 25%; -webkit-border-radius: 50%; border-radius: 50%;}
+.services_section .service_sec figure img{position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover; object-position: center;}
+.services_section .service_sec .service_content{width: 70%;}
+.services_section .service_sec .service_content h2{margin-bottom: 20px;}
 
+.membership_section .row{justify-content: center;}
+/* Legal PAGE */
+.legal_section .legal_contents{margin-bottom: 35px;}
+.legal_section .legal_contents h3{margin-bottom: 15px;}
+.legal_section .legal_contents ul li{margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;}
+  .legal_section .legal_contents ul li:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background: #7347c1;
+}
+.legal_section .legal_contents:last-child{margin-bottom: 0;}
 /*  recent buyers */
 .recent_buyers .single_buyer {
   overflow: hidden;
@@ -14040,6 +14075,9 @@ a.info:hover {color: #fff;}
   }
   .product.product--list .product__details {
     padding: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   }
   .product.product--list .product__details .product-desc, .product.product--list .product__details .product-meta, .product.product--list .product__details .product-purchase {
     float: left;
@@ -14205,6 +14243,8 @@ a.info:hover {color: #fff;}
   .mainmenu__menu .navbar-nav > li {
     margin-right: 20px;
   }
+  .product--list .product__thumbnail{float: none;}
+  .product.product--list .product__details{display: flex; flex-wrap: wrap; align-items: center;}
   .author-area .searchbox-open {width: 237px !important;}
 
   .mainmenu__menu .navbar-nav > li a {
@@ -14291,6 +14331,8 @@ a.info:hover {color: #fff;}
     right: 0;
     bottom: 0;
   }
+  .affilated_signup_content{width: 78%; margin: 0 auto 50px;}
+  #curve_chart{height: 480px;}
 }
 
 /* 768 TO 992*/
@@ -14658,17 +14700,30 @@ a.info:hover {color: #fff;}
         -ms-flex-pack: start;
             justify-content: flex-start;
   }
+  .invitation_sec{text-align: left; margin-top: 20px;}
+  .breadcrumb-area .invitation_sec .page-title{margin-bottom: 5px;}
+  .hero-area + section{padding-top: 95px;}
   .dashboard-area.dashboard_purchase .dashboard_menu li,
   .dashboard_menu_area .dashboard_menu li {
     margin-right: 15px;
   }
+  #curve_chart{height: 350px;}
+  .affilated_dashboard .estimate_section .estimate_earning{padding-right: 0; margin-right: 0; padding-bottom: 20px; margin-bottom: 20px; border-right-width: 0; border-bottom: 1px solid #d3d3d3;}
+  .affilated_dashboard .estimate_section .estimate_earning:last-child{padding-bottom: 0; margin-bottom: 0;}
+  .badges.author-rank{padding: 70px 0 40px 0;}
+  .content_block1 .content_area, .content_block2 .content_area, .content_block2 .content_area2{padding: 20% 0;}
   .dashboard-area.dashboard_purchase .dashboard_menu li + li,
   .dashboard_menu_area .dashboard_menu li + li {
     margin-left: 0;
   }
+  .services_section .service_sec{display: block; margin-bottom: 55px;}
+  .services_section .service_sec figure{margin: 0 auto 30px; width: 54%; padding-top: 51%;}
+  .services_section .service_sec .service_content{width: 100%; text-align: center;}
   .upload_wrapper .progress_wrapper {
     padding: 15px 35px 0 0;
   }
+  .affilated_signup_content{width: 100%;}
+ 
   .how_it_works_module .area_image {
     margin: 30px 0;
   }
@@ -15524,6 +15579,7 @@ a.info:hover {color: #fff;}
   .upload_wrapper .progress_wrapper {
     width: 80%;
   }
+  .hero-area + section{padding-top: 65px;}
   .invoice .invoice__meta .address {
     width: 100%;
   }
@@ -15531,10 +15587,13 @@ a.info:hover {color: #fff;}
     width: 100%;
     text-align: left;
   }
+  .services_section .service_sec figure{width: 90%; padding-top: 90%;}
+  .content_block1 .content_area, .content_block2 .content_area, .content_block2 .content_area2{padding: 16% 0;}
   /* section padding */
   .section--padding {
     padding: 80px 0;
   }
+  .badges.author-rank{padding: 50px 0 25px 0;}
   .xs-fullwidth {
     width: 100%;
   }
