@@ -14,6 +14,7 @@ include('admin.php');
 
 Route::group(['namespace' => 'site', 'as' => 'site.'], function () {    
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/about-us', 'HomeController@aboutUs')->name('about-us');
 
     /* User */
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

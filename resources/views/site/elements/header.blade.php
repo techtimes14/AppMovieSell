@@ -135,7 +135,7 @@
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="active"><a href="{{url('/')}}">HOME</a></li>
-								<li><a href="about.html">About us</a></li>
+								<li @if(Route::current()->getName() == 'site.about-us')><a href="{{route('site.about-us')}}">About us</a></li>
 								<li><a href="javascript:void(0);">Services</a></li>
 								<li><a href="javascript:void(0);">Contact</a></li>
 								<li><a href="javascript:void(0);">Legal</a></li>									
