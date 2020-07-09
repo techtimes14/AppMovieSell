@@ -129,11 +129,11 @@
     @endif
     <!-- Banner management End -->
 
-    <!-- Banner management Start -->
+    <!-- Service management Start -->
     @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.service.list',$getAllRoles) || in_array('admin.service.add',$getAllRoles) || (in_array('admin.service.list',$getAllRoles) && in_array('admin.service.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.service.list' || Route::current()->getName() == 'admin.service.add' || Route::current()->getName() == 'admin.service.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                <i class="fa fa-cubes" aria-hidden="true"></i>
                 <span>Service Management</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
@@ -149,7 +149,7 @@
             </ul>
         </li>
     @endif
-    <!-- Banner management End -->
+    <!-- Service management End -->
 
     
     <!-- Website management start -->    

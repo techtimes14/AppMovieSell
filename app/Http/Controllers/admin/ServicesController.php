@@ -189,7 +189,7 @@ class ServicesController extends Controller
                         $request->session()->flash('alert-success', 'Service has been updated successfully');
                         return redirect()->route('admin.service.list', ['page' => $pageNo]);
                     } else {
-                        $request->session()->flash('alert-danger', 'An error took place while updating the service');
+                        $request->session()->flash('alert-danger', 'An error occurred while updating the service');
                         return redirect()->route('admin.service.list', ['page' => $pageNo]);
                     }
                 }
