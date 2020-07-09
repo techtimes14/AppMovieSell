@@ -32,7 +32,7 @@ class UsersController extends Controller
     {
         $pageTitle = 'Signup';
         $cmsData = $metaData = Helper::getMetaData();
-
+        
         if (Auth::guard('web')->check()) {
             return redirect()->route('site.home');
         }
@@ -62,6 +62,19 @@ class UsersController extends Controller
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
+                $referralCode   = $request->referral_code ? $request->referral_code : '';
+                $referredBy     = null;
+                if ($referralCode != '') {
+                    $getData = User::where('referral_code', $referralCode)->first();
+                    if ($getData == null) {
+                        $request->session()->flash('alert-danger', 'Invalid referral code');
+                        return Redirect::back()->withErrors($Validator)->withInput();
+                    } else {
+                        $referredBy = $getData->id;
+                    }
+                } else {
+                    $referralCode = Helper::generateReferralCode();
+                }
                 $password = $request->password;
 
                 Session::put([
@@ -69,6 +82,8 @@ class UsersController extends Controller
                     'email'         => trim($request->email, ' '),
                     'user_name'     => trim($request->user_name, ' '),
                     'password'      => $password,
+                    'referral_code' => $referralCode,
+                    'referred_by'   => $referredBy,
                 ]);
 
                 if (Session::get('full_name') != '' && Session::get('email') != '') {
@@ -148,6 +163,8 @@ class UsersController extends Controller
                     $newUser->email                 = Session::get('email');
                     $newUser->user_name             = Session::get('user_name');
                     $newUser->password              = Session::get('password');
+                    $newUser->referral_code         = Session::get('referral_code') ? Session::get('referral_code') : Helper::generateReferralCode();
+                    $newUser->referred_by           = Session::get('referred_by') ? Session::get('referred_by') : null;
                     $newUser->name_on_card          = $request->name_on_card;
                     $newUser->expiry_month          = Helper::customEncryptionDecryption($request->card_number);
                     $newUser->expiry_year           = Helper::customEncryptionDecryption($request->expiry_month);
@@ -191,6 +208,7 @@ class UsersController extends Controller
                             'email'         => '',
                             'user_name'     => '',
                             'password'      => '',
+                            'referral_code' => '',
                         ]);
     
                         $request->session()->flash('alert-success', 'Thank you for registering with us');
