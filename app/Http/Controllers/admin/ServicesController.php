@@ -28,6 +28,9 @@ class ServicesController extends Controller
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
+            $pageNo = $request->input('page');
+            Session::put('pageNo',$pageNo);
+
             $query = Service::whereNull('deleted_at');
 
             $data['searchText'] = $key = $request->searchText;
@@ -211,24 +214,20 @@ class ServicesController extends Controller
             }
             $details = Service::where('id', $id)->first();
             if ($details != null) {
-                if ($details->status == 1) {
-                    
+                if ($details->status == 1) {                    
                     $details->status = '0';
                     $details->save();
                         
-                    $request->session()->flash('alert-success', 'Status updated successfully');                 
-                    return redirect()->back();
-
+                    $request->session()->flash('alert-success', 'Status updated successfully');
                 } else if ($details->status == 0) {
                     $details->status = '1';
                     $details->save();
 
                     $request->session()->flash('alert-success', 'Status updated successfully');
-                    return redirect()->back();
                 } else {
-                    $request->session()->flash('alert-danger', 'Something went wrong');
-                    return redirect()->back();
+                    $request->session()->flash('alert-danger', 'Something went wrong, please try again later');
                 }
+                return redirect()->back();
             } else {
                 return redirect()->route('admin.service.list')->with('error', 'Invalid service');
             }
@@ -251,21 +250,16 @@ class ServicesController extends Controller
 
             $details = Service::where('id', $id)->first();
             if ($details != null) {
-
-               
-                    $delete = $details->delete();
-                    if ($delete) {
-                        $request->session()->flash('alert-danger', 'Service has been deleted successfully');
-                    } else {
-                        $request->session()->flash('alert-danger', 'An error occurred while deleting the service');
-                    }
-                
-                return redirect()->back();
-                
+                $delete = $details->delete();
+                if ($delete) {
+                    $request->session()->flash('alert-danger', 'Service has been deleted successfully');
+                } else {
+                    $request->session()->flash('alert-danger', 'An error occurred while deleting the service');
+                }
             } else {
-                $request->session()->flash('alert-danger', 'Invalid service');
-                return redirect()->back();
+                $request->session()->flash('alert-danger', 'Invalid service');                
             }
+            return redirect()->back();
         } catch (Exception $e) {
             return redirect()->route('admin.service.list')->with('error', $e->getMessage());
         }
