@@ -51,7 +51,7 @@
                                                                 'placeholder' => 'Image',
                                                                 'required' => 'required' )) }}
                                     </div>
-                                    <span>Select file dimensions {{AdminHelper::ADMIN_BANNER_THUMB_IMAGE_WIDTH}}px X {{AdminHelper::ADMIN_BANNER_THUMB_IMAGE_HEIGHT}}px</span>
+                                    <span>Select file dimensions {{AdminHelper::ADMIN_SERVICE_THUMB_IMAGE_WIDTH}}px X {{AdminHelper::ADMIN_SERVICE_THUMB_IMAGE_HEIGHT}}px</span>
                                 
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                               <a class="btn btn-block btn-default btn_width_reset" href="{{route('admin.banner.list')}}">Cancel</a>
+                               <a class="btn btn-block btn-default btn_width_reset" href="{{route('admin.service.list')}}">Cancel</a>
                             </div>                            
                         </div>
                     </div>
