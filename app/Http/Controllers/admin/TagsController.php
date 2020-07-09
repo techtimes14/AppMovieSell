@@ -24,6 +24,8 @@ class TagsController extends Controller
         
         try
         {
+            $pageNo = $request->input('page');
+            Session::put('pageNo',$pageNo);
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
@@ -139,8 +141,8 @@ class TagsController extends Controller
                         $request->session()->flash('alert-success', 'Tag has been updated successfully');
                         return redirect()->route('admin.tag.list', ['page' => $pageNo]);
                     } else {
-                        $request->session()->flash('alert-danger', 'An error took place while updating the tag');
-                        return redirect()->route('admin.tag.list', ['page' => $pageNo]);
+                        $request->session()->flash('alert-danger', 'An error occurred while updating the tag');
+                        return redirect()->back();
                     }
                 }
             }
@@ -173,18 +175,16 @@ class TagsController extends Controller
                     $details->save();
                         
                     $request->session()->flash('alert-success', 'Status updated successfully');                 
-                    return redirect()->back();
-
-                } else if ($details->status == 0) {
+                     } else if ($details->status == 0) {
                     $details->status = '1';
                     $details->save();
-
                     $request->session()->flash('alert-success', 'Status updated successfully');
-                    return redirect()->back();
+                   
                 } else {
                     $request->session()->flash('alert-danger', 'Something went wrong');
-                    return redirect()->back();
+                    
                 }
+                return redirect()->back();
             } else {
                 return redirect()->route('admin.tag.list')->with('error', 'Invalid tag');
             }
@@ -207,21 +207,17 @@ class TagsController extends Controller
 
             $details = Tag::where('id', $id)->first();
             if ($details != null) {
-
-               
                     $delete = $details->delete();
                     if ($delete) {
                         $request->session()->flash('alert-danger', 'Tag has been deleted successfully');
                     } else {
                         $request->session()->flash('alert-danger', 'An error occurred while deleting the tag');
                     }
-                
-                return redirect()->back();
-                
             } else {
                 $request->session()->flash('alert-danger', 'Invalid tag');
-                return redirect()->back();
+                
             }
+            return redirect()->back();
         } catch (Exception $e) {
             return redirect()->route('admin.tag.list')->with('error', $e->getMessage());
         }
