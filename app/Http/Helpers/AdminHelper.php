@@ -36,6 +36,9 @@ class AdminHelper
    public const ADMIN_SERVICE_THUMB_IMAGE_WIDTH  = '385';   // Admin PRODUCT LIST thumb image width
    public const ADMIN_SERVICE_THUMB_IMAGE_HEIGHT = '300';   // Admin PRODUCT LIST thumb image height
 
+   public const ADMIN_CONTACTWIDGET_THUMB_IMAGE_WIDTH  = '50';   // Admin PRODUCT LIST thumb image width
+   public const ADMIN_CONTACTWIDGET_THUMB_IMAGE_HEIGHT = '50';   // Admin PRODUCT LIST thumb image height
+
    public const UPLOADED_IMAGE_FILE_TYPES = ['jpeg', 'jpg', 'png', 'svg']; //Uploaded image file types
 
    

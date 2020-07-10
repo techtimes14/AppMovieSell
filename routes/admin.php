@@ -110,6 +110,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/delete/{id}', 'ServicesController@delete')->name('delete')->where('id','[0-9]+');
         });
 
+        Route::group(['prefix' => 'contactwidget', 'as' => 'contactwidget.'], function () {
+            Route::get('/', 'ContactwidgetsController@list')->name('list');
+            Route::get('/add', 'ContactwidgetsController@add')->name('add');
+            Route::post('/add-submit', 'ContactwidgetsController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'ContactwidgetsController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'ContactwidgetsController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'ContactwidgetsController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'ContactwidgetsController@delete')->name('delete')->where('id','[0-9]+');
+        });
+
 
     
 		

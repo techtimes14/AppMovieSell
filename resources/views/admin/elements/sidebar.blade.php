@@ -151,6 +151,28 @@
     @endif
     <!-- Service management End -->
 
+    <!-- Contactwidget management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.contactwidget.list',$getAllRoles) || in_array('admin.contactwidget.add',$getAllRoles) || (in_array('admin.contactwidget.list',$getAllRoles) && in_array('admin.contactwidget.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.contactwidget.list' || Route::current()->getName() == 'admin.contactwidget.add' || Route::current()->getName() == 'admin.contactwidget.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-address-card" aria-hidden="true"></i>
+                <span>Contactwidget Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.contactwidget.list' || Route::current()->getName() == 'admin.contactwidget.add' || Route::current()->getName() == 'admin.contactwidget.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.contactwidget.list',$getAllRoles) || (in_array('admin.contactwidget.list',$getAllRoles) && in_array('admin.contactwidget.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.contactwidget.list')class="active" @endif><a href="{{ route('admin.contactwidget.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.contactwidget.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.contactwidget.add')class="active" @endif><a href="{{ route('admin.contactwidget.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Contactwidget management End -->
+
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))
