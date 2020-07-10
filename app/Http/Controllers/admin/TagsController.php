@@ -26,6 +26,7 @@ class TagsController extends Controller
         {
             $pageNo = $request->input('page');
             Session::put('pageNo',$pageNo);
+
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
@@ -66,7 +67,7 @@ class TagsController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'name' => 'required|min:2|max:255|unique:'.(new Tag)->getTable().',name',
+                    'name' => 'required|min:2|max:255|unique:'.(new Tag)->getTable().',name,NULL,NULL,deleted_at,NULL',
 				);
 				$validationMessages = array(
 					'name.required'    => 'Please enter name',
@@ -118,7 +119,7 @@ class TagsController extends Controller
                     return redirect()->route('admin.tag.list');
                 }
                 $validationCondition = array(
-                    'name'         => 'required|min:2|max:255|unique:' .(new Tag)->getTable().',name,' .$id,
+                    'name'         => 'required|min:2|max:255|unique:' .(new Tag)->getTable().',name,'.$id.',id,deleted_at,NULL',
                 );
                 $validationMessages = array(
                     'name.required'    => 'Please enter name',
