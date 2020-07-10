@@ -25,6 +25,8 @@ class CmsController extends Controller
     function list(Request $request) {
         $data['page_title'] = 'CMS List';
         $data['panel_title']= 'CMS List';
+        $pageNo = $request->input('page');
+        Session::put('pageNo',$pageNo);
         $data['listData']   = Cms::orderBy('id','asc');
         $data['searchText'] = $key = $request->searchText; //search text for searching facility
         if ($key) {
@@ -121,8 +123,8 @@ class CmsController extends Controller
                         $request->session()->flash('alert-success', 'Cms data has been updated successfully');
                         return redirect()->route('admin.CMS.list', ['page' => $pageNo]);
                     } else {
-                        $request->session()->flash('alert-danger', 'An error took place while updating the cms');
-                        return redirect()->route('admin.CMS.list', ['page' => $pageNo]);
+                        $request->session()->flash('alert-danger', 'An error occurred while updating the cms');
+                        return redirect()->back();
                     }
                 }
             }                

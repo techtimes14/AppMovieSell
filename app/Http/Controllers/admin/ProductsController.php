@@ -31,6 +31,8 @@ class ProductsController extends Controller
         
         try
         {
+            $pageNo = $request->input('page');
+            Session::put('pageNo',$pageNo);
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
@@ -191,8 +193,8 @@ class ProductsController extends Controller
                         $request->session()->flash('alert-success', 'Product has been updated successfully');
                         return redirect()->route('admin.product.list', ['page' => $pageNo]);
                     } else {
-                        $request->session()->flash('alert-danger', 'An error took place while updating the product');
-                        return redirect()->route('admin.product.list', ['page' => $pageNo]);
+                        $request->session()->flash('alert-danger', 'An error occurred while updating the product');
+                        return redirect()->back();
                     }
                 }
             }
@@ -224,22 +226,21 @@ class ProductsController extends Controller
                     $details->status = '0';
                     $details->save();
                         
-                    $request->session()->flash('alert-success', 'Status updated successfully');                 
-                    return redirect()->back();
-
+                    $request->session()->flash('alert-success', 'Status updated successfully'); 
                 } else if ($details->status == 0) {
                     $details->status = '1';
                     $details->save();
 
                     $request->session()->flash('alert-success', 'Status updated successfully');
-                    return redirect()->back();
                 } else {
                     $request->session()->flash('alert-danger', 'Something went wrong');
-                    return redirect()->back();
                 }
+                
+                return redirect()->back();
             } else {
                 return redirect()->route('admin.product.list')->with('error', 'Invalid product');
             }
+
         } catch (Exception $e) {
             return redirect()->route('admin.product.list')->with('error', $e->getMessage());
         }
@@ -267,13 +268,11 @@ class ProductsController extends Controller
                     } else {
                         $request->session()->flash('alert-danger', 'An error occurred while deleting the product');
                     }
-                
-                return redirect()->back();
-                
             } else {
                 $request->session()->flash('alert-danger', 'Invalid product');
-                return redirect()->back();
+                
             }
+            return redirect()->back();
         } catch (Exception $e) {
             return redirect()->route('admin.product.list')->with('error', $e->getMessage());
         }

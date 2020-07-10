@@ -687,9 +687,6 @@ $(document).ready(function() {
                 required: true,
                 minlength: 2
             },
-            image: {
-                required: true,
-            },
         },
         messages: {
             title: {
@@ -700,9 +697,6 @@ $(document).ready(function() {
             description: {
                 required: "Please enter description",
                 minlength: "Description should be atleast 2 characters"
-            },
-            image: {
-                required: "Please enter image",
             },
         },
         errorPlacement: function(error, element) {
