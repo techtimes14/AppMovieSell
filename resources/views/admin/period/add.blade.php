@@ -7,7 +7,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{route('admin.packagePeriod.list')}}"><i class="fa fa-clock-o"></i> Pakage Period List</a></li>
+        <li><a href="{{route('admin.period.list')}}"><i class="fa fa-clock-o"></i> Period List</a></li>
         <li class="active">{{ $page_title }}</li>
     </ol>
 </section>
@@ -23,16 +23,16 @@
                 {{ Form::open(array(
 		                            'method'=> 'POST',
 		                            'class' => '',
-                                    'route' => ['admin.packagePeriod.addsubmit'],
-                                    'name'  => 'addPackagePeriodForm',
-                                    'id'    => 'addPackagePeriodForm',
+                                    'route' => ['admin.period.addsubmit'],
+                                    'name'  => 'addPeriodForm',
+                                    'id'    => 'addPeriodForm',
                                     'files' => true,
 		                            'novalidate' => true)) }}
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="Title">Title (English)<span class="red_star">*</span></label>
+                                    <label for="Title">Title<span class="red_star">*</span></label>
                                     {{ Form::text('title', null, array(
                                                                 'id' => 'title',
                                                                 'class' => 'form-control',
@@ -40,20 +40,6 @@
                                                                 'required' => 'required' )) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="TitleArabic">Title (Arabic)<span class="red_star">*</span></label>
-                                    {{ Form::text('title_ar', null, array(
-                                                                'id' => 'title_ar',
-                                                                'class' => 'form-control',
-                                                                'dir' => 'rtl',
-                                                                'placeholder' => 'Title',
-                                                                'required' => 'required' )) }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Title">Period<span class="red_star">*</span></label>
@@ -66,13 +52,13 @@
                                     <div id="period_error_message"></div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('admin.packagePeriod.list') }}" class="btn btn-block btn-default btn_width_reset">Cancel</a>
+                                <a href="{{ route('admin.period.list') }}" class="btn btn-block btn-default btn_width_reset">Cancel</a>
                             </div>
                         </div>
                     </div>

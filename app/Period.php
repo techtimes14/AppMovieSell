@@ -9,7 +9,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PackagePeriod extends Model
+class Period extends Model
 {
     use SoftDeletes;    
 }

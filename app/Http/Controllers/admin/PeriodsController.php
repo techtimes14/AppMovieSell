@@ -127,7 +127,7 @@ class PeriodsController extends Controller
                 }
                 // Checking validation
                 $validationCondition = array(
-                    'title'         => 'required|min:2|max:255|unique:' .(new PackagePeriod)->getTable().',title,' .$id.',id,deleted_at,NULL','period'        => 'required|regex:/^[0-9]+$/',
+                    'title'         => 'required|min:2|max:255|unique:' .(new Period)->getTable().',title,' .$id.',id,deleted_at,NULL','period'        => 'required|regex:/^[0-9]+$/',
                 );
                 $validationMessages = array(
                     'title.required'    => 'Please enter title',
@@ -222,7 +222,7 @@ class PeriodsController extends Controller
                 return redirect()->route('admin.period.list');
             }
 
-            $details = PackagePeriod::where('id', $id)->first();
+            $details = Period::where('id', $id)->first();
             if ($details != null) {
                 // Checking this package period is already assigned to Package duration
                 // $packageDurationCount = PackageDuration::where('package_period_id', $id)->count();

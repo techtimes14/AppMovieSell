@@ -788,6 +788,81 @@ $(document).ready(function() {
     });
     /* Contactwidget end */
 
+    /* Period start */
+    $("#addPeriodForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            period: {
+                required: true,
+                valid_positive_number: true
+            }
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            period: {
+                required: "Please enter period",
+                valid_positive_number: "Period must consist only numbers"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if ($(element).attr('id') == 'period') {
+                error.appendTo('#period_error_message');
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#updatePeriodForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            period: {
+                required: true,
+                valid_positive_number: true
+            }
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            period: {
+                required: "Please enter period",
+                valid_positive_number: "Period must consist only numbers"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if ($(element).attr('id') == 'period') {
+                error.appendTo('#period_error_message');
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* Package period end */
     
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({

@@ -120,6 +120,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/delete/{id}', 'ContactwidgetsController@delete')->name('delete')->where('id','[0-9]+');
         });
 
+        Route::group(['prefix' => 'period', 'as' => 'period.'], function () {
+            Route::get('/', 'PeriodsController@list')->name('list');
+            Route::get('/add', 'PeriodsController@add')->name('add');
+            Route::post('/add-submit', 'PeriodsController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'PeriodsController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'PeriodsController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'PeriodsController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'PeriodsController@delete')->name('delete')->where('id','[0-9]+');
+        });
+
 
     
 		
