@@ -218,12 +218,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="PhoneNumber">Home Page Short Description</label>
+                                    <label for="PhoneNumber">Footer Short Description</label>
                                     {{ Form::textarea('home_short_description', $data['home_short_description'], array(
                                                                 'id' => 'home_short_description',
                                                                 'class' => 'form-control',
                                                                 'rows' => 4,
-                                                                'placeholder' => 'Home Page Short Description' )) }}
+                                                                'placeholder' => 'Footer Short Description' )) }}
                                 </div>
                             </div>
                         </div>

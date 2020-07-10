@@ -107,7 +107,7 @@ class CmsController extends Controller
                         @unlink($thumbImage);
                     }
 
-                    $newSlug = Helper::generateUniqueSlug(new Cms(), $request->name, $id);
+                    $newSlug = Helper::generateUniqueSlug(new Cms(), $request->title, $id);
                     $updateCmsData['name']              = $request->name;
                     $updateCmsData['slug']              = $newSlug;
                     $updateCmsData['title']             = $request->title;

@@ -33,20 +33,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="Name">Name<span class="red_star">*</span></label>
-                                    {{ Form::text('name', $details->name, array(
-                                                                'class' => 'form-control',
-                                                                'placeholder' => 'Name',
-                                                                'required' => 'required' )) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label for="NameArabic">Title<span class="red_star">*</span></label>
                                     {{ Form::text('title', $details->title, array(
                                                                 'class' => 'form-control',
                                                                 'placeholder' => 'Name',
                                                                 'required' => 'required')) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Name">Name<span class="red_star">*</span></label>
+                                    {{ Form::text('name', $details->name, array(
+                                                                'class' => 'form-control',
+                                                                'placeholder' => 'Name',
+                                                                'required' => 'required' )) }}
                                 </div>
                             </div>
                         </div>

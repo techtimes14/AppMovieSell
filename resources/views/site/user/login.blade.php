@@ -10,7 +10,7 @@
     =================================-->
 
     <!--================================
-            START LOGIN AREA
+        START LOGIN AREA
     =================================-->
     <section class="login_area section--padding2">
         <div class="container">

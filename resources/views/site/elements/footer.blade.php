@@ -1,3 +1,6 @@
+<?php
+$siteSetting = Helper::getSiteSettings();
+?>
 <footer class="footer-area">
     <div class="footer-big section--padding">
         <!-- start .container -->
@@ -8,8 +11,7 @@
                         <div class="info__logo">
                             <img src="{{asset('images/site/flogo.png')}}" alt="footer logo">
                         </div>
-                        <p class="info--text pr-md-5">Nunc placerat mi id nisi interdum they mollis. Praesent pharetra, justo ut scel erisque the mattis,
-                            leo quam.</p>
+                        <p class="info--text pr-md-5">{!!$siteSetting->home_short_description!!}</p>
                         
                     </div>
                     <!-- end /.info-footer -->
@@ -38,15 +40,15 @@
                         <ul class="info-contact mb-5">
                             <li>
                                 <span class="lnr lnr-phone info-icon"></span>
-                                <a href="tel:67898752235" class="info">Phone: +6789-875-2235</a>
+                                <a href="tel:67898752235" class="info">Phone: {{$siteSetting->phone_no}}</a>
                             </li>
                             <li>
                                 <span class="lnr lnr-envelope info-icon"></span>
-                                <a href="mailto:support@aazztech.com" class="info">support@aazztech.com</span>
+                                <a href="mailto:{{$siteSetting->from_email}}" class="info">{{$siteSetting->home_short_description}}</span>
                             </li>
                             <li>
                                 <span class="lnr lnr-map-marker info-icon"></span>
-                                <span class="info">202 New Hampshire Avenue Northwest #100, New York-2573</span>
+                                <span class="info">{!!$siteSetting->address!!}</span>
                             </li>
                         </ul>
 
@@ -54,28 +56,28 @@
                         <div class="social social--color--filled">
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href="{!!$siteSetting->facebook_link!!}" target="_blank">
                                         <span class="fa fa-facebook"></span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{!!$siteSetting->twitter_link!!}" target="_blank">
                                         <span class="fa fa-twitter"></span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{!!$siteSetting->googleplus_link!!}" target="_blank">
                                         <span class="fa fa-google-plus"></span>
                                     </a>
                                 </li>
                                 
                                 <li>
-                                    <a href="#">
+                                    <a href="{!!$siteSetting->linkedin_link!!}" target="_blank">
                                         <span class="fa fa-linkedin"></span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{!!$siteSetting->instagram_link!!}" target="_blank">
                                         <span class="fa fa-instagram"></span>
                                     </a>
                                 </li>

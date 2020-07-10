@@ -25,14 +25,15 @@ class ProductsController extends Controller
     /*****************************************************/
     public function marketPlace()
     {
-        $homeData       = Helper::getData('cms', '1');
-        $siteSetting    = Helper::getSiteSettings();
+        $marketPlaceData    = Helper::getData('cms', '6');
+        $siteSetting        = Helper::getSiteSettings();
 
-        return view('site.home',[
-            'title'                 => $homeData['title'], 
-            'keyword'               => $homeData['keyword'], 
-            'description'           => $homeData['description'],
-            'siteSetting'           => $siteSetting,
+        return view('site.product',[
+            'pageTitle'     => $marketPlaceData['title'],
+            'title'         => $marketPlaceData['meta_title'],
+            'keyword'       => $marketPlaceData['meta_keyword'], 
+            'description'   => $marketPlaceData['meta_description'],
+            'siteSetting'   => $siteSetting,
             ]);
     }    
 

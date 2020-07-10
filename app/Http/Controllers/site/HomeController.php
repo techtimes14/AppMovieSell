@@ -18,6 +18,7 @@ use App\SiteSetting;
 use App\Cms;
 Use App\User;
 Use App\Banner;
+Use App\Service;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -36,13 +37,14 @@ class HomeController extends Controller
         $siteSetting    = Helper::getSiteSettings();
 
         return view('site.home',[
-            'title'                 => $homeData['title'], 
-            'keyword'               => $homeData['keyword'], 
-            'description'           => $homeData['description'],
-            'aboutData'             => $aboutData,
-            'trendingData'          => $trendingData,
-            'browseByData'          => $browseByData,
-            'siteSetting'           => $siteSetting,
+            'pageTitle'     => $aboutData['title'],
+            'title'         => $homeData['meta_title'], 
+            'keyword'       => $homeData['meta_keyword'], 
+            'description'   => $homeData['meta_description'],
+            'aboutData'     => $aboutData,
+            'trendingData'  => $trendingData,
+            'browseByData'  => $browseByData,
+            'siteSetting'   => $siteSetting,
             ]);
     }
 
@@ -54,10 +56,11 @@ class HomeController extends Controller
     {
         $aboutData      = Helper::getData('cms', '2');
         
-        return view('site.home',[
-            'title'         => $aboutData['title'], 
-            'keyword'       => $aboutData['keyword'], 
-            'description'   => $aboutData['description'],
+        return view('site.about',[
+            'pageTitle'     => $aboutData['title'],
+            'title'         => $aboutData['meta_title'],
+            'keyword'       => $aboutData['meta_keyword'], 
+            'description'   => $aboutData['meta_description'],
             'aboutData'     => $aboutData,
         ]);
     }
@@ -68,13 +71,16 @@ class HomeController extends Controller
     /*****************************************************/
     public function services()
     {
-        $serviceData      = Helper::getData('cms', '3');
+        $serviceData = Helper::getData('cms', '3');
+        $seviceList = Service::where(['status' => '1'])->whereNull('deleted_at')->get();
         
-        return view('site.home',[
-            'title'         => $serviceData['title'], 
-            'keyword'       => $serviceData['keyword'], 
-            'description'   => $serviceData['description'],
+        return view('site.service',[
+            'pageTitle'     => $serviceData['title'],
+            'title'         => $serviceData['meta_title'],
+            'keyword'       => $serviceData['meta_keyword'], 
+            'description'   => $serviceData['meta_description'],
             'serviceData'   => $serviceData,
+            'seviceList'    => $seviceList,
         ]);
     }
 
@@ -84,33 +90,7 @@ class HomeController extends Controller
     /*****************************************************/
     public function contactUs(Request $request)
     {
-        $currentLang = $lang = App::getLocale();
-        $metaData = Helper::getMetaData('cms','contact-us');
-        $lang = app()->getLocale();
-        if ( Session::has('locale') ) {
-            $lang = Session::get('locale');
-        }
-        $cmsData = Cms::where('id', '5')->with([
-            'bannerDetails'=> function($bannerQuery) use ($lang) {
-                $bannerQuery->with([
-            'local' =>  function($bannerLocalQuery) use ($lang) {
-                        $bannerLocalQuery->where('lang_code','=', $lang);
-                    }
-                ]);
-            },
-            'local'=> function($query) use ($lang) {
-                $query->where('lang_code','=', $lang);
-            }
-            ])
-            ->first();
-
-        $contactWidgetData = Contactwidget::whereNull('deleted_at')->where('status', '1')->with([
-            'local' => function($query) use ($lang) {
-                $query->where('lang_code','=', $lang);
-            }])
-            ->get();
-           
-        $countries = Country::select('id','name','phonecode')->get();
+        $contactData = Helper::getData('cms', '5');
 
         if ($request->isMethod('POST')) {
             // Checking validation
@@ -192,13 +172,12 @@ class HomeController extends Controller
             }
         }
 
-        return view('site.contact-us',[
-            'title'     => $metaData['title'],
-            'keyword'   => $metaData['keyword'],
-            'description'=>$metaData['description'],
-            'cmsData'   => $cmsData,
-            'contactWidgetData' =>  $contactWidgetData,
-            'countries' =>  $countries,
+        return view('site.contact',[
+            'pageTitle'     => $contactData['title'],
+            'title'         => $contactData['meta_title'],
+            'keyword'       => $contactData['meta_keyword'],
+            'description'   => $contactData['meta_description'],
+            'contactData'   => $contactData,
         ]);
     }
 
@@ -210,10 +189,11 @@ class HomeController extends Controller
     {
         $legaleData      = Helper::getData('cms', '4');
         
-        return view('site.home',[
-            'title'         => $legaleData['title'], 
-            'keyword'       => $legaleData['keyword'], 
-            'description'   => $legaleData['description'],
+        return view('site.legal',[
+            'pageTitle'     => $legaleData['title'], 
+            'title'         => $legaleData['meta_title'], 
+            'keyword'       => $legaleData['meta_keyword'], 
+            'description'   => $legaleData['meta_description'],
             'legaleData'    => $legaleData,
         ]);
     }

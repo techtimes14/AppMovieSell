@@ -50,7 +50,7 @@
                       @if(count($listData) > 0)
                         @foreach ($listData as $row)
                         <tr>
-                            <td>{{ $row['name'] }}</td>
+                            <td>{{ $row['title'] }}</td>
                             <td class="text_align_center">
                               <a href="{{ route('admin.CMS.edit', [$row->id]) }}" title="Edit">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>

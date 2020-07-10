@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2020 at 08:31 PM
+-- Generation Time: Jul 10, 2020 at 09:38 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -98,12 +98,12 @@ CREATE TABLE `ams_cms` (
 --
 
 INSERT INTO `ams_cms` (`id`, `name`, `slug`, `title`, `description`, `description2`, `image`, `meta_title`, `meta_keyword`, `meta_description`, `page_banner`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Home', 'home', 'Home', '<p>Home Description&nbsp;Home Description&nbsp;Home Description</p>', NULL, NULL, 'Home', 'Home', 'Home', NULL, 1, '2020-03-13 10:46:34', '2020-05-03 15:28:32'),
-(2, 'About Us', 'about-us', 'About <span>Streamfit</span>', '<p>Streamfit is an online community that is bringing people together through accessible at home workouts and fitness classes. Our mission&nbsp;developed from a strong belief that a high motivation, high energy and high participatory class should not be reserved for the elite.&nbsp;</p>\r\n\r\n<p>Become a part of the stream fit family and be 1 class closer to your best, happiest and healthiest self.</p>', NULL, NULL, 'About Us', 'About Us', 'About Us', NULL, 1, '2020-03-13 10:46:34', '2020-06-17 11:04:26'),
-(3, 'Terms And Conditions', 'terms-and-conditions', NULL, NULL, NULL, NULL, NULL, 'Terms & Conditions', 'Terms & Conditions', NULL, 1, '2020-03-13 10:46:34', '2020-03-13 10:46:34'),
-(4, 'Privacy Policy', 'privacy-policy', NULL, NULL, NULL, NULL, NULL, 'Privacy Policy', 'Privacy Policy', NULL, 1, '2020-03-13 10:46:34', '2020-03-13 10:46:34'),
-(5, 'Contact Us', 'contact-us', NULL, NULL, NULL, NULL, NULL, 'Contact Us', 'Contact Us', NULL, 1, '2020-03-13 10:46:34', '2020-03-13 10:46:34'),
-(6, 'Trending', 'trending', 'Trending', '<p>Check out what&rsquo;s trending today!</p>', NULL, NULL, 'Trending Videos', 'Trending Videos', 'Trending Videos', NULL, 1, NULL, '2020-06-17 10:29:12'),
+(1, 'Home', 'home', 'Home', NULL, NULL, NULL, 'Home', 'Home', 'Home', NULL, 1, '2020-03-13 10:46:34', '2020-05-03 15:28:32'),
+(2, 'About Us', 'about-us', 'About Us', NULL, NULL, NULL, 'About Us', 'About Us', 'About Us', NULL, 1, '2020-03-13 10:46:34', '2020-06-17 11:04:26'),
+(3, 'Services', 'services', 'Services', NULL, NULL, NULL, 'Services', 'Services', 'Services', NULL, 1, '2020-03-13 10:46:34', '2020-03-13 10:46:34'),
+(4, '<h1>Go Through Our <span class=\"highlighted\">Legal Informations</span></h1>', 'legal', 'Legal', '<h3>Privacy Policies</h3>\r\n\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut volutpat metus, sit amet convallis lectus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque ex nunc, auctor id laoreet eu, hendrerit nec mi. Fusce tempus, erat vel auctor efficitur, orci ante ultrices lacus, a dignissim lorem augue ut nulla. Vivamus dictum metus a mi vulputate, et blandit lorem fermentum. Sed a placerat diam. Suspendisse lacinia enim at aliquam vulputate.</p>\r\n\r\n<p>Pellentesque pretium, tellus sed sagittis feugiat, purus diam eleifend eros, id porta ex enim at metus. Ut sed sagittis augue. Curabitur lobortis tincidunt congue. Vestibulum facilisis mauris et diam pharetra porttitor. Mauris purus arcu, congue quis neque vel, varius ultricies nisl. Praesent mattis purus aliquam risus commodo, id maximus nunc tempus.</p>\r\n\r\n<ul>\r\n	<li>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa.</li>\r\n	<li>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae</li>\r\n	<li>Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</li>\r\n	<li>Pellentesque at lobortis arcu, posuere tempus risus.</li>\r\n	<li>Nulla turpis mauris, convallis sed ultrices vel, placerat non massa.</li>\r\n</ul>\r\n\r\n<p>Ut non ligula sed nibh efficitur euismod. Aliquam efficitur, sapien sed rhoncus sodales, tellus ligula rhoncus est, ac tempor tortor est maximus ex. Mauris cursus leo at accumsan ullamcorper.</p>\r\n\r\n<p>Pellentesque eget elementum dui. Fusce quis augue aliquet tortor semper auctor. Suspendisse in sodales diam. Pellentesque vitae nisi vel magna vestibulum rhoncus. Phasellus enim augue, placerat semper porttitor in, suscipit ac orci. Aenean sit amet sapien auctor, iaculis metus ut, eleifend odio. Morbi convallis nisi et faucibus lacinia.</p>\r\n\r\n<p>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</p>\r\n\r\n<ul>\r\n	<li>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa.</li>\r\n	<li>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae</li>\r\n	<li>Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</li>\r\n	<li>Pellentesque at lobortis arcu, posuere tempus risus.</li>\r\n	<li>Nulla turpis mauris, convallis sed ultrices vel, placerat non massa.</li>\r\n</ul>\r\n\r\n<p>Cras vitae nibh suscipit, elementum sapien sed, vulputate tellus. Sed malesuada est vel nibh ornare, eget iaculis nibh maximus. Ut consequat arcu sed felis scelerisque, congue ornare ipsum vehicula.</p>\r\n\r\n<p>Ut bibendum commodo tellus, id tempus est scelerisque sit amet. Fusce eu sapien quis lacus rhoncus lobortis sit amet a metus. Vestibulum at laoreet sapien. Sed blandit dui a risus molestie</p>\r\n\r\n<h3>Terms &amp; Conditions</h3>\r\n\r\n<p>Pellentesque pretium, tellus sed sagittis feugiat, purus diam eleifend eros, id porta ex enim at metus. Ut sed sagittis augue. Curabitur lobortis tincidunt congue. Vestibulum facilisis mauris et diam pharetra porttitor. Mauris purus arcu, congue quis neque vel, varius ultricies nisl. Praesent mattis purus aliquam risus commodo, id maximus nunc tempus.</p>\r\n\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut volutpat metus, sit amet convallis lectus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque ex nunc, auctor id laoreet eu, hendrerit nec mi. Fusce tempus, erat vel auctor efficitur, orci ante ultrices lacus, a dignissim lorem augue ut nulla. Vivamus dictum metus a mi vulputate, et blandit lorem fermentum. Sed a placerat diam. Suspendisse lacinia enim at aliquam vulputate.</p>\r\n\r\n<ul>\r\n	<li>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa.</li>\r\n	<li>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae</li>\r\n	<li>Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</li>\r\n	<li>Pellentesque at lobortis arcu, posuere tempus risus.</li>\r\n	<li>Nulla turpis mauris, convallis sed ultrices vel, placerat non massa.</li>\r\n</ul>\r\n\r\n<p>Ut non ligula sed nibh efficitur euismod. Aliquam efficitur, sapien sed rhoncus sodales, tellus ligula rhoncus est, ac tempor tortor est maximus ex. Mauris cursus leo at accumsan ullamcorper.</p>\r\n\r\n<p>Pellentesque eget elementum dui. Fusce quis augue aliquet tortor semper auctor. Suspendisse in sodales diam. Pellentesque vitae nisi vel magna vestibulum rhoncus. Phasellus enim augue, placerat semper porttitor in, suscipit ac orci. Aenean sit amet sapien auctor, iaculis metus ut, eleifend odio. Morbi convallis nisi et faucibus lacinia.</p>\r\n\r\n<p>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</p>\r\n\r\n<p>Cras vitae nibh suscipit, elementum sapien sed, vulputate tellus. Sed malesuada est vel nibh ornare, eget iaculis nibh maximus. Ut consequat arcu sed felis scelerisque, congue ornare ipsum vehicula.</p>\r\n\r\n<p>Ut bibendum commodo tellus, id tempus est scelerisque sit amet. Fusce eu sapien quis lacus rhoncus lobortis sit amet a metus. Vestibulum at laoreet sapien. Sed blandit dui a risus molestie</p>\r\n\r\n<h3>Refund Policy</h3>\r\n\r\n<p>Pellentesque pretium, tellus sed sagittis feugiat, purus diam eleifend eros, id porta ex enim at metus. Ut sed sagittis augue. Curabitur lobortis tincidunt congue. Vestibulum facilisis mauris et diam pharetra porttitor. Mauris purus arcu, congue quis neque vel, varius ultricies nisl. Praesent mattis purus aliquam risus commodo, id maximus nunc tempus.</p>\r\n\r\n<ul>\r\n	<li>Fusce lacus lorem, commodo quis nulla non, posuere bibendum massa.</li>\r\n	<li>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae</li>\r\n	<li>Vivamus vitae augue eget dolor accumsan pellentesque eget vel tellus.</li>\r\n	<li>Pellentesque at lobortis arcu, posuere tempus risus.</li>\r\n	<li>Nulla turpis mauris, convallis sed ultrices vel, placerat non massa.</li>\r\n</ul>\r\n\r\n<p>Ut non ligula sed nibh efficitur euismod. Aliquam efficitur, sapien sed rhoncus sodales, tellus ligula rhoncus est, ac tempor tortor est maximus ex. Mauris cursus leo at accumsan ullamcorper.</p>\r\n\r\n<p>Pellentesque eget elementum dui. Fusce quis augue aliquet tortor semper auctor. Suspendisse in sodales diam. Pellentesque vitae nisi vel magna vestibulum rhoncus. Phasellus enim augue, placerat semper porttitor in, suscipit ac orci. Aenean sit amet sapien auctor, iaculis metus ut, eleifend odio. Morbi convallis nisi et faucibus lacinia.</p>', '<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>', NULL, 'Legal', 'Legal', 'Legal', NULL, 1, '2020-03-13 10:46:34', '2020-07-10 07:17:29'),
+(5, 'Contact Us', 'contact-us', 'Contact Us', NULL, NULL, NULL, 'Contact Us', 'Contact Us', 'Contact Us', NULL, 1, '2020-03-13 10:46:34', '2020-03-13 10:46:34'),
+(6, 'Market Place', 'market-place', 'All Products', NULL, NULL, NULL, 'Market Place', 'Market Place', 'Market Place', NULL, 1, '2020-07-10 08:23:52', '2020-06-17 10:29:12'),
 (7, 'Favourites', 'favourites', 'Favourites', '<p>&nbsp; Re-visit your favourite classes for round two.&nbsp;</p>', NULL, NULL, 'Favourites', 'Favourites', 'Favourites', NULL, 1, NULL, '2020-06-17 10:29:48'),
 (8, 'Browse By', 'browse-by', 'Browse By', '<p>&nbsp; Filter your workout by brand, type or muscle group.&nbsp;</p>', NULL, NULL, 'Browse By', 'Browse By', 'Browse By', NULL, 1, NULL, '2020-06-17 10:30:28'),
 (9, 'Brand', 'brand', 'Brand Profile', NULL, NULL, NULL, 'Brand', 'Brand', 'Brand', NULL, 1, NULL, NULL),
@@ -471,6 +471,34 @@ INSERT INTO `ams_role_permissions` (`role_id`, `page_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ams_services`
+--
+
+CREATE TABLE `ams_services` (
+  `id` int(11) NOT NULL,
+  `title` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '0=inactive,1=active',
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ams_services`
+--
+
+INSERT INTO `ams_services` (`id`, `title`, `description`, `image`, `created_at`, `updated_at`, `status`, `deleted_at`) VALUES
+(1, 'Curabitur aliquam neque', '<p>Nunc non metus quis dolor ultricies hendrerit eget id risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id mauris eget elit pharetra auctor sed sed enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id neque ipsum. Morbi venenatis pharetra ex ac gravida. Donec vulputate, odio ut porta rutrum, ipsum dui pretium arcu, vitae maximus ipsum lectus vel nunc. Phasellus quis lacinia turpis.</p>', 'service_1594361597.jpg', '2020-07-09 14:19:41', '2020-07-10 06:13:17', '1', NULL),
+(2, 'Curabitur aliquam neque1', '<p>Nunc non metus quis dolor ultricies hendrerit eget id risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id mauris eget elit pharetra auctor sed sed enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id neque ipsum. Morbi venenatis pharetra ex ac gravida. Donec vulputate, odio ut porta rutrum, ipsum dui pretium arcu, vitae maximus ipsum lectus vel nunc. Phasellus quis lacinia turpis.</p>', 'service_1594361762.jpg', '2020-07-10 06:16:02', '2020-07-10 06:16:02', '1', NULL),
+(3, 'Curabitur aliquam neque2', '<p>Nunc non metus quis dolor ultricies hendrerit eget id risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id mauris eget elit pharetra auctor sed sed enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id neque ipsum. Morbi venenatis pharetra ex ac gravida. Donec vulputate, odio ut porta rutrum, ipsum dui pretium arcu, vitae maximus ipsum lectus vel nunc. Phasellus quis lacinia turpis.</p>', 'service_1594361791.jpg', '2020-07-10 06:16:32', '2020-07-10 06:16:32', '1', NULL),
+(4, 'Curabitur aliquam neque3', '<p>Nunc non metus quis dolor ultricies hendrerit eget id risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id mauris eget elit pharetra auctor sed sed enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id neque ipsum. Morbi venenatis pharetra ex ac gravida. Donec vulputate, odio ut porta rutrum, ipsum dui pretium arcu, vitae maximus ipsum lectus vel nunc. Phasellus quis lacinia turpis.</p>', 'service_1594361821.jpg', '2020-07-10 06:17:01', '2020-07-10 06:17:01', '1', NULL),
+(5, 'Curabitur aliquam neque4', '<p>Nunc non metus quis dolor ultricies hendrerit eget id risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id mauris eget elit pharetra auctor sed sed enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer id neque ipsum. Morbi venenatis pharetra ex ac gravida. Donec vulputate, odio ut porta rutrum, ipsum dui pretium arcu, vitae maximus ipsum lectus vel nunc. Phasellus quis lacinia turpis.</p>', 'service_1594362165.jpg', '2020-07-10 06:17:33', '2020-07-10 06:22:45', '1', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ams_site_settings`
 --
 
@@ -501,7 +529,7 @@ CREATE TABLE `ams_site_settings` (
 --
 
 INSERT INTO `ams_site_settings` (`id`, `from_email`, `to_email`, `website_title`, `website_link`, `facebook_link`, `linkedin_link`, `youtube_link`, `googleplus_link`, `twitter_link`, `rss_link`, `pinterest_link`, `instagram_link`, `default_meta_title`, `default_meta_keywords`, `default_meta_description`, `address`, `phone_no`, `home_short_description`) VALUES
-(1, 'martplace@yopmail.com', 'martplace@yopmail.com', 'Mart Place', '', NULL, NULL, 'https://www.youtube.com', NULL, NULL, NULL, NULL, 'www.instagram.com', 'Mart Place', 'Mart Place', 'Mart Place', NULL, NULL, NULL);
+(1, 'support@aazztech.com', 'martplace@yopmail.com', 'Mart Place', 'https://www.google.com', 'https://www.facebook.com', 'https://www.linkedin.com', 'https://www.youtube.com', 'https://www.google.com', 'https://www.twitter.com', NULL, 'https://pinterest.com', 'https://www.instagram.com', 'Mart Place', 'Mart Place', 'Mart Place', '202 New Hampshire Avenue Northwest #100, New York-2573', '+6789-875-2235', 'Nunc placerat mi id nisi interdum they mollis. Praesent pharetra, justo ut scel erisque the mattis, leo quam.');
 
 -- --------------------------------------------------------
 
@@ -569,10 +597,11 @@ CREATE TABLE `ams_users` (
 --
 
 INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `referral_code`, `referred_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1593960419, 'ZkQVTBjP9Y6FA6KJqG1uyUQKEwtRdhcKMeCGkmStEHJdDBhpg3UnVUI5KbtE', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-05 14:46:59', NULL),
+(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1594361456, 'eDyjOvqpdd2LD97gtKeHMVWqlct3EvRzOBp7EKH9jXNzd0czEL6g6i5A2aCw', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-10 07:37:39', NULL),
 (4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', NULL, NULL, '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
 (5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL),
-(6, 'Dean', 'Elgar', 'Dean Elgar', 'dean@yopmail.com', 'dean', NULL, NULL, '$2y$10$osjBmcePMg/xZsR9XnWTx.oTVQusjLtI0H./Q/XLo9hfA.NWEXk2.', NULL, 1, NULL, 'N', 'Dean Elgar', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593965008, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-05 15:59:46', '2020-07-05 16:03:28', NULL);
+(6, 'Dean', 'Elgar', 'Dean Elgar', 'dean@yopmail.com', 'dean', NULL, NULL, '$2y$10$osjBmcePMg/xZsR9XnWTx.oTVQusjLtI0H./Q/XLo9hfA.NWEXk2.', NULL, 1, NULL, 'N', 'Dean Elgar', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593965008, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-05 15:59:46', '2020-07-05 16:03:28', NULL),
+(7, 'Mark', 'Taylor', 'Mark Taylor', 'marktaylor@yopmail.com', 'marktaylor', NULL, NULL, '$2y$10$vxEUtV5mnI1t1teICufaVea0xf3Rgpryt6pn7dJakctK8isvPUFfi', NULL, 1, NULL, 'N', 'Mark Taylor', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '7VBEMKDJ', NULL, '2020-07-09 19:46:05', '2020-07-09 19:46:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -654,6 +683,12 @@ ALTER TABLE `ams_role_pages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ams_services`
+--
+ALTER TABLE `ams_services`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ams_site_settings`
 --
 ALTER TABLE `ams_site_settings`
@@ -730,6 +765,12 @@ ALTER TABLE `ams_role_pages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
+-- AUTO_INCREMENT for table `ams_services`
+--
+ALTER TABLE `ams_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `ams_site_settings`
 --
 ALTER TABLE `ams_site_settings`
@@ -745,7 +786,7 @@ ALTER TABLE `ams_tags`
 -- AUTO_INCREMENT for table `ams_users`
 --
 ALTER TABLE `ams_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ams_user_details`
