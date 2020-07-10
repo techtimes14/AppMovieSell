@@ -78,17 +78,25 @@
                                 <div class="row">
                                     <div class="col-md-8 offset-md-2">
                                         <div class="contact_form--wrapper">
-                                            <form action="#">
+                                        {{ Form::open(array(
+                                                        'method'=> 'POST',
+                                                        'class' => '',
+                                                        'route' => ['site.contact'],
+                                                        'name'  => 'contactusForm',
+                                                        'id'    => 'contactusForm',
+                                                        'files' => true,
+                                                        'autocomplete' => false,
+                                                        'novalidate' => true)) }}
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" placeholder="Name">
+                                                            <input type="text" name="first_name" placeholder="First Name">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" placeholder="Email">
+                                                            <input type="text" name="last_name" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,13 +104,13 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" placeholder="Name">
+                                                            <input type="text" name="email" placeholder="Email">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" placeholder="Email">
+                                                            <input type="number" name="phone_number" placeholder="Phone number">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,9 +118,9 @@
                                                 <textarea cols="30" rows="10" placeholder="Yout text here"></textarea>
 
                                                 <div class="sub_btn">
-                                                    <button type="button" class="btn btn--round btn--default">Send Request</button>
+                                                <input type="submit" name="" value="Submit">
                                                 </div>
-                                            </form>
+                                                {{ Form::close() }}
                                         </div>
                                     </div>
                                     <!-- end /.col-md-8 -->

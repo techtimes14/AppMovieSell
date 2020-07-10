@@ -19,6 +19,7 @@ use App\Cms;
 Use App\User;
 Use App\Banner;
 Use App\Service;
+use App\Contact;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -97,24 +98,20 @@ class HomeController extends Controller
             $validationCondition = array(
                 'first_name'        => 'required|min:2|max:255',
                 'last_name'         => 'required|min:2|max:255',
-                'company'           =>  'required',
-                'phonecode'         => 'required',
+                'email'             => 'required|regex:/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/',
                 'phone_number'      => 'required',
-                'country_code'      => 'required',
-                'optional'          => 'required'
+                'subject'           => 'required',
             ); // validation condition
             $validationMessages = array(
-                'first_name.required'=> trans('custom.please_enter_first_name'),
-                'first_name.min'     => trans('custom.first_name_min_length_check'),
-                'first_name.max'     => trans('custom.first_name_max_length_check'),
-                'last_name.required'=> trans('custom.please_enter_last_name'),
-                'last_name.min'     => trans('custom.last_name_min_length_check'),
-                'last_name.max'     => trans('custom.last_name_max_length_check'),
-                'company.required' =>  trans('custom.enter_your_company_name'),
-                'phonecode.required' =>  trans('custom.enter_your_phonecode'),
+                'first_name.required'=> 'Please enter first name',
+                'first_name.min'     => 'Please enter first name minimum 2',
+                'first_name.max'     => 'Please enter first name maximum 255',
+                'last_name.required'=> 'Please enter last name' ,
+                'last_name.min'     => 'Please enter last name minimum 2',
+                'last_name.max'     => 'Please enter last name maximum 255',
+                'email.required' =>  'Please enter email',
                 'phone_number.required' =>  trans('custom.enter_your_phone_number'),
-                'country_code.required' =>  trans('custom.enter_your_country_name'),
-                'optional.required' =>  trans('custom.enter_your_optional_name')
+                'subject.required'  => 'Please enter subject'
             );
 
             if ($request->email != null) {
@@ -140,15 +137,12 @@ class HomeController extends Controller
                 $newContact->first_name             = trim($request->first_name, ' ');
                 $newContact->last_name              = trim($request->last_name, ' ');
                 $newContact->full_name              = $newContact->first_name.' '.$newContact->last_name;
-                $newContact->company                = trim($request->company, ' ');
-                $newContact->phonecode              = trim($request->phonecode, ' ');
                 $newContact->phone_number           = trim($request->phone_number, ' ');
-                $newContact->country_code           = trim($request->country_code, ' ');
-                $newContact->optional               = trim($request->optional, ' ');
+                $newContact->subject               = trim($request->subject, ' ');
                 $newContact->email                  = trim($request->email, ' ');
                 
                 $saveContact = $newContact->save();
-                // dd($saveContact);
+                dd($saveContact);
 
                 if ($saveContact) {                    
                     \Mail::send('email_templates.site.thanks_for_contact',
@@ -161,7 +155,7 @@ class HomeController extends Controller
                             'currentLang'=> $currentLang,
                         ],
                     ], function ($m) use ($siteSetting) {
-                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('Contact Us - Alaa Acountaning Erp');
+                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('Contact Us - M mert');
                     });
                     $request->session()->flash('alert-success',trans('custom.contactus_success_for_email'));
                     return redirect()->back();
