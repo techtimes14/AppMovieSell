@@ -20,15 +20,15 @@
                     <div class="footer-menu">
                         <h4 class="footer-widget-title text--white">Our Company</h4>
                         <ul>
-                            <li ><a href="index.html">Home</a></li>
-                            <li><a href="javascript:void(0);">About us</a></li>
-                            <li><a href="javascript:void(0);">Services</a></li>
-                            <li><a href="javascript:void(0);">Contact</a></li>
-                            <li><a href="javascript:void(0);">Legal</a></li>                            
-                            <li><a href="javascript:void(0);">Market Place</a></li>
+                            <li ><a href="{{route('site.home')}}">Home</a></li>
+                            <li><a href="{{route('site.about-us')}}">About us</a></li>
+                            <li><a href="{{route('site.services')}}">Services</a></li>
+                            <li><a href="{{route('site.contact')}}">Contact</a></li>
+                            <li><a href="{{route('site.legal')}}">Legal</a></li>                            
+                            <li><a href="{{route('site.market-place')}}">Market Place</a></li>
                         </ul>
                     </div>
-                    <!-- end /.footer-menu -->                    
+                    <!-- end /.footer-menu -->
                 </div>
                 <!-- end /.col-md-5 -->
 

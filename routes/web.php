@@ -15,6 +15,10 @@ include('admin.php');
 Route::group(['namespace' => 'site', 'as' => 'site.'], function () {    
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/about-us', 'HomeController@aboutUs')->name('about-us');
+    Route::get('/services', 'HomeController@services')->name('services');
+    Route::get('/contact', 'HomeController@contactUs')->name('contact');
+    Route::get('/legal', 'HomeController@legal')->name('legal');
+    Route::get('/market-place', 'ProductsController@marketPlace')->name('market-place');
 
     /* User */
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

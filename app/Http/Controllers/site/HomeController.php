@@ -44,10 +44,42 @@ class HomeController extends Controller
             'browseByData'          => $browseByData,
             'siteSetting'           => $siteSetting,
             ]);
-    }    
+    }
 
     /*****************************************************/
-    # Function name : contactus
+    # Function name : aboutUs
+    # Params        : 
+    /*****************************************************/
+    public function aboutUs()
+    {
+        $aboutData      = Helper::getData('cms', '2');
+        
+        return view('site.home',[
+            'title'         => $aboutData['title'], 
+            'keyword'       => $aboutData['keyword'], 
+            'description'   => $aboutData['description'],
+            'aboutData'     => $aboutData,
+        ]);
+    }
+
+    /*****************************************************/
+    # Function name : services
+    # Params        : 
+    /*****************************************************/
+    public function services()
+    {
+        $serviceData      = Helper::getData('cms', '3');
+        
+        return view('site.home',[
+            'title'         => $serviceData['title'], 
+            'keyword'       => $serviceData['keyword'], 
+            'description'   => $serviceData['description'],
+            'serviceData'   => $serviceData,
+        ]);
+    }
+
+    /*****************************************************/
+    # Function name : contactUs
     # Params        : Request $request
     /*****************************************************/
     public function contactUs(Request $request)
@@ -167,6 +199,22 @@ class HomeController extends Controller
             'cmsData'   => $cmsData,
             'contactWidgetData' =>  $contactWidgetData,
             'countries' =>  $countries,
+        ]);
+    }
+
+    /*****************************************************/
+    # Function name : legal
+    # Params        : 
+    /*****************************************************/
+    public function legal()
+    {
+        $legaleData      = Helper::getData('cms', '4');
+        
+        return view('site.home',[
+            'title'         => $legaleData['title'], 
+            'keyword'       => $legaleData['keyword'], 
+            'description'   => $legaleData['description'],
+            'legaleData'    => $legaleData,
         ]);
     }
 

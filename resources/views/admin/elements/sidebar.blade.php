@@ -46,7 +46,7 @@
      @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.category.list',$getAllRoles) || in_array('admin.category.add',$getAllRoles) || (in_array('admin.category.list',$getAllRoles) && in_array('admin.category.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.category.list' || Route::current()->getName() == 'admin.category.add' || Route::current()->getName() == 'admin.category.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <i class="fa fa-book" aria-hidden="true"></i>
                 <span>Category Management</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>  
@@ -68,7 +68,7 @@
      @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.tag.list',$getAllRoles) || in_array('admin.tag.add',$getAllRoles) || (in_array('admin.tag.list',$getAllRoles) && in_array('admin.tag.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.tag.list' || Route::current()->getName() == 'admin.tag.add' || Route::current()->getName() == 'admin.tag.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <i class="fa fa-tags" aria-hidden="true"></i>
                 <span>Tag Management</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>  
@@ -90,7 +90,7 @@
     @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.product.list',$getAllRoles) || in_array('admin.product.add',$getAllRoles) || (in_array('admin.product.list',$getAllRoles) && in_array('admin.product.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.product.list' || Route::current()->getName() == 'admin.product.add' || Route::current()->getName() == 'admin.product.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                <i class="fa fa-dropbox" aria-hidden="true"></i>
                 <span>Product Management</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>  

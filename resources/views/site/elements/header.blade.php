@@ -134,13 +134,13 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
-								<li class="active"><a href="{{url('/')}}">HOME</a></li>
-								<li @if(Route::current()->getName() == 'site.about-us')><a href="{{route('site.about-us')}}">About us</a></li>
-								<li><a href="javascript:void(0);">Services</a></li>
-								<li><a href="javascript:void(0);">Contact</a></li>
-								<li><a href="javascript:void(0);">Legal</a></li>									
-								<li><a href="javascript:void(0);">Market Place</a></li>
-								<li><a href="{{route('site.users.affiliated-sign-up')}}">Affiliate Signup</a></li>
+								<li @if(Route::current()->getName() == 'site.home')class="active" @endif><a href="{{url('/')}}">HOME</a></li>
+								<li @if(Route::current()->getName() == 'site.about-us')class="active" @endif><a href="{{route('site.about-us')}}">About us</a></li>
+								<li @if(Route::current()->getName() == 'site.services')class="active" @endif><a href="{{route('site.services')}}">Services</a></li>
+								<li @if(Route::current()->getName() == 'site.contact')class="active" @endif><a href="{{route('site.contact')}}">Contact</a></li>
+								<li @if(Route::current()->getName() == 'site.legal')class="active" @endif><a href="{{route('site.legal')}}">Legal</a></li>									
+								<li @if(Route::current()->getName() == 'site.market-place')class="active" @endif><a href="{{route('site.market-place')}}">Market Place</a></li>
+								<li @if(Route::current()->getName() == 'site.users.affiliated-sign-up')class="active" @endif><a href="{{route('site.users.affiliated-sign-up')}}">Affiliate Signup</a></li>
 							</ul>
 						</div>
 						<!-- /.navbar-collapse -->

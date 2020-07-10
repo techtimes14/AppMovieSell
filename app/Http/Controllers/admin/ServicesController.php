@@ -25,11 +25,11 @@ class ServicesController extends Controller
         
         try
         {
-            $data['order_by']   = 'created_at';
-            $data['order']      = 'desc';
-
             $pageNo = $request->input('page');
             Session::put('pageNo',$pageNo);
+            
+            $data['order_by']   = 'created_at';
+            $data['order']      = 'desc';
 
             $query = Service::whereNull('deleted_at');
 

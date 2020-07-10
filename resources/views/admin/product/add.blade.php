@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{route('admin.product.list')}}"><i class="fa fa-list-alt" aria-hidden="true"></i> Product List</a></li>
+        <li><a href="{{route('admin.product.list')}}"><i class="fa fa-dropbox" aria-hidden="true"></i> Product List</a></li>
         <li class="active">{{ $page_title }}</li>
     </ol>
 </section>
