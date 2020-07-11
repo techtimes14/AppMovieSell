@@ -47,6 +47,7 @@
                         <tr>
                             <th>Plan</th>
                             <th>Period</th>
+							<th>No. of downloads</th>
                             <th>Amount</th>
                             <th>Status</th>
                             <th class="action_width text_align_center">Action</th>
@@ -56,6 +57,7 @@
                         <tr>
                             <td>{{ $row->planDetails->title }}</td>
 							<td>{{ $row->periodDetails->title }}</td>
+							<td>{{ $row->no_of_downloads }}</td>
 							<td>{{ AdminHelper::formatToTwoDecimalPlaces($row->amount) }}</td>
                             <td>
                               <span class="label @if($row->status == 1) label-success @else label-danger @endif">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Period;
+use App\MembershipPlan;
 use Helper;
 use AdminHelper;
 
@@ -179,12 +180,12 @@ class PeriodsController extends Controller
             $details = Period::where('id', $id)->first();
             if ($details != null) {
                 if ($details->status == 1) {
-                    // // Checking this package period is already assigned to Package duration
-                    // $packageDurationCount = PackageDuration::where('package_period_id', $id)->count();
-                    // if ($packageDurationCount > 0) {
-                    //     $request->session()->flash('alert-danger', 'This package period is already assigned to package duration');
-                    //     return redirect()->back();
-                    // }
+                    // Checking this period is already assigned to membership plan
+                    $membershipPlanCount = MembershipPlan::where('period_id', $id)->count();
+                    if ($membershipPlanCount > 0) {
+                        $request->session()->flash('alert-warning', 'This period is already assigned to membership plan');
+                        return redirect()->back();
+                    }
 
                     $details->status = '0';
                     $details->save();
@@ -224,12 +225,12 @@ class PeriodsController extends Controller
 
             $details = Period::where('id', $id)->first();
             if ($details != null) {
-                // Checking this package period is already assigned to Package duration
-                // $packageDurationCount = PackageDuration::where('package_period_id', $id)->count();
-                // if ($packageDurationCount > 0) {
-                //     $request->session()->flash('alert-danger', 'This package period is already assigned to package duration');
-                //     return redirect()->back();
-                // }
+                // Checking this period is already assigned to membership plan
+                $membershipPlanCount = MembershipPlan::where('period_id', $id)->count();
+                if ($membershipPlanCount > 0) {
+                    $request->session()->flash('alert-warning', 'This period is already assigned to membership plan');
+                    return redirect()->back();
+                }
                 
                 $delete = Period::find($id)->delete();
                 if ($delete) {

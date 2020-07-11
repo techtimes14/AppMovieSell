@@ -58,11 +58,11 @@
                             <td>
                               <span class="label @if($row->status == 1) label-success @else label-danger @endif">
                                 @if($row->status == 1)
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive the package period?',  'warning', true)" data-href="{{ route('admin.period.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive the period?',  'warning', true)" data-href="{{ route('admin.period.change-status', [$row->id]) }}" title="Status">
                                   Active
                                 </a>                           
                                 @else
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active the package period?',  'warning',  true)" data-href="{{ route('admin.period.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active the period?',  'warning',  true)" data-href="{{ route('admin.period.change-status', [$row->id]) }}" title="Status">
                                     Inactive
                                   </a>
                                 @endif

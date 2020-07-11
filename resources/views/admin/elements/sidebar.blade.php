@@ -134,7 +134,7 @@
         <li class="treeview @if (Route::current()->getName() == 'admin.service.list' || Route::current()->getName() == 'admin.service.add' || Route::current()->getName() == 'admin.service.edit')menu-open @endif">
             <a href="#">
                 <i class="fa fa-cubes" aria-hidden="true"></i>
-                <span>Service Management</span>
+                <span> Service Management</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -155,8 +155,8 @@
     @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.contactwidget.list',$getAllRoles) || in_array('admin.contactwidget.add',$getAllRoles) || (in_array('admin.contactwidget.list',$getAllRoles) && in_array('admin.contactwidget.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.contactwidget.list' || Route::current()->getName() == 'admin.contactwidget.add' || Route::current()->getName() == 'admin.contactwidget.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-address-card" aria-hidden="true"></i>
-                <span>Contactwidget Management</span>
+                <i class="fa fa-address-card" aria-hidden="true"></i> 
+                <span> Contact Widget Management</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -174,7 +174,7 @@
     <!-- Contactwidget management End -->
 
     <!-- Period management Start -->
-    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.period.list',$getAllRoles) || in_array('admin.period.add',$getAllRoles) || (in_array('admin.period.list',$getAllRoles) && in_array('admin.period.edit',$getAllRoles))) )
+    {{-- @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.period.list',$getAllRoles) || in_array('admin.period.add',$getAllRoles) || (in_array('admin.period.list',$getAllRoles) && in_array('admin.period.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.period.list' || Route::current()->getName() == 'admin.period.add' || Route::current()->getName() == 'admin.period.edit')menu-open @endif">
             <a href="#">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -192,15 +192,15 @@
                 @endif
             </ul>
         </li>
-    @endif
+    @endif --}}
     <!-- Period management End -->
 
     <!-- Plan management Start -->
     @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.plan.list',$getAllRoles) || in_array('admin.plan.add',$getAllRoles) || (in_array('admin.plan.list',$getAllRoles) && in_array('admin.plan.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.plan.list' || Route::current()->getName() == 'admin.plan.add' || Route::current()->getName() == 'admin.plan.edit')menu-open @endif">
             <a href="#">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-                <span>Plan Management</span>
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                <span> Plan Management</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>

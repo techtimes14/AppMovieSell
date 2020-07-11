@@ -71,35 +71,40 @@ class MembershipPlansController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-					'package_id'        => 'required',
-                    'package_period_id' => 'required',
+					'plan_id'           => 'required',
+                    'period_id'         => 'required',
                     'amount'            => 'required|regex:/^[1-9]\d*(\.\d+)?$/',
+                    'no_of_downloads'   => 'required|min:1|regex:/^[0-9]+$/',
 				);
 				$validationMessages = array(
-					'package_id.required'       => 'Please select package',
-					'package_period_id.required'=> 'Please select package period',
+					'package_id.required'       => 'Please select plan',
+					'period_id.required'        => 'Please select period',
 					'amount.required'           => 'Please enter amount',
                     'amount.regex'              => 'Please enter valid amount',
+                    'no_of_downloads.required'  => 'Please enter number of downloads',
+                    'no_of_downloads.min'       => 'Number of downloads should be at least 1',
+                    'no_of_downloads.regex'     => 'Please enter valid number',
 				);
 				$Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
 				if ($Validator->fails()) {
-					return redirect()->route('admin.packageDuration.add')->withErrors($Validator)->withInput();
+					return redirect()->route('admin.membershipPlan.add')->withErrors($Validator)->withInput();
 				} else {
-                    $checkingAlreadyExist = PackageDuration::where(['package_id' => $request->package_id, 'package_period_id' => $request->package_period_id])->whereNull('deleted_at')->count();
+                    $checkingAlreadyExist = MembershipPlan::where(['plan_id' => $request->plan_id, 'period_id' => $request->period_id])->whereNull('deleted_at')->count();
                     if ($checkingAlreadyExist > 0) {
-                        $request->session()->flash('alert-danger', 'This package and period already exist');
+                        $request->session()->flash('alert-warning', 'This membership plan and period already exist');
                         return redirect()->back()->withInput();
                     } else {
-                        $newPackageDuration                     = new PackageDuration;
-                        $newPackageDuration->package_id         = $request->package_id;
-                        $newPackageDuration->package_period_id	= $request->package_period_id;
-                        $newPackageDuration->amount   	        = $request->amount;
-                        $savePackageDuration             	    = $newPackageDuration->save();					
-                        if ($savePackageDuration) {
-                            $request->session()->flash('alert-success', 'Package duration has been added successfully');
-                            return redirect()->route('admin.packageDuration.list');
+                        $newMembershipPlan                  = new MembershipPlan;
+                        $newMembershipPlan->plan_id         = $request->plan_id;
+                        $newMembershipPlan->period_id       = $request->period_id;
+                        $newMembershipPlan->amount   	    = $request->amount;
+                        $newMembershipPlan->no_of_downloads =  $request->no_of_downloads;
+                        $saveMembershipPlan             	= $newMembershipPlan->save();
+                        if ($saveMembershipPlan) {
+                            $request->session()->flash('alert-success', 'Membership plan has been added successfully');
+                            return redirect()->route('admin.membershipPlan.list');
                         } else {
-                            $request->session()->flash('alert-danger', 'An error occurred while adding the package duration');
+                            $request->session()->flash('alert-danger', 'An error occurred while adding the membership plan');
                             return redirect()->back()->withInput();
                         }
                     }
@@ -114,91 +119,88 @@ class MembershipPlansController extends Controller
 
 			return view('admin.membership_plan.add', $data);
 		} catch (Exception $e) {
-			return redirect()->route('admin.membership_plan.list')->with('error', $e->getMessage());
-		}        
+			return redirect()->route('admin.membershipPlan.list')->with('error', $e->getMessage());
+		}
     }
 
     /*****************************************************/
-    # MembershipPlansController
     # Function name : edit
-    # Author        :
-    # Created Date  : 18-03-2020
-    # Purpose       : Edit a package duration
     # Params        : Request $request, $id
     /*****************************************************/
     public function edit(Request $request, $id = null)
     {
-        $data['page_title']  = 'Edit Package Duration';
-        $data['panel_title'] = 'Edit Package Duration';
-
-        $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
-        $data['pageNo'] = $pageNo;
+        $data['page_title']  = 'Edit Membership Plan';
+        $data['panel_title'] = 'Edit Membership Plan';
 
         try
         {
+            $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
+            $data['pageNo'] = $pageNo;
+
             if ($request->isMethod('POST')) {
                 if ($id == null) {
-                    return redirect()->route('admin.packagePeriod.list');
+                    return redirect()->route('admin.membershipPlan.list');
                 }
                 
                 $validationCondition = array(
-					'package_id'        => 'required',
-                    'package_period_id' => 'required',
+					'plan_id'           => 'required',
+                    'period_id'         => 'required',
                     'amount'            => 'required|regex:/^[1-9]\d*(\.\d+)?$/',
+                    'no_of_downloads'   => 'required|min:1|regex:/^[0-9]+$/',
 				);
 				$validationMessages = array(
-					'package_id.required'       => 'Please select package',
-					'package_period_id.required'=> 'Please select package period',
+					'package_id.required'       => 'Please select plan',
+					'period_id.required'        => 'Please select period',
 					'amount.required'           => 'Please enter amount',
                     'amount.regex'              => 'Please enter valid amount',
+                    'no_of_downloads.required'  => 'Please enter number of downloads',
+                    'no_of_downloads.min'       => 'Number of downloads should be at least 1',
+                    'no_of_downloads.regex'     => 'Please enter valid number',
 				);
 				$Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
 				if ($Validator->fails()) {
 					return redirect()->back()->withErrors($Validator)->withInput();
 				} else {
-                    $checkingAlreadyExist = PackageDuration::where('id', '!=', $id)->where(['package_id' => $request->package_id, 'package_period_id' => $request->package_period_id])->whereNull('deleted_at')->count();
+                    $checkingAlreadyExist = MembershipPlan::where('id', '!=', $id)->where(['plan_id' => $request->plan_id, 'period_id' => $request->period_id])->whereNull('deleted_at')->count();
                     if ($checkingAlreadyExist > 0) {
-                        $request->session()->flash('alert-danger', 'This package and period already exist');
+                        $request->session()->flash('alert-warning', 'This plan and period already exist');
                         return redirect()->back()->withInput();
                     } else {
-                        $updatePackageDurationData = array(
-                            'package_id'        => $request->package_id,
-                            'package_period_id' => $request->package_period_id,
-                            'amount'            => $request->amount
+                        $updateData = array(
+                            'plan_id'           => $request->plan_id,
+                            'period_id'         => $request->period_id,
+                            'amount'            => $request->amount,
+                            'no_of_downloads'   => $request->no_of_downloads,
                         );
-                        $savePackageDurationData = PackageDuration::where('id', $id)->update($updatePackageDurationData);
-                        if ($savePackageDurationData) {
-                            $request->session()->flash('alert-success', 'Package duration has been updated successfully');
-                            return redirect()->route('admin.packageDuration.list', ['page' => $pageNo]);
+                        $saveData = MembershipPlan::where('id', $id)->update($updateData);
+                        if ($saveData) {
+                            $request->session()->flash('alert-success', 'Membership plan has been updated successfully');
+                            return redirect()->route('admin.membershipPlan.list', ['page' => $pageNo]);
                         } else {
-                            $request->session()->flash('alert-danger', 'An error took place while updating the package duration');
-                            return redirect()->route('admin.packageDuration.list', ['page' => $pageNo]);
+                            $request->session()->flash('alert-danger', 'An error occurred while updating the membership plan');
+                            return redirect()->route('admin.membershipPlan.list', ['page' => $pageNo]);
                         }
                     }
                 }
             }
             
             $data['id']   = $id;
-            $data['packageDurationDetail'] = PackageDuration::find($id);
+            $data['details'] = MembershipPlan::find($id);
 
-            $packagePeriodList = PackagePeriod::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
-            $data['packagePeriodList'] = $packagePeriodList;
+            $periodList = Period::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['periodList'] = $periodList;
 
-            $packageList = Package::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
-            $data['packageList'] = $packageList;
+            $planList = Plan::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['planList'] = $planList;
 
-            return view('admin.package_duration.edit', $data);
+            return view('admin.membership_plan.edit', $data);
         } catch (Exception $e) {
-            return redirect()->route('admin.packageDuration.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.membershipPlan.list')->with('error', $e->getMessage());
         }
     }
 
     /*****************************************************/
-    # MembershipPlansController
     # Function name : status
-    # Author        :
-    # Created Date  : 18-03-2020
-    # Purpose       : Change Status a package duration
     # Params        : Request $request, $id
     /*****************************************************/
     public function status(Request $request, $id = null)
@@ -206,40 +208,34 @@ class MembershipPlansController extends Controller
         try
         {
             if ($id == null) {
-                return redirect()->route('admin.packageDuration.list');
+                return redirect()->route('admin.membershipPlan.list');
             }
-            $details = PackageDuration::where('id', $id)->first();
+            $details = MembershipPlan::where('id', $id)->first();
             if ($details != null) {
                 if ($details->status == 1) {
                     $details->status = '0';
                     $details->save();
                     
                     $request->session()->flash('alert-success', 'Status updated successfully');
-                    return redirect()->back();
                 } else if ($details->status == 0) {
                     $details->status = '1';
                     $details->save();
 
                     $request->session()->flash('alert-success', 'Status updated successfully');
-                    return redirect()->back();
                 } else {
-                    $request->session()->flash('alert-danger', 'Something went wrong');
-                    return redirect()->back();
+                    $request->session()->flash('alert-danger', 'Something went wrong, please try again later');
                 }
+                return redirect()->back();
             } else {
-                return redirect()->route('admin.packageDuration.list')->with('error', 'Invalid package duration');
+                return redirect()->route('admin.membershipPlan.list')->with('error', 'Invalid membership plan');
             }
         } catch (Exception $e) {
-            return redirect()->route('admin.packageDuration.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.membershipPlan.list')->with('error', $e->getMessage());
         }
     }
 
     /*****************************************************/
-    # MembershipPlansController
     # Function name : delete
-    # Author        :
-    # Created Date  : 18-03-2020
-    # Purpose       : Delete a package duration
     # Params        : Request $request, $id
     /*****************************************************/
     public function delete(Request $request, $id = null)
@@ -247,25 +243,23 @@ class MembershipPlansController extends Controller
         try
         {
             if ($id == null) {
-                return redirect()->route('admin.packageDuration.list');
+                return redirect()->route('admin.membershipPlan.list');
             }
 
-            $details = PackageDuration::where('id', $id)->first();
+            $details = MembershipPlan::where('id', $id)->first();
             if ($details != null) {
-                $deletePackageDuration = $details->delete();
-                if ($deletePackageDuration) {
-                    $request->session()->flash('alert-danger', 'Package duration has been deleted successfully');
-                    return redirect()->back();
+                $delete = $details->delete();
+                if ($delete) {
+                    $request->session()->flash('alert-danger', 'Membership plan has been deleted successfully');
                 } else {
-                    $request->session()->flash('alert-danger', 'An error occurred while deleting the package duration');
-                    return redirect()->back();
+                    $request->session()->flash('alert-danger', 'An error occurred while deleting the membership plan');
                 }
-            } else {
-                $request->session()->flash('alert-danger', 'Invalid package duration');
                 return redirect()->back();
+            } else {
+                $request->session()->flash('alert-danger', 'Invalid membership plan');
             }
         } catch (Exception $e) {
-            return redirect()->route('admin.packageDuration.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.membershipPlan.list')->with('error', $e->getMessage());
         }
     }
     

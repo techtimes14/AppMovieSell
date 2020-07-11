@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">Plan<span class="red_star">*</span></label>
-                                    <select name="plan_id" id="plan_id" class="form-control" value="{{old('plan_id')}}">
+                                    <select name="plan_id" id="plan_id" class="form-control select2" value="{{old('plan_id')}}">
                                         <option value="">-Select-</option>
                                 @if (count($planList))
                                     @foreach ($planList as $plan)
@@ -46,7 +46,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">Period<span class="red_star">*</span></label>
-                                    <select name="period_id" id="period_id" class="form-control">
+                                    <select name="period_id" id="period_id" class="form-control select2">
                                         <option value="">-Select-</option>
                                 @if (count($periodList))
                                     @foreach ($periodList as $period)
@@ -59,6 +59,19 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">                                    
+                                    <label for="Amount">Number of Downloads<span class="red_star">*</span></label>
+                                    {{ Form::text('no_of_downloads', null, array(
+                                                                    'id' => 'no_of_downloads',
+                                                                    'min' => 1,
+                                                                    'placeholder' => 'Number of downloads',
+                                                                    'class' => 'form-control',
+                                                                    'required' => 'required'
+                                                                    )) }}
+                                    
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">                                    
                                     <label for="Amount">Amount<span class="red_star">*</span></label>

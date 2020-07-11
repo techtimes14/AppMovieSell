@@ -195,12 +195,12 @@ class PlansController extends Controller
             $details = Plan::where('id', $id)->first();
             if ($details != null) {
                 if ($details->status == 1) {
-                    // Checking this package  is already assigned to package duration.
-                    // $packageDurationCount = PackageDuration::where('package_id', $id)->count();
-                    // if ($packageDurationCount > 0) {
-                    //     $request->session()->flash('alert-danger', 'This package is already assigned to package duration');
-                    //     return redirect()->back();
-                    // }
+                    // Checking this period is already assigned to membership plan
+                    $membershipPlanCount = MembershipPlan::where('plan_id', $id)->count();
+                    if ($membershipPlanCount > 0) {
+                        $request->session()->flash('alert-warning', 'This plan is already assigned to membership plan');
+                        return redirect()->back();
+                    }
                     $details->status = '0';
                     $details->save();
                     
@@ -237,13 +237,12 @@ class PlansController extends Controller
 
             $details = Plan::where('id', $id)->first();
             if ($details != null) {
-                // Checking this package  is already assigned to Package duration
-                // $packageDurationCount = PackageDuration::where('package_id', $id)->count();
-                // if ($packageDurationCount > 0) {
-                //     $request->session()->flash('alert-danger', 'This package is already assigned to package duration');
-                //     return redirect()->back();
-                // }
-                
+                // Checking this period is already assigned to membership plan
+                $membershipPlanCount = MembershipPlan::where('plan_id', $id)->count();
+                if ($membershipPlanCount > 0) {
+                    $request->session()->flash('alert-warning', 'This plan is already assigned to membership plan');
+                    return redirect()->back();
+                }                
                 $delete = $details->delete();
                 if ($delete) {
                     $request->session()->flash('alert-danger', 'Plan has been deleted successfully');

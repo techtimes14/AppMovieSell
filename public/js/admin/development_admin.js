@@ -919,6 +919,98 @@ $(document).ready(function() {
             form.submit();
         }
     });
+
+    /* Membership plan start */
+    $("#addMembershipPlanForm").validate({
+        rules: {
+            plan_id: {
+                required: true
+            },
+            period_id: {
+                required: true
+            },
+            amount: {
+                required: true,
+                valid_amount: true
+            },
+            no_of_downloads: {
+                required: true,
+                valid_positive_number: true
+            },
+        },
+        messages: {
+            plan_id: {
+                required: "Please select plan",
+            },
+            period_id: {
+                required: "Please select period",
+            },
+            amount: {
+                required: "Please enter amount",
+                valid_amount: "Please enter valid amount"
+            },
+            no_of_downloads: {
+                required: "Please enter number of downloads",
+                valid_positive_number: "Please enter valid number"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if(element.parent().hasClass('input-group')) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#updateMembershipPlanForm").validate({
+        rules: {
+            plan_id: {
+                required: true
+            },
+            period_id: {
+                required: true
+            },
+            amount: {
+                required: true,
+                valid_amount: true
+            },
+            no_of_downloads: {
+                required: true,
+                valid_positive_number: true
+            },
+        },
+        messages: {
+            plan_id: {
+                required: "Please select plan",
+            },
+            period_id: {
+                required: "Please select period",
+            },
+            amount: {
+                required: "Please enter amount",
+                valid_amount: "Please enter valid amount"
+            },
+            no_of_downloads: {
+                required: "Please enter number of downloads",
+                valid_positive_number: "Please enter valid number"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if(element.parent().hasClass('input-group')) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* Package period end */
     
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({
