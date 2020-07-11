@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2020 at 09:38 AM
+-- Generation Time: Jul 11, 2020 at 10:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -109,6 +109,124 @@ INSERT INTO `ams_cms` (`id`, `name`, `slug`, `title`, `description`, `descriptio
 (9, 'Brand', 'brand', 'Brand Profile', NULL, NULL, NULL, 'Brand', 'Brand', 'Brand', NULL, 1, NULL, NULL),
 (10, 'Profile', 'profile', 'Profile', NULL, NULL, NULL, 'Profile', 'Profile', 'Profile', NULL, 1, NULL, NULL),
 (11, 'My Favourite', 'my-favourite', 'Favourites', NULL, NULL, NULL, 'My Favourite', 'My Favourite', 'My Favourite ', NULL, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_membership_plans`
+--
+
+CREATE TABLE `ams_membership_plans` (
+  `id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL COMMENT 'Id from plans table',
+  `period_id` int(11) NOT NULL COMMENT 'Id from periods table',
+  `no_of_downloads` int(11) DEFAULT NULL,
+  `amount` float(8,2) NOT NULL DEFAULT 0.00,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '0=Inactive, 1=Active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ams_membership_plans`
+--
+
+INSERT INTO `ams_membership_plans` (`id`, `plan_id`, `period_id`, `no_of_downloads`, `amount`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 5, 10.00, '1', '2020-07-11 19:28:18', '2020-07-11 19:28:18', NULL),
+(2, 2, 1, 12, 20.00, '1', '2020-07-11 20:03:55', '2020-07-11 20:51:01', NULL),
+(3, 3, 1, 20, 30.00, '1', '2020-07-11 20:04:13', '2020-07-11 20:04:13', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_periods`
+--
+
+CREATE TABLE `ams_periods` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `period` int(11) NOT NULL COMMENT 'Number of months',
+  `status` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '0=Inactive, 1=Active',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ams_periods`
+--
+
+INSERT INTO `ams_periods` (`id`, `title`, `period`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Monthly', 1, '1', '2020-03-15 15:25:11', '2020-07-10 20:36:12', NULL),
+(2, '3 Months', 3, '1', '2020-03-16 15:25:11', '2020-07-10 20:35:53', '2020-07-10 23:35:49'),
+(3, '6  Months', 6, '1', '2020-03-16 15:25:32', '2020-07-10 20:35:58', '2020-07-11 00:35:54'),
+(4, 'Yearly', 12, '1', '2020-03-16 15:25:49', '2020-07-11 17:07:08', '2020-07-11 17:07:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_plans`
+--
+
+CREATE TABLE `ams_plans` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `status` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '0=Inactive, 1=Active',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ams_plans`
+--
+
+INSERT INTO `ams_plans` (`id`, `title`, `slug`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Basic', 'basic', '1', '2020-07-11 13:27:43', '2020-07-11 19:03:19', NULL),
+(2, 'Standard', 'standard', '1', '2020-07-11 19:05:19', '2020-07-11 19:05:19', NULL),
+(3, 'Advance', 'advance', '1', '2020-07-11 19:07:22', '2020-07-11 19:07:22', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_plan_features`
+--
+
+CREATE TABLE `ams_plan_features` (
+  `id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `feature` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ams_plan_features`
+--
+
+INSERT INTO `ams_plan_features` (`id`, `plan_id`, `feature`) VALUES
+(5, 1, 'Contrary to popular belief'),
+(6, 1, 'It is a long established fact'),
+(7, 1, 'Unlimited Domain Usage'),
+(8, 1, '<strong>All the Lorem Ipsum</strong> generators'),
+(9, 1, 'going to use a passage'),
+(10, 1, '<strong>Lorem Ipsum</strong> is simply'),
+(11, 1, 'Contrary to popular'),
+(12, 2, '<strong>Contrary to popular belief</strong>'),
+(13, 2, 'It is a long established fact'),
+(14, 2, 'Unlimited Domain Usage'),
+(15, 2, '<strong>All the Lorem Ipsum</strong> generators'),
+(16, 2, 'going to use a passage'),
+(17, 2, '<strong>Lorem Ipsum</strong> is simply'),
+(18, 2, '<strong>Lorem Ipsum</strong> is simply'),
+(19, 2, 'Contrary to popular'),
+(20, 3, '<strong>Contrary to popular belief</strong>'),
+(21, 3, 'It is a long established fact'),
+(22, 3, 'Unlimited Domain Usage'),
+(23, 3, '<strong>All the Lorem Ipsum</strong> generators'),
+(24, 3, 'going to use a passage'),
+(25, 3, '<strong>Lorem Ipsum</strong> is simply'),
+(26, 3, 'Contrary to popular');
 
 -- --------------------------------------------------------
 
@@ -552,8 +670,8 @@ CREATE TABLE `ams_tags` (
 --
 
 INSERT INTO `ams_tags` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Movie', 'movie', '1', '2020-06-30 12:07:03', '2020-06-30 12:08:18', NULL),
-(2, 'Mp3', 'mp3', '1', '2020-06-30 12:08:41', '2020-06-30 12:08:41', NULL);
+(1, 'Movie', 'movie', '1', '2020-07-10 18:57:38', '2020-07-10 18:57:38', NULL),
+(2, 'Mp3', 'mp3', '1', '2020-07-10 18:57:42', '2020-07-10 18:57:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -597,11 +715,12 @@ CREATE TABLE `ams_users` (
 --
 
 INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `referral_code`, `referred_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1594361456, 'eDyjOvqpdd2LD97gtKeHMVWqlct3EvRzOBp7EKH9jXNzd0czEL6g6i5A2aCw', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-10 07:37:39', NULL),
+(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1594467258, 'ENVdcHoZYCPh70CpcSu2acT4WK3SS8gQcMkqUEJVj18Gw65PCaU6t3dRLOHy', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-11 20:54:31', NULL),
 (4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', NULL, NULL, '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
 (5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL),
 (6, 'Dean', 'Elgar', 'Dean Elgar', 'dean@yopmail.com', 'dean', NULL, NULL, '$2y$10$osjBmcePMg/xZsR9XnWTx.oTVQusjLtI0H./Q/XLo9hfA.NWEXk2.', NULL, 1, NULL, 'N', 'Dean Elgar', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593965008, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-05 15:59:46', '2020-07-05 16:03:28', NULL),
-(7, 'Mark', 'Taylor', 'Mark Taylor', 'marktaylor@yopmail.com', 'marktaylor', NULL, NULL, '$2y$10$vxEUtV5mnI1t1teICufaVea0xf3Rgpryt6pn7dJakctK8isvPUFfi', NULL, 1, NULL, 'N', 'Mark Taylor', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '7VBEMKDJ', NULL, '2020-07-09 19:46:05', '2020-07-09 19:46:05', NULL);
+(7, 'Mark', 'Taylor', 'Mark Taylor', 'marktaylor@yopmail.com', 'marktaylor', NULL, NULL, '$2y$10$vxEUtV5mnI1t1teICufaVea0xf3Rgpryt6pn7dJakctK8isvPUFfi', NULL, 1, NULL, 'N', 'Mark Taylor', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '7VBEMKDJ', NULL, '2020-07-09 19:46:05', '2020-07-09 19:46:05', NULL),
+(8, 'Steven', 'Gomes', 'Steven Gomes', 'steven@yopmail.com', 'steven', NULL, NULL, '$2y$10$/44LvHqEAEp.Z4wM1plGPuR5SQcINvFXXkQ9k4Q.m0FmJT8m3Qvs2', NULL, 1, NULL, 'N', 'Steven Gomes', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '7VBEMKDJ', 7, '2020-07-11 16:57:08', '2020-07-11 16:57:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -650,6 +769,30 @@ ALTER TABLE `ams_categories`
 -- Indexes for table `ams_cms`
 --
 ALTER TABLE `ams_cms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_membership_plans`
+--
+ALTER TABLE `ams_membership_plans`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_periods`
+--
+ALTER TABLE `ams_periods`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_plans`
+--
+ALTER TABLE `ams_plans`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_plan_features`
+--
+ALTER TABLE `ams_plan_features`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -735,6 +878,30 @@ ALTER TABLE `ams_cms`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `ams_membership_plans`
+--
+ALTER TABLE `ams_membership_plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ams_periods`
+--
+ALTER TABLE `ams_periods`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `ams_plans`
+--
+ALTER TABLE `ams_plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ams_plan_features`
+--
+ALTER TABLE `ams_plan_features`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT for table `ams_products`
 --
 ALTER TABLE `ams_products`
@@ -780,13 +947,13 @@ ALTER TABLE `ams_site_settings`
 -- AUTO_INCREMENT for table `ams_tags`
 --
 ALTER TABLE `ams_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ams_users`
 --
 ALTER TABLE `ams_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ams_user_details`
