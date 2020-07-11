@@ -20,6 +20,7 @@ Use App\User;
 Use App\Banner;
 Use App\Service;
 use App\Contact;
+use App\Contactwidget;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -92,6 +93,9 @@ class HomeController extends Controller
     public function contactUs(Request $request)
     {
         $contactData = Helper::getData('cms', '5');
+        $contactWidgetData = Contactwidget::whereNull('deleted_at')->where('status', '1')
+            ->get();
+        $cmsData = Cms::where('id', 5)->first();
 
         if ($request->isMethod('POST')) {
             // Checking validation
@@ -110,22 +114,11 @@ class HomeController extends Controller
                 'last_name.min'     => 'Please enter last name minimum 2',
                 'last_name.max'     => 'Please enter last name maximum 255',
                 'email.required' =>  'Please enter email',
-                'phone_number.required' =>  trans('custom.enter_your_phone_number'),
+                'phone_number.required' =>  'Please enter phone number',
                 'subject.required'  => 'Please enter subject'
             );
 
-            if ($request->email != null) {
-                $validationConditionEmail = array(
-                    'email' => 'unique:'.(new Contact)->getTable().',email'
-                );
-                $validationMessagesEmail = array(
-                    'email.unique'  => trans('custom.email_unique_check')
-                );
-                $ValidatorEmail = Validator::make($request->all(), $validationConditionEmail, $validationMessagesEmail);
-                if ($ValidatorEmail->fails()) {
-                    return redirect()->back()->withErrors($ValidatorEmail)->withInput();
-                }
-            }
+            
 
             $Validator = Validator::make($request->all(), $validationCondition, $validationMessages);
             if ($Validator->fails()) {
@@ -138,11 +131,11 @@ class HomeController extends Controller
                 $newContact->last_name              = trim($request->last_name, ' ');
                 $newContact->full_name              = $newContact->first_name.' '.$newContact->last_name;
                 $newContact->phone_number           = trim($request->phone_number, ' ');
-                $newContact->subject               = trim($request->subject, ' ');
+                $newContact->subject                = trim($request->subject, ' ');
                 $newContact->email                  = trim($request->email, ' ');
                 
                 $saveContact = $newContact->save();
-                dd($saveContact);
+                
 
                 if ($saveContact) {                    
                     \Mail::send('email_templates.site.thanks_for_contact',
@@ -152,15 +145,14 @@ class HomeController extends Controller
                             'appname'       => $siteSetting->website_title,
                             'appLink'       => Helper::getBaseUrl(),
                             'controllerName'=> 'users',
-                            'currentLang'=> $currentLang,
                         ],
                     ], function ($m) use ($siteSetting) {
-                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('Contact Us - M mert');
+                        $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('Contact Us - '.$siteSetting->website_title);
                     });
-                    $request->session()->flash('alert-success',trans('custom.contactus_success_for_email'));
+                    $request->session()->flash('alert-success','Thank you for contacting with us');
                     return redirect()->back();
                 } else {
-                    $request->session()->flash('alert-danger', trans('custom.error_for_user_add'));
+                    $request->session()->flash('alert-danger', trans('custom.please_try_again'));
                     return redirect()->back();
                 }
             }
@@ -172,6 +164,8 @@ class HomeController extends Controller
             'keyword'       => $contactData['meta_keyword'],
             'description'   => $contactData['meta_description'],
             'contactData'   => $contactData,
+            'contactWidgetData' => $contactWidgetData,
+            'cmsData'       => $cmsData,
         ]);
     }
 
