@@ -104,7 +104,12 @@
 
 													<div class="col-md-6">
 														<div class="form-group">
-														<input class="contact-inp" type="text" name="phone_number" id="phone_number" value="" placeholder="Phone number">
+														{{ Form::text('phone_number', null, array(
+																	'id' => 'phone_number',
+																	'placeholder' => 'Phonr number',
+																	'class' => 'form-control',
+																	'required' => 'required'
+																	)) }}
 														</div>
 													</div>
 											</div>

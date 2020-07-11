@@ -847,6 +847,61 @@ $(document).ready(function() {
         }
     });
 
+    /* Contact start */
+    $("#contactusForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            last_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            email: {
+                required: true
+            },
+            phone_number: {
+                required: true,
+            },
+            subject: {
+                required: true,
+            },
+        },
+        messages: {
+            first_name: {
+                required: "Please enter first name",
+                minlength: "First name should be atleast 2 characters",
+                maxlength: "First name must not be more than 255 characters"
+            },
+            last_name: {
+                required: "Please enter last name",
+                minlength: "Last name should be atleast 2 characters",
+                maxlength: "Last name must not be more than 255 characters"
+            },
+            email: {
+                required: "Please enter email"
+            },
+            phone_number: {
+                required: "Please enter phone number",
+            },
+            subject: {
+                required: "Please enter subject",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* Contact end */
+
     
     /************************************* Cart Start **********************************/
     // Without Product Attributes - Ingredients check and uncheck

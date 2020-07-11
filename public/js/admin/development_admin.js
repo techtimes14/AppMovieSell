@@ -782,6 +782,8 @@ $(document).ready(function() {
     });
     /* Contactwidget end */
 
+    
+
     /* Period start */
     $("#addPeriodForm").validate({
         ignore: [],
