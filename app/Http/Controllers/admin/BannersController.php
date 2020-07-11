@@ -66,7 +66,7 @@ class BannersController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new Banner)->getTable().',title',
+                    'title'             => 'required|min:2|max:255|unique:'.(new Banner)->getTable().',title,NULL,NULL,deleted_at,NULL',
                     'image'             => 'required',
                     'image'             => 'dimensions:min_width='.AdminHelper::ADMIN_BANNER_THUMB_IMAGE_WIDTH.', min_height='.AdminHelper::ADMIN_BANNER_THUMB_IMAGE_HEIGHT,
                     'image'             => 'mimes:jpeg,jpg,png,svg|max:'.AdminHelper::IMAGE_MAX_UPLOAD_SIZE,
@@ -140,7 +140,7 @@ class BannersController extends Controller
                     return redirect()->route('admin.banner.list');
                 }
                 $validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new Banner)->getTable().',title,' .$id,
+                    'title'             => 'required|min:2|max:255|unique:'.(new Banner)->getTable().',title,' .$id.',id,deleted_at,NULL',
                 );
                 $validationMessages = array(
                     'title.required'            => 'Please enter title',

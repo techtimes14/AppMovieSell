@@ -67,7 +67,7 @@ class CategoriesController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title' => 'required|min:2|max:255|unique:'.(new Category)->getTable().',title',
+                    'title' => 'required|min:2|max:255|unique:'.(new Category)->getTable().',title,NULL,NULL,deleted_at,NULL',
                     'image' => 'required|mimes:jpeg,jpg,png,svg',
                     'allow_format' => 'required',
 				);
@@ -137,7 +137,7 @@ class CategoriesController extends Controller
                     return redirect()->route('admin.category.list');
                 }
                 $validationCondition = array(
-                    'title'         => 'required|min:2|max:255|unique:' .(new Category)->getTable().',title,' .$id,
+                    'title'         => 'required|min:2|max:255|unique:' .(new Category)->getTable().',title,' .$id.',id,deleted_at,NULL',
                     'allow_format'  => 'required',
                 );
                 $validationMessages = array(

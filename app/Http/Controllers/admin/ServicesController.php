@@ -68,7 +68,7 @@ class ServicesController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new Service)->getTable().',title',
+                    'title'             => 'required|min:2|max:255|unique:'.(new Service)->getTable().',title,NULL,NULL,deleted_at,NULL',
 					'description'	    => 'required|min:10',
 					'image'             => 'required',
                     'image'             => 'dimensions:min_width='.AdminHelper::ADMIN_SERVICE_THUMB_IMAGE_WIDTH.', min_height='.AdminHelper::ADMIN_SERVICE_THUMB_IMAGE_HEIGHT,
@@ -145,7 +145,7 @@ class ServicesController extends Controller
                     return redirect()->route('admin.service.list');
                 }
                 $validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new Service)->getTable().',title,' .$id,
+                    'title'             => 'required|min:2|max:255|unique:'.(new Service)->getTable().',title,' .$id.',id,deleted_at,NULL',
                     'description'	    => 'required|min:10',
                 );
                 $validationMessages = array(

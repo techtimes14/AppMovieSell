@@ -73,7 +73,7 @@ class ProductsController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title' => 'required|min:2|max:255|unique:'.(new Product)->getTable().',title',
+                    'title' => 'required|min:2|max:255|unique:'.(new Product)->getTable().',title,NULL,NULL,deleted_at,NULL',
                     'description' => 'required|min:2|max:255',
                     'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
                     'category_id' => 'required',
@@ -149,7 +149,7 @@ class ProductsController extends Controller
                     return redirect()->route('admin.product.list');
                 }
                 $validationCondition = array(
-                    'title'         => 'required|min:2|max:255|unique:' .(new Product)->getTable().',title,' .$id,
+                    'title'         => 'required|min:2|max:255|unique:' .(new Product)->getTable().',title,' .$id.',id,deleted_at,NULL',
                     'description'   => 'required|min:2|max:255',
                     'price'         => 'required|regex:/^\d+(\.\d{1,2})?$/',
                     'category_id'   => 'required',

@@ -68,7 +68,7 @@ class ContactwidgetsController extends Controller
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title',
+                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title,NULL,NULL,deleted_at,NULL',
                     'description'	    => 'required|min:10',
                     'icon_class'        => 'required',
 				);
@@ -128,7 +128,7 @@ class ContactwidgetsController extends Controller
                     return redirect()->route('admin.contactwidget.list');
                 }
                 $validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title,' .$id,
+                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title,' .$id.',id,deleted_at,NULL',
                     'description'	    => 'required|min:10',
                     'icon_class'        => 'required',
                 );
