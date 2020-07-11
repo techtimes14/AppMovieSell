@@ -782,6 +782,80 @@ $(document).ready(function() {
     });
     /* Contactwidget end */
 
+    /* Contactwidget start */
+    $("#addAboutUsForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2
+            },
+            image: {
+                required: true,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters"
+            },
+            image: {
+                required: "Please enter image",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#editAboutUsForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters"
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* Contactwidget end */
+
     
 
     /* Period start */

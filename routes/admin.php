@@ -150,6 +150,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/status/{id}', 'MembershipPlansController@status')->name('change-status')->where('id','[0-9]+');
             Route::get('/delete/{id}', 'MembershipPlansController@delete')->name('delete')->where('id','[0-9]+');
         });
+
+        Route::group(['prefix' => 'aboutus', 'as' => 'aboutus.'], function () {
+            Route::get('/', 'AboutsController@list')->name('list');
+            Route::get('/add', 'AboutsController@add')->name('add');
+            Route::post('/add-submit', 'AboutsController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'AboutsController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'AboutsController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'AboutsController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'AboutsController@delete')->name('delete')->where('id','[0-9]+');
+        });
     
 		
     });

@@ -42,6 +42,28 @@
     @endif
     <!-- User management End -->
 
+    <!-- About Us management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.aboutus.list',$getAllRoles) || in_array('admin.aboutus.add',$getAllRoles) || (in_array('admin.aboutus.list',$getAllRoles) && in_array('admin.aboutus.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.aboutus.list' || Route::current()->getName() == 'admin.aboutus.add' || Route::current()->getName() == 'admin.aboutus.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-book" aria-hidden="true"></i>
+                <span>About Us Management</span>
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>  
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.aboutus.list' || Route::current()->getName() == 'admin.aboutus.add' || Route::current()->getName() == 'admin.aboutus.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.aboutus.list',$getAllRoles) || (in_array('admin.aboutus.list',$getAllRoles) && in_array('admin.aboutus.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.aboutus.list')class="active" @endif><a href="{{ route('admin.aboutus.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.aboutus.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.aboutus.add')class="active" @endif><a href="{{ route('admin.aboutus.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- About Us management End -->
+
      <!-- Category management Start -->
      @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.category.list',$getAllRoles) || in_array('admin.category.add',$getAllRoles) || (in_array('admin.category.list',$getAllRoles) && in_array('admin.category.edit',$getAllRoles))) )
         <li class="treeview @if (Route::current()->getName() == 'admin.category.list' || Route::current()->getName() == 'admin.category.add' || Route::current()->getName() == 'admin.category.edit')menu-open @endif">
