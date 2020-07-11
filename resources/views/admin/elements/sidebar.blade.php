@@ -193,8 +193,51 @@
             </ul>
         </li>
     @endif
-    <!-- period management End -->
+    <!-- Period management End -->
 
+    <!-- Plan management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.plan.list',$getAllRoles) || in_array('admin.plan.add',$getAllRoles) || (in_array('admin.plan.list',$getAllRoles) && in_array('admin.plan.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.plan.list' || Route::current()->getName() == 'admin.plan.add' || Route::current()->getName() == 'admin.plan.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <span>Plan Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.plan.list' || Route::current()->getName() == 'admin.plan.add' || Route::current()->getName() == 'admin.plan.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.plan.list',$getAllRoles) || (in_array('admin.plan.list',$getAllRoles) && in_array('admin.plan.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.plan.list')class="active" @endif><a href="{{ route('admin.plan.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.plan.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.plan.add')class="active" @endif><a href="{{ route('admin.plan.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Plan management End -->
+
+    <!-- Membership Plan management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.plan.list',$getAllRoles) || in_array('admin.plan.add',$getAllRoles) || (in_array('admin.membershipPlan.list',$getAllRoles) && in_array('admin.membershipPlan.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.membershipPlan.list' || Route::current()->getName() == 'admin.membershipPlan.add' || Route::current()->getName() == 'admin.membershipPlan.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-tasks" aria-hidden="true"></i>
+                <span>Membership Plan Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.membershipPlan.list' || Route::current()->getName() == 'admin.membershipPlan.add' || Route::current()->getName() == 'admin.membershipPlan.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.membershipPlan.list',$getAllRoles) || (in_array('admin.membershipPlan.list',$getAllRoles) && in_array('admin.membershipPlan.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.membershipPlan.list')class="active" @endif><a href="{{ route('admin.membershipPlan.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.membershipPlan.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.membershipPlan.add')class="active" @endif><a href="{{ route('admin.membershipPlan.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Membership  Plan management End -->
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))

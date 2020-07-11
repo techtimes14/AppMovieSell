@@ -1,11 +1,6 @@
 <?php
 /*****************************************************/
-# PackageDurationsController
-# Page/Class name   : PackageDurationsController
-# Author            :
-# Created Date      : 18-03-2020
-# Functionality     : list, add, edit, change status,
-#                     delete
+# Page/Class name   : MembershipPlansController
 # Purpose           : Package related operations
 /*****************************************************/
 namespace App\Http\Controllers\admin;
@@ -13,35 +8,32 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\PackagePeriod;
-use App\Package;
-use App\PackageDuration;
+use App\Period;
+use App\Plan;
+use App\MembershipPlan;
 use Helper;
 use AdminHelper;
 
-class PackageDurationsController extends Controller
+class MembershipPlansController extends Controller
 {
     /*****************************************************/
-    # PackageDurationsController
     # Function name : list
-    # Author        :
-    # Created Date  : 18-03-2020
-    # Purpose       : Showing list of packages
     # Params        : Request $request
     /*****************************************************/
     public function list(Request $request)
     {
-        $data['page_title'] = 'Package Duration List';
-        $data['panel_title']= 'Package Duration List';
-        $data['order_by']   = 'created_at';
-        $data['order']      = 'desc';
-
-        $pageNo = $request->input('page');
-        Session::put('pageNo',$pageNo);
+        $data['page_title'] = 'Membership Plan List';
+        $data['panel_title']= 'Membership Plan List';
         
         try
         {
-            $query = PackageDuration::whereNull('deleted_at');
+            $data['order_by']   = 'created_at';
+            $data['order']      = 'desc';
+
+            $pageNo = $request->input('page');
+            Session::put('pageNo',$pageNo);
+
+            $query = MembershipPlan::whereNull('deleted_at');
 
             $data['searchText'] = $key = $request->searchText;
             
@@ -54,20 +46,19 @@ class PackageDurationsController extends Controller
 
             $exists = $query->count();
             if ($exists > 0) {
-                $list = $query->orderBy($data['order_by'], $data['order'])
-                                            ->paginate(AdminHelper::ADMIN_PACKAGE_DURATION_LIMIT);
-                $data['packageDurationList'] = $list;
+                $list = $query->orderBy($data['order_by'], $data['order'])->paginate(AdminHelper::ADMIN_LIST_LIMIT);
+                $data['list'] = $list;
             } else {
-                $data['packageDurationList'] = array();
+                $data['list'] = array();
             }
-            return view('admin.package_duration.list', $data);
+            return view('admin.membership_plan.list', $data);
         } catch (Exception $e) {
-            return redirect()->route('admin.package_duration.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.membershipPlan.list')->with('error', $e->getMessage());
         }
     }
 
     /*****************************************************/
-    # PackageDurationsController
+    # MembershipPlansController
     # Function name : add
     # Author        :
     # Created Date  : 18-03-2020
@@ -132,7 +123,7 @@ class PackageDurationsController extends Controller
     }
 
     /*****************************************************/
-    # PackageDurationsController
+    # MembershipPlansController
     # Function name : edit
     # Author        :
     # Created Date  : 18-03-2020
@@ -207,7 +198,7 @@ class PackageDurationsController extends Controller
     }
 
     /*****************************************************/
-    # PackageDurationsController
+    # MembershipPlansController
     # Function name : status
     # Author        :
     # Created Date  : 18-03-2020
@@ -248,7 +239,7 @@ class PackageDurationsController extends Controller
     }
 
     /*****************************************************/
-    # PackageDurationsController
+    # MembershipPlansController
     # Function name : delete
     # Author        :
     # Created Date  : 18-03-2020

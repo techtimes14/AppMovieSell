@@ -856,7 +856,67 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    /* Package period end */
+    /* Period end */
+
+    /* Add Plan */
+    $("#addPlanForm").validate({
+        ignore: [],
+        // debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if(element.parent().hasClass('input-group')){
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    /* Edit Plan */
+    $("#updatePlanForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+        },
+        errorPlacement: function(error, element) {
+            if (element.parent().hasClass('input-group')){
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
     
     /* Site Settings */
     $("#updateSiteSettingsForm").validate({

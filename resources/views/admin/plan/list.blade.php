@@ -6,7 +6,7 @@
 <section class="content-header">
     <h1>{{ $page_title }}</h1>
     <ol class="breadcrumb">
-        <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">{{ $page_title }}</li>
     </ol>
 </section>
@@ -25,16 +25,16 @@
                         {{ Form::open(array(
                                         'method' => 'GET',
                                         'class' => 'display_table',
-                                        'route' =>  ['admin.package.list'],
-                                        'id' => 'searchPackageForm',
+                                        'route' =>  ['admin.plan.list'],
+                                        'id' => 'searchPlanForm',
                                         'novalidate' => true)) }}
                           {{ Form::text('searchText', (isset($searchText)) ? $searchText:null, array(
                                         'id' => 'searchText',
-                                        'placeholder' => 'Search by Package or Grace Period or Allow user',
+                                        'placeholder' => 'Search by title',
                                         'class' => 'form-control pull-right')) }}
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                <a href="{{ route('admin.package.list') }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+                                <a href="{{ route('admin.plan.list') }}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
                             </div>
                         {!! Form::close() !!}
                         </div>
@@ -48,36 +48,32 @@
                   <table class="table table-bordered">
                       <tr>
                           <th>Title</th>
-                          <th>Grace Period (in days)</th>
-                          <th>Allow User (in number)</th>
                           <th>Status</th>
                           <th class="action_width text_align_center">Action</th>
                       </tr>
-                    @if(count($packageList) > 0)
-                      @foreach ($packageList as $row)
+                    @if(count($list) > 0)
+                      @foreach ($list as $row)
                       <tr>
                           <td>{{ $row['title'] }}</td>
-                          <td>{{ $row['grace_period'] }}</td>
-                          <td>{{ $row['allow_user'] }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">
                               @if($row['status'] == '1')
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive the package?',  'warning', true)" data-href="{{ route('admin.package.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to inactive the plan?',  'warning', true)" data-href="{{ route('admin.plan.change-status', [$row->id]) }}" title="Status">
                                     Active
                                 </a>
                             @else
-                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active the package?',  'warning',  true)" data-href="{{ route('admin.package.change-status', [$row->id]) }}" title="Status">
+                                <a class="color_white" href="javascript:void(0)" onclick="return sweetalertMessageRender(this, 'Are you sure you want to active the plan?',  'warning',  true)" data-href="{{ route('admin.plan.change-status', [$row->id]) }}" title="Status">
                                     Inactive
                                 </a>
                             @endif
                             </span>
                           </td>
                           <td class="text_align_center">
-                            <a href="{{ route('admin.package.edit', [$row->id]) }}" title="Edit" class="btn btn-info btn-sm">
+                            <a href="{{ route('admin.plan.edit', [$row->id]) }}" title="Edit" class="btn btn-info btn-sm">
                               <i class="fa fa-pencil" aria-hidden="true"></i>
                             </a>
                             &nbsp;
-                            <a onclick="return sweetalertMessageRender(this, 'Are you sure you want to delete the package?', 'error',  true)" href="javascript:void(0)" data-href="{{ route('admin.package.delete', [$row->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            <a onclick="return sweetalertMessageRender(this, 'Are you sure you want to delete the plan?', 'error',  true)" href="javascript:void(0)" data-href="{{ route('admin.plan.delete', [$row->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
                           </td>                            
                       </tr>
                       @endforeach
@@ -90,16 +86,16 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                @if(count($packageList)>0)
+                @if(count($list)>0)
                   <div class="row">
                     <div class="col-sm-3">
                       <div class="pull-left page_of_margin">
-                        {{ AdminHelper::paginationMessage($packageList) }}
+                        {{ AdminHelper::paginationMessage($list) }}
                       </div>
                     </div>
                     <div class="col-sm-9">
                       <div class="no-margin pull-right">                      
-                        {{ $packageList->appends(request()->input())->links() }}
+                        {{ $list->appends(request()->input())->links() }}
                       </div>
                     </div>
                   </div>

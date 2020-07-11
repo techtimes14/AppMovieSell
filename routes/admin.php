@@ -130,7 +130,26 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/delete/{id}', 'PeriodsController@delete')->name('delete')->where('id','[0-9]+');
         });
 
+        Route::group(['prefix' => 'plan', 'as' => 'plan.'], function () {
+            Route::get('/', 'PlansController@list')->name('list');
+            Route::get('/add', 'PlansController@add')->name('add');
+            Route::post('/add-submit', 'PlansController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'PlansController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'PlansController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'PlansController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'PlansController@delete')->name('delete')->where('id','[0-9]+');
+            Route::any('/delete-plan-feature', 'PlansController@deletePlanFeature')->name('delete-plan-feature')->where('id','[0-9]+');
+        });
 
+        Route::group(['prefix' => 'membershipPlan', 'as' => 'membershipPlan.'], function () {
+            Route::get('/', 'MembershipPlansController@list')->name('list');
+            Route::get('/add', 'MembershipPlansController@add')->name('add');
+            Route::post('/add-submit', 'MembershipPlansController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'MembershipPlansController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'MembershipPlansController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'MembershipPlansController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'MembershipPlansController@delete')->name('delete')->where('id','[0-9]+');
+        });
     
 		
     });
