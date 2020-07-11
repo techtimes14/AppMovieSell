@@ -69,7 +69,7 @@ class AboutsController extends Controller
         	{
 				$validationCondition = array(
                     'title'             => 'required|min:2|max:255|unique:'.(new About)->getTable().',title,NULL,NULL,deleted_at,NULL',
-					'description'	    => 'required|min:10',
+					'description'	    => 'required|min:2',
 					'image'             => 'required',
                     'image'             => 'dimensions:min_width='.AdminHelper::ADMIN_ABOUTUS_THUMB_IMAGE_WIDTH.', min_height='.AdminHelper::ADMIN_ABOUTUS_THUMB_IMAGE_HEIGHT,
                     'image'             => 'mimes:jpeg,jpg,png,svg|max:'.AdminHelper::IMAGE_MAX_UPLOAD_SIZE,
@@ -146,7 +146,7 @@ class AboutsController extends Controller
                 }
                 $validationCondition = array(
                     'title'             => 'required|min:2|max:255|unique:'.(new About)->getTable().',title,' .$id.',id,deleted_at,NULL',
-                    'description'	    => 'required|min:10',
+                    'description'	    => 'required|min:2',
                 );
                 $validationMessages = array(
                     'title.required'            => 'Please enter title',

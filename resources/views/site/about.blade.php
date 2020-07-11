@@ -38,20 +38,23 @@
     <!--================================
     END ABOUT HERO AREA
     =================================-->
+@if($aboutUsData->count() > 0)
     <section class="about_mission">
+    @foreach($aboutUsData as $key => $aboutUs)
+        @php
+        $imgPath = URL:: asset('images').'/site/'.Helper::NO_IMAGE;
+        if(file_exists(public_path('/uploads/about/thumbs/'.$aboutUs->image))) {
+            $imgPath = URL::to('/').'/uploads/about/thumbs/'.$aboutUs->image;
+        }
+        if($key % 2 == 0) {
+        @endphp
         <div class="content_block1">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-12">
                         <div class="content_area">
-                            <h1 class="content_area--title">About
-                                <span class="highlight">MartPlace</span>
-                            </h1>
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra justo ut sceler isque the mattis,
-                                leo quam aliquet congue this there placerat mi id nisi they interdum mollis. Praesent pharetra
-                                justo ut sceleris que the mattis, leo quam aliquet. Nunc placer atmi id nisi interdum mollis
-                                quam. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                                invidunt sanctus est Lorem ipsum dolor sit amet consetetur sadipscing.</p>
+                            <h1 class="content_area--title">{!! $aboutUs->title !!}</h1>
+                            {!! $aboutUs->description !!}
                         </div>
                     </div>
                     <!-- end /.col-md-5 -->
@@ -62,25 +65,20 @@
 
             <div class="content_image bgimage">
                 <div class="bg_image_holder">
-                    <img src="images/ab1.jpg" alt="">
+                    <img src="{{$imgPath}}" alt="">
                 </div>
             </div>
         </div>
-        <!-- end /.about -->
-
+        @php
+        }else {
+        @endphp
         <div class="content_block2">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5 col-md-6  offset-md-6 offset-lg-7">
                         <div class="content_area2">
-                            <h1 class="content_area2--title">MartPlace
-                                <span class="highlight">Mission</span>
-                            </h1>
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra justo ut sceler isque the mattis,
-                                leo quam aliquet congue this there placerat mi id nisi they interdum mollis. Praesent pharetra
-                                justo ut sceleris que the mattis, leo quam aliquet. Nunc placer atmi id nisi interdum mollis
-                                quam. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                                invidunt sanctus est Lorem ipsum dolor sit amet consetetur sadipscing.</p>
+                            <h1 class="content_area2--title">{!! $aboutUs->title !!}</h1>
+                            {!! $aboutUs->description !!}
                         </div>
                     </div>
                     <!-- end /.col-md-5 -->
@@ -91,12 +89,16 @@
 
             <div class="content_image2 bgimage">
                 <div class="bg_image_holder">
-                    <img src="images/ab2.jpg" alt="">
+                    <img src="{{$imgPath}}" alt="">
                 </div>
             </div>
-        </div>
-        <!-- end /.mission-->
+        </div> 
+        @php
+        }
+        @endphp
+    @endforeach
     </section>
+@endif
     <!--================================
     END ABOUT HERO AREA
     =================================-->

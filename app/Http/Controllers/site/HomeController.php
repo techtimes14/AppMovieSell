@@ -21,6 +21,7 @@ Use App\Banner;
 Use App\Service;
 use App\Contact;
 use App\Contactwidget;
+use App\About;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -57,6 +58,8 @@ class HomeController extends Controller
     public function aboutUs()
     {
         $aboutData      = Helper::getData('cms', '2');
+        $aboutUsData    = About::whereNull('deleted_at')->where('status', '1')
+        ->get();
         
         return view('site.about',[
             'pageTitle'     => $aboutData['title'],
@@ -64,6 +67,7 @@ class HomeController extends Controller
             'keyword'       => $aboutData['meta_keyword'], 
             'description'   => $aboutData['meta_description'],
             'aboutData'     => $aboutData,
+            'aboutUsData'   => $aboutUsData,
         ]);
     }
 
