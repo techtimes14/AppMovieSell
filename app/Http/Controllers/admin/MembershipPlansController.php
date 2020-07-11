@@ -58,17 +58,13 @@ class MembershipPlansController extends Controller
     }
 
     /*****************************************************/
-    # MembershipPlansController
     # Function name : add
-    # Author        :
-    # Created Date  : 18-03-2020
-    # Purpose       : Add a package duration
     # Params        : Request $request
     /*****************************************************/
     public function add(Request $request)
     {
-        $data['page_title']     = 'Add Package Duration';
-        $data['panel_title']    = 'Add Package Duration';
+        $data['page_title']     = 'Add Membership Plan';
+        $data['panel_title']    = 'Add Membership Plan';
     
         try
         {
@@ -110,15 +106,15 @@ class MembershipPlansController extends Controller
 				}
             }
             
-            $packagePeriodList = PackagePeriod::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
-            $data['packagePeriodList'] = $packagePeriodList;
+            $periodList = Period::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['periodList'] = $periodList;
 
-            $packageList = Package::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
-            $data['packageList'] = $packageList;
+            $planList = Plan::select('id','title')->where(['status' => '1'])->whereNull('deleted_at')->get();
+            $data['planList'] = $planList;
 
-			return view('admin.package_duration.add', $data);
+			return view('admin.membership_plan.add', $data);
 		} catch (Exception $e) {
-			return redirect()->route('admin.packageDuration.list')->with('error', $e->getMessage());
+			return redirect()->route('admin.membership_plan.list')->with('error', $e->getMessage());
 		}        
     }
 

@@ -7,7 +7,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{route('admin.packageDuration.list')}}"><i class="fa fa-archive"></i> Pakage Duration List</a></li>
+        <li><a href="{{route('admin.membershipPlan.list')}}"><i class="fa fa-tasks"></i> Membership Plan List</a></li>
         <li class="active">{{ $page_title }}</li>
     </ol>
 </section>
@@ -23,21 +23,21 @@
                 {{ Form::open(array(
 		                            'method'=> 'POST',
 		                            'class' => '',
-                                    'route' => ['admin.packageDuration.addsubmit'],
-                                    'name'  => 'addPackageDurationForm',
-                                    'id'    => 'addPackageDurationForm',
+                                    'route' => ['admin.membershipPlan.addsubmit'],
+                                    'name'  => 'addMembershipPlanForm',
+                                    'id'    => 'addMembershipPlanForm',
                                     'files' => true,
 		                            'novalidate' => true)) }}
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="title">Package<span class="red_star">*</span></label>
-                                    <select name="package_id" id="package_id" class="form-control" value="{{old('package_id')}}">
+                                    <label for="title">Plan<span class="red_star">*</span></label>
+                                    <select name="plan_id" id="plan_id" class="form-control" value="{{old('plan_id')}}">
                                         <option value="">-Select-</option>
-                                @if (count($packageList))
-                                    @foreach ($packageList as $package)
-                                        <option value="{{$package->id}}" @if($package->id == old('package_id') ) selected="selected" @endif>{{$package->title}}</option>
+                                @if (count($planList))
+                                    @foreach ($planList as $plan)
+                                        <option value="{{$plan->id}}" @if($plan->id == old('plan_id') ) selected="selected" @endif>{{$plan->title}}</option>
                                     @endforeach
                                 @endif
                                     </select>
@@ -45,12 +45,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="title">Package Period<span class="red_star">*</span></label>
-                                    <select name="package_period_id" id="package_period_id" class="form-control">
+                                    <label for="title">Period<span class="red_star">*</span></label>
+                                    <select name="period_id" id="period_id" class="form-control">
                                         <option value="">-Select-</option>
-                                @if (count($packagePeriodList))
-                                    @foreach ($packagePeriodList as $packagePeriod)
-                                        <option value="{{$packagePeriod->id}}" @if($packagePeriod->id == old('package_period_id') ) selected="selected" @endif>{{$packagePeriod->title}}</option>
+                                @if (count($periodList))
+                                    @foreach ($periodList as $period)
+                                        <option value="{{$period->id}}" @if($period->id == old('period_id') ) selected="selected" @endif>{{$period->title}}</option>
                                     @endforeach
                                 @endif
                                     </select>
@@ -64,7 +64,7 @@
                                     <label for="Amount">Amount<span class="red_star">*</span></label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
-                                            SAR
+                                            $
                                         </div>
                                         {{ Form::text('amount', null, array(
                                                                         'id' => 'amount',
@@ -82,7 +82,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('admin.packagePeriod.list') }}" class="btn btn-block btn-default btn_width_reset">Cancel</a>
+                                <a href="{{ route('admin.membershipPlan.list') }}" class="btn btn-block btn-default btn_width_reset">Cancel</a>
                             </div>
                         </div>
                     </div>
