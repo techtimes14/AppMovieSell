@@ -468,11 +468,8 @@
                 <!-- start col-md-12 -->
                 <div class="col-md-12">
                     <div class="section-title">
-                        <h1>Why Choose
-                            <span class="highlighted">MartPlace</span>
-                        </h1>
-                        <p>Laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats. Lid
-                            est laborum dolo rumes fugats untras.</p>
+                        <h1>{!! $homeCmsData->name !!}</h1>
+                        {!! $homeCmsData->description !!}
                     </div>
                 </div>
                 <!-- end /.col-md-12 -->
@@ -480,59 +477,30 @@
             <!-- end /.row -->
 
             <!-- start row -->
+        @if($whyusData->count() > 0)
             <div class="row">
                 <!-- start .col-md-4 -->
+            @foreach($whyusData as $key => $data)
                 <div class="col-lg-4 col-md-6">
                     <!-- start .reason -->
                     <div class="feature2">
-                        <span class="feature2__count">01</span>
+                        <span class="feature2__count">{{sprintf("%02d",$key+1)}}</span>
                         <div class="feature2__content">
-                            <span class="lnr lnr-license pcolor"></span>
-                            <h3 class="feature2-title">Lorem Ipsum</h3>
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
+                            <span class="{{$data->icon_class}}"></span>
+                            <h3 class="feature2-title">{{$data->title}}</h3>
+                            <p>{!! $data->description !!}</p>
                         </div>
                         <!-- end /.feature2__content -->
                     </div>
                     <!-- end /.feature2 -->
                 </div>
+            @endforeach
                 <!-- end /.col-md-4 -->
 
-                <!-- start .col-md-4 -->
-                <div class="col-lg-4 col-md-6">
-                    <!-- start .feature2 -->
-                    <div class="feature2">
-                        <span class="feature2__count">02</span>
-                        <div class="feature2__content">
-                            <span class="lnr lnr-magic-wand scolor"></span>
-                            <h3 class="feature2-title">Lorem Ipsum</h3>
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
-                        </div>
-                        <!-- end /.feature2__content -->
-                    </div>
-                    <!-- end /.feature2 -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-4 col-md-6">
-                    <!-- start .feature2 -->
-                    <div class="feature2">
-                        <span class="feature2__count">03</span>
-                        <div class="feature2__content">
-                            <span class="lnr lnr-lock mcolor1"></span>
-                            <h3 class="feature2-title">Lorem Ipsum</h3>
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
-                        </div>
-                        <!-- end /.feature2__content -->
-                    </div>
-                    <!-- end /.feature2 -->
-                </div>
-                <!-- end /.col-md-4 -->
+               
                
             </div>
+        @endif
             <!-- end /.row -->
         </div>
         <!-- end /.container -->

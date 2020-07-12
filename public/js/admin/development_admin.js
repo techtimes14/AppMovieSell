@@ -782,7 +782,7 @@ $(document).ready(function() {
     });
     /* Contactwidget end */
 
-    /* Contactwidget start */
+    /* About us start */
     $("#addAboutUsForm").validate({
         ignore: [],
         debug: false,
@@ -854,7 +854,87 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    /* Contactwidget end */
+    /* About us end */
+
+    /* WhyusMarketplace start */
+    $("#addWhyusMarketForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2
+            },
+            icon_class: {
+                required: true,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters"
+            },
+            icon_class: {
+                required: "Please enter Icon",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $("#editWhyusMarketForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            title: {
+                required: true,
+                minlength: 2,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 2
+            },
+            icon_class: {
+                required: true,
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+                minlength: "Title should be atleast 2 characters",
+                maxlength: "Title must not be more than 255 characters"
+            },
+            description: {
+                required: "Please enter description",
+                minlength: "Description should be atleast 2 characters"
+            },
+            icon_class: {
+                required: "Please enter Icon",
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    /* WhyusMarketplace end */
 
     
 

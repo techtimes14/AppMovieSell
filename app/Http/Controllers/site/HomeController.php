@@ -22,6 +22,7 @@ Use App\Service;
 use App\Contact;
 use App\Contactwidget;
 use App\About;
+use App\WhyUsMarket;
 use Illuminate\Support\Facades\Session;
 use Image;
 
@@ -29,15 +30,20 @@ class HomeController extends Controller
 {
     /*****************************************************/
     # Function name : index
-    # Params        : 
+    # Params        : Request $request
     /*****************************************************/
-    public function index()
+    public function index(Request $request)
     {
         $homeData       = Helper::getData('cms', '1');
         $aboutData      = Helper::getData('cms', '2');
         $trendingData   = Helper::getData('cms', '6');
         $browseByData   = Helper::getData('cms', '8');
         $siteSetting    = Helper::getSiteSettings();
+
+        $whyusData      = WhyUsMarket::whereNull('deleted_at')->where('status', '1')
+                            ->get();
+        $homeCmsData    = Cms::where('id', 1)->first();
+        // dd($homeCmsData);
 
         return view('site.home',[
             'pageTitle'     => $aboutData['title'],
@@ -48,6 +54,8 @@ class HomeController extends Controller
             'trendingData'  => $trendingData,
             'browseByData'  => $browseByData,
             'siteSetting'   => $siteSetting,
+            'whyusData'     => $whyusData,
+            'homeCmsData'   => $homeCmsData,
             ]);
     }
 

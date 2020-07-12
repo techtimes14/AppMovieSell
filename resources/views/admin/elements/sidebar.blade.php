@@ -260,6 +260,28 @@
         </li>
     @endif
     <!-- Membership  Plan management End -->
+
+    <!-- Whyus Marketplace management Start -->
+    @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.whyusmarket.list',$getAllRoles) || in_array('admin.whyusmarket.add',$getAllRoles) || (in_array('admin.whyusmarket.list',$getAllRoles) && in_array('admin.whyusmarket.edit',$getAllRoles))) )
+        <li class="treeview @if (Route::current()->getName() == 'admin.whyusmarket.list' || Route::current()->getName() == 'admin.whyusmarket.add' || Route::current()->getName() == 'admin.whyusmarket.edit')menu-open @endif">
+            <a href="#">
+                <i class="fa fa-address-card" aria-hidden="true"></i> 
+                <span> Whyus Marketplace Management</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" @if (Route::current()->getName() == 'admin.whyusmarket.list' || Route::current()->getName() == 'admin.whyusmarket.add' || Route::current()->getName() == 'admin.whyusmarket.edit')style="display: block;" @endif>
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.whyusmarket.list',$getAllRoles) || (in_array('admin.whyusmarket.list',$getAllRoles) && in_array('admin.whyusmarket.edit',$getAllRoles))) )
+                    <li @if (Route::current()->getName() == 'admin.whyusmarket.list')class="active" @endif><a href="{{ route('admin.whyusmarket.list') }}"><i class="fa fa-list"></i> List</a></li>
+                @endif
+                @if ( (Auth::guard('admin')->user()->role_id==1) || (in_array('admin.whyusmarket.add',$getAllRoles)) )
+                    <li @if (Route::current()->getName() == 'admin.whyusmarket.add')class="active" @endif><a href="{{ route('admin.whyusmarket.add') }}"><i class="fa fa-plus-circle"></i> Add</a></li>
+                @endif
+            </ul>
+        </li>
+    @endif
+    <!-- Whyus Marketplace management End -->
     
     <!-- Website management start -->    
     @if ((Auth::guard('admin')->user()->role_id==1))

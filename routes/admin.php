@@ -160,6 +160,16 @@ Route::group(['namespace' => 'admin', 'prefix' => 'securepanel', 'as' => 'admin.
             Route::get('/status/{id}', 'AboutsController@status')->name('change-status')->where('id','[0-9]+');
             Route::get('/delete/{id}', 'AboutsController@delete')->name('delete')->where('id','[0-9]+');
         });
+
+        Route::group(['prefix' => 'whyusmarket', 'as' => 'whyusmarket.'], function () {
+            Route::get('/', 'WhyUsMarketsController@list')->name('list');
+            Route::get('/add', 'WhyUsMarketsController@add')->name('add');
+            Route::post('/add-submit', 'WhyUsMarketsController@add')->name('addsubmit');            
+            Route::get('/edit/{id}', 'WhyUsMarketsController@edit')->name('edit')->where('id','[0-9]+');
+            Route::any('/edit-submit/{id}', 'WhyUsMarketsController@edit')->name('editsubmit')->where('id','[0-9]+');
+            Route::get('/status/{id}', 'WhyUsMarketsController@status')->name('change-status')->where('id','[0-9]+');
+            Route::get('/delete/{id}', 'WhyUsMarketsController@delete')->name('delete')->where('id','[0-9]+');
+        });
     
 		
     });

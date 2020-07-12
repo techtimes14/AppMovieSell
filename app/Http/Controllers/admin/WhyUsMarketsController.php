@@ -1,6 +1,6 @@
 <?php
 /*****************************************************/
-# Page/Class name   : ContactwidgetsController
+# Page/Class name   : WhyUsMarketsController
 /*****************************************************/
 
 namespace App\Http\Controllers\admin;
@@ -10,18 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Helper;
 use AdminHelper;
-use App\ContactWidget;
-use Image;
+use App\WhyUsMarket;
 
-class ContactwidgetsController extends Controller
+class WhyUsMarketsController extends Controller
 {
     /*****************************************************/
     # Function name : list
     # Params        : Request $request
     /*****************************************************/
     public function list(Request $request) {
-        $data['page_title'] = 'Contact Widget List';
-        $data['panel_title']= 'Contact Widget List';
+        $data['page_title'] = 'WhyUs MarketPlace List';
+        $data['panel_title']= 'WhyUs MarketPlace List';
         
         try
         {
@@ -31,7 +30,7 @@ class ContactwidgetsController extends Controller
             $data['order_by']   = 'created_at';
             $data['order']      = 'desc';
 
-            $query = ContactWidget::whereNull('deleted_at');
+            $query = WhyUsMarket::whereNull('deleted_at');
 
             $data['searchText'] = $key = $request->searchText;
 
@@ -49,9 +48,9 @@ class ContactwidgetsController extends Controller
             } else {
                 $data['list'] = array();
             }       
-            return view('admin.contactwidget.list', $data);
+            return view('admin.whyusmarket.list', $data);
         } catch (Exception $e) {
-            return redirect()->route('admin.contactwidget.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.whyusmarket.list')->with('error', $e->getMessage());
         }
     }
 
@@ -60,15 +59,15 @@ class ContactwidgetsController extends Controller
     # Params        : Request $request
     /*****************************************************/
     public function add(Request $request) {
-        $data['page_title']     = 'Add Contact Widget';
-        $data['panel_title']    = 'Add Contact Widget';
+        $data['page_title']     = 'Add WhyUs MarketPlace';
+        $data['panel_title']    = 'Add WhyUs MarketPlace';
     
         try
         {
         	if ($request->isMethod('POST'))
         	{
 				$validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title,NULL,NULL,deleted_at,NULL',
+                    'title'             => 'required|min:2|max:255|unique:'.(new WhyUsMarket)->getTable().',title,NULL,NULL,deleted_at,NULL',
                     'description'	    => 'required|min:10',
                     'icon_class'        => 'required',
 				);
@@ -83,27 +82,27 @@ class ContactwidgetsController extends Controller
 
 				$Validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
 				if ($Validator->fails()) {
-					return redirect()->route('admin.contactwidget.add')->withErrors($Validator)->withInput();
+					return redirect()->route('admin.whyusmarket.add')->withErrors($Validator)->withInput();
 				} else {
 
-                    $new = new ContactWidget;
+                    $new = new WhyUsMarket;
                     $new->title = trim($request->title, ' ');
                     $new->description  = $request->description;
                     $new->icon_class  = $request->icon_class;
                     $save = $new->save();
                 
 					if ($save) {						
-						$request->session()->flash('alert-success', 'Contactwidget has been added successfully');
-						return redirect()->route('admin.contactwidget.list');
+						$request->session()->flash('alert-success', 'Whyus Marketplace has been added successfully');
+						return redirect()->route('admin.whyusmarket.list');
 					} else {
-						$request->session()->flash('alert-danger', 'An error occurred while adding the contactwidget');
+						$request->session()->flash('alert-danger', 'An error occurred while adding the whyus marketplace');
 						return redirect()->back();
 					}
 				}
 			}
-			return view('admin.contactwidget.add', $data);
+			return view('admin.whyusmarket.add', $data);
 		} catch (Exception $e) {
-			return redirect()->route('admin.contactwidget.list')->with('error', $e->getMessage());
+			return redirect()->route('admin.whyusmarket.list')->with('error', $e->getMessage());
 		}
     }
 
@@ -112,23 +111,23 @@ class ContactwidgetsController extends Controller
     # Params        : Request $request, $id
     /*****************************************************/
     public function edit(Request $request, $id = null) {
-        $data['page_title']  = 'Edit Contact Widget';
-        $data['panel_title'] = 'Edit Contact Widget';
+        $data['page_title']  = 'Edit WhyUs MarketPlace';
+        $data['panel_title'] = 'Edit WhyUs MarketPlace';
 
         try
         {           
             $pageNo = Session::get('pageNo') ? Session::get('pageNo') : '';
             $data['pageNo'] = $pageNo;
 
-            $details = ContactWidget::find($id);
+            $details = WhyUsMarket::find($id);
             $data['id'] = $id;
 
             if ($request->isMethod('POST')) {
                 if ($id == null) {
-                    return redirect()->route('admin.contactwidget.list');
+                    return redirect()->route('admin.whyusmarket.list');
                 }
                 $validationCondition = array(
-                    'title'             => 'required|min:2|max:255|unique:'.(new ContactWidget)->getTable().',title,' .$id.',id,deleted_at,NULL',
+                    'title'             => 'required|min:2|max:255|unique:'.(new WhyUsMarket)->getTable().',title,' .$id.',id,deleted_at,NULL',
                     'description'	    => 'required|min:10',
                     'icon_class'        => 'required',
                 );
@@ -149,20 +148,20 @@ class ContactwidgetsController extends Controller
                     $update['description']      = $request->description;
                     $update['icon_class']       = $request->icon_class;
 
-                    $save = ContactWidget::where('id', $id)->update($update);
+                    $save = WhyUsMarket::where('id', $id)->update($update);
                     if ($save) {
-                        $request->session()->flash('alert-success', 'Contactwidget has been updated successfully');
-                        return redirect()->route('admin.contactwidget.list', ['page' => $pageNo]);
+                        $request->session()->flash('alert-success', 'Whyus Marketplace has been updated successfully');
+                        return redirect()->route('admin.whyusmarket.list', ['page' => $pageNo]);
                     } else {
-                        $request->session()->flash('alert-danger', 'An error occurred while updating the Contactwidget');
+                        $request->session()->flash('alert-danger', 'An error occurred while updating the whyus marketplace');
                          return redirect()->back();;
                     }
                 }
             }
-            return view('admin.contactwidget.edit')->with(['details' => $details, 'data' => $data]);
+            return view('admin.whyusmarket.edit')->with(['details' => $details, 'data' => $data]);
 
         } catch (Exception $e) {
-            return redirect()->route('admin.contactwidget.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.whyusmarket.list')->with('error', $e->getMessage());
         }
     }
 
@@ -175,9 +174,9 @@ class ContactwidgetsController extends Controller
         try
         {
             if ($id == null) {
-                return redirect()->route('admin.contactwidget.list');
+                return redirect()->route('admin.whyusmarket.list');
             }
-            $details = ContactWidget::where('id', $id)->first();
+            $details = WhyUsMarket::where('id', $id)->first();
             if ($details != null) {
                 if ($details->status == 1) {                    
                     $details->status = '0';
@@ -194,10 +193,10 @@ class ContactwidgetsController extends Controller
                 }
                 return redirect()->back();
             } else {
-                return redirect()->route('admin.contactwidget.list')->with('error', 'Invalid contactwidget');
+                return redirect()->route('admin.whyusmarket.list')->with('error', 'Invalid whyusmarket');
             }
         } catch (Exception $e) {
-            return redirect()->route('admin.contactwidget.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.whyusmarket.list')->with('error', $e->getMessage());
         }
     }
 
@@ -210,23 +209,23 @@ class ContactwidgetsController extends Controller
         try
         {
             if ($id == null) {
-                return redirect()->route('admin.contactwidget.list');
+                return redirect()->route('admin.whyusmarket.list');
             }
 
-            $details = ContactWidget::where('id', $id)->first();
+            $details = WhyUsMarket::where('id', $id)->first();
             if ($details != null) {
                 $delete = $details->delete();
                 if ($delete) {
-                    $request->session()->flash('alert-danger', 'Contactwidget has been deleted successfully');
+                    $request->session()->flash('alert-danger', 'whyusmarket has been deleted successfully');
                 } else {
-                    $request->session()->flash('alert-danger', 'An error occurred while deleting the contactwidget');
+                    $request->session()->flash('alert-danger', 'An error occurred while deleting the whyusmarket');
                 }
             } else {
-                $request->session()->flash('alert-danger', 'Invalid contactwidget');                
+                $request->session()->flash('alert-danger', 'Invalid whyusmarket');                
             }
             return redirect()->back();
         } catch (Exception $e) {
-            return redirect()->route('admin.contactwidget.list')->with('error', $e->getMessage());
+            return redirect()->route('admin.whyusmarket.list')->with('error', $e->getMessage());
         }
     }
     
