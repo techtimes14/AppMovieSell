@@ -45,10 +45,6 @@
                                     </select>
                                 </div>
                             </div>
-                            
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">Title<span class="red_star">*</span></label>
@@ -60,6 +56,11 @@
                                                                  )) }}
                                 </div>
                             </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="price">Price<span class="red_star">*</span></label><br>
@@ -68,6 +69,12 @@
                                                                 'class' => 'form-control',
                                                                 'placeholder' => 'Price',
                                                                     )) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">Is Feature</label>
+                                    <input  type="checkbox" name="is_feature" value="1" @if($details['is_feature']) checked="checked" @endif>
                                 </div>
                             </div>
                         </div>

@@ -100,6 +100,7 @@ class ProductsController extends Controller
                     $new->title = trim($request->title, ' ');
                     $new->description = $request->description;
                     $new->price = $request->price;
+                    $new->is_feature = ($request->is_feature) ? true : false;
                     $new->category_id = $request->category_id;
                     $new->slug  = $newSlug;
                     $save = $new->save();                    
@@ -175,6 +176,7 @@ class ProductsController extends Controller
                         'description' => $request->description,
                         'price' => $request->price,
                         'category_id' => $request->category_id,
+                        'is_feature'  => ($request->is_feature) ? true : false,
                         'slug'  => $newSlug
                     ); 
                     $save = Product::where('id', $id)->update($update);                        

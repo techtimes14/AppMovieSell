@@ -45,21 +45,21 @@
                                     </select>
                                 </div>
                             </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="title">Title<span class="red_star">*</span></label>
+                                            {{ Form::text('title', null, array(
+                                                                        'id' => 'title',
+                                                                        'placeholder' => 'Title',
+                                                                        'class' => 'form-control',
+                                                                        'required' => 'required'
+                                                                         )) }}
+                                    </div>
+                                </div>
                             
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="title">Title<span class="red_star">*</span></label>
-                                    {{ Form::text('title', null, array(
-                                                                'id' => 'title',
-                                                                'placeholder' => 'Title',
-                                                                'class' => 'form-control',
-                                                                'required' => 'required'
-                                                                 )) }}
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                         <label for="price">Price<span class="red_star">*</span></label><br>
@@ -67,6 +67,13 @@
                                                                             'class' => 'form-control',
                                                                             'placeholder' => 'Price',
                                                                             'required' => 'required' )) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">Is Feature</label>
+                                    <input  type="checkbox" name="is_feature" value="1" {{old('is_feature')? 'checked':''}}>
                                 </div>
                             </div>
                         </div>
