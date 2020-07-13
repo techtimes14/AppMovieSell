@@ -61,7 +61,7 @@
                           if(file_exists(public_path('/uploads/product'.'/'.$row->productDefaultImage[0]->image))) {
                               $imgPath = \URL::asset('uploads/product').'/'.$row->productDefaultImage[0]->image;
                           } else {
-                              $imgPath = \URL:: asset('images').'/site/'.Helper::NO_IMAGE;
+                              $imgPath = \URL:: asset('images').'/admin/'.Helper::NO_IMAGE;
                           }
                           @endphp
                           <img src="{{ $imgPath }}" alt="" height="50px">
