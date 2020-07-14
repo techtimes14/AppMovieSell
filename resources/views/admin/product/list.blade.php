@@ -52,23 +52,23 @@
                           <th>Status</th>
                           <th class="action_width_product_request text_align_center">Action</th>
                       </tr>
-                      @if(count($list) > 0)
+                    @if(count($list) > 0)
                       @foreach ($list as $row)
-                      
                       <tr>
                         <td>
-                          @php        
-                          if(file_exists(public_path('/uploads/product'.'/'.$row->productDefaultImage[0]->image))) {
+                          @php
+                          $imgPath = \URL:: asset('images').'/admin/'.Helper::NO_IMAGE;
+                          if ($row->productDefaultImage->count() > 0) {
+                            if(file_exists(public_path('/uploads/product'.'/'.$row->productDefaultImage[0]->image))) {
                               $imgPath = \URL::asset('uploads/product').'/'.$row->productDefaultImage[0]->image;
-                          } else {
-                              $imgPath = \URL:: asset('images').'/admin/'.Helper::NO_IMAGE;
+                            }
                           }
                           @endphp
                           <img src="{{ $imgPath }}" alt="" height="50px">
-                        </td>                            
+                        </td>
                         <td>{{ $row->title }}</td>
                         <td>{!! $row->description !!}</td>
-                        <td>{{ $row->price }}</td>
+                        <td>{{ Helper::formatToTwoDecimalPlaces($row->price) }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">
                             @if($row['status'] == '1')

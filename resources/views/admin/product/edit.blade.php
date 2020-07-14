@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">Category<span class="red_star">*</span></label>
-                                    <select name="category_id" id="category_id" class="form-control" value="{{old('category_id')}}">
+                                    <select name="category_id" id="category_id" class="form-control select2" value="{{old('category_id')}}">
                                         <option value="">-Select-</option>
                                 @if (count($categoryList))
                                     @foreach ($categoryList as $category)
@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="title">Is Feature</label>
+                                    <label for="title">Is Feature</label><br>
                                     <input  type="checkbox" name="is_feature" value="1" @if($details['is_feature']) checked="checked" @endif>
                                 </div>
                             </div>
