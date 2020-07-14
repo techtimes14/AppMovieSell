@@ -21,7 +21,7 @@
                         <div class="col-md-12">
                             <div class="section-title">
                                 <h1>{!! $cmsData->name !!}</h1>
-                                <p>{!! $cmsData->description2 !!}</p>
+                                <p>{!! $cmsData->description !!}</p>
                             </div>
                         </div>
                         <!-- end /.col-md-12 -->
