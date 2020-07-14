@@ -6,7 +6,7 @@
     =================================-->
     <section class="about_hero bgimage">
         <div class="bg_image_holder">
-            <img src="images/about_hero.jpg" alt="">
+            <img src="{{asset('images/site/about_hero.jpg')}}" alt="">
         </div>
 
         <div class="container content_above">
@@ -20,7 +20,7 @@
 
                         <div class="about_hero_btns">
                             
-                            <a href="login.html" class="btn btn--white btn--lg btn--round">Join Us Today</a>
+                            <a href="{{route('site.users.login')}}" class="btn btn--white btn--lg btn--round">Join Us Today</a>
                         </div>
                     </div>
                     <!-- end /.about_hero_contents -->
@@ -117,17 +117,17 @@
                     </div>
                     <div class="author-badges">
                         <div class="badge-single">
-                            <img src="images/svg/author_rank_bronze.svg" alt="" class="svg">
+                            <img src="{{asset('images/site/svg/author_rank_bronze.svg')}}" alt="" class="svg">
                             <h3>Bronze Author</h3>
                             <p>Sold More Than $50,000 on Martplace</p>
                         </div>
                         <div class="badge-single">
-                            <img src="images/svg/author_rank_golden.svg" alt="" class="svg">
+                            <img src="{{asset('images/site/svg/author_rank_golden.svg')}}" alt="" class="svg">
                             <h3>Golden Author</h3>
                             <p>Sold More Than $100,000 on Martplace</p>
                         </div>
                         <div class="badge-single">
-                            <img src="images/svg/author_rank_diamond.svg" alt="" class="svg">
+                            <img src="{{asset('images/site/svg/author_rank_diamond.svg')}}" alt="" class="svg">
                             <h3>Diamond Author</h3>
                             <p>Sold More Than $1M on Martplace</p>
                         </div>

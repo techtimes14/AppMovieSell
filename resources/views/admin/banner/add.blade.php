@@ -40,6 +40,8 @@
                                                                 'required' => 'required'
                                                                  )) }}
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="UploadBannerWeb">Image<span class="red_star">*</span></label><br>                                        
                                     {{ Form::file('image', array(

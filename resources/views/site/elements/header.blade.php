@@ -8,7 +8,7 @@
 				<!-- start .col-md-3 -->
 				<div class="col-lg-3 col-md-3 col-6 v_middle">
 					<div class="logo">
-						<a href="index.html">
+						<a href="{{url('/')}}">
 							<img src="{{asset('images/site/logo.png')}}" alt="logo image" class="img-fluid">
 						</a>
 					</div>

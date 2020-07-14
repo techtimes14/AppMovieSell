@@ -20,7 +20,7 @@ Use App\User;
 Use App\Banner;
 Use App\Service;
 use App\Contact;
-use App\Contactwidget;
+use App\ContactWidget;
 use App\About;
 use App\WhyUsMarket;
 use Illuminate\Support\Facades\Session;
@@ -105,7 +105,7 @@ class HomeController extends Controller
     public function contactUs(Request $request)
     {
         $contactData = Helper::getData('cms', '5');
-        $contactWidgetData = Contactwidget::whereNull('deleted_at')->where('status', '1')
+        $contactWidgetData = ContactWidget::whereNull('deleted_at')->where('status', '1')
             ->get();
         $cmsData = Cms::where('id', 5)->first();
 

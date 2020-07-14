@@ -68,7 +68,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="feature">
                         <div class="feature__img">
-                            <img src="images/f1.png" alt="feature">
+                            <img src="{{asset('images/site/f1.png')}}" alt="feature">
                         </div>
                         <div class="feature__title">
                             <h3>Upcoming Movies</h3>
@@ -86,7 +86,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="feature">
                         <div class="feature__img">
-                            <img src="images/feature1.png" alt="feature">
+                            <img src="{{asset('images/site/feature1.png')}}" alt="feature">
                         </div>
                         <div class="feature__title">
                             <h3>Secure Files</h3>
@@ -104,7 +104,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="feature">
                         <div class="feature__img">
-                            <img src="images/f3.png" alt="feature">
+                            <img src="{{asset('images/site/f3.png')}}" alt="feature">
                         </div>
                         <div class="feature__title">
                             <h3>Popular Apps</h3>
@@ -160,7 +160,7 @@
                     <div class="featured-product-slider prod-slider1">
                         <div class="featured__single-slider">
                             <div class="featured__preview-img">
-                                <img src="images/featprod.jpg" alt="Featured products">
+                                <img src="{{asset('images/site/featprod.jpg')}}" alt="Featured products">
                                 <div class="prod_btn">
                                     <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
                                     <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
@@ -221,7 +221,7 @@
 
                          <div class="featured__single-slider">
                             <div class="featured__preview-img">
-                                <img src="images/featprod.jpg" alt="Featured products">
+                                <img src="{{asset('images/site/featprod.jpg')}}" alt="Featured products">
                                 <div class="prod_btn">
                                     <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
                                     <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
@@ -282,7 +282,7 @@
 
                         <div class="featured__single-slider">
                             <div class="featured__preview-img">
-                                <img src="images/featprod.jpg" alt="Featured products">
+                                <img src="{{asset('images/site/featprod.jpg')}}" alt="Featured products">
                                 <div class="prod_btn">
                                     <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
                                     <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
@@ -348,7 +348,7 @@
 
                          <div class="featured__single-slider">
                             <div class="featured__preview-img">
-                                <img src="images/featprod.jpg" alt="Featured products">
+                                <img src="{{asset('images/site/featprod.jpg')}}" alt="Featured products">
                                 <div class="prod_btn">
                                     <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
                                     <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
@@ -423,7 +423,7 @@
     =================================-->
     <section class="counter-up-area bgimage">
         <div class="bg_image_holder">
-            <img src="images/countbg.jpg" alt="">
+            <img src="{{asset('images/site/countbg.jpg')}}" alt="">
         </div>
         <!-- start .container -->
         <div class="container content_above">
@@ -496,9 +496,6 @@
                 </div>
             @endforeach
                 <!-- end /.col-md-4 -->
-
-               
-               
             </div>
         @endif
             <!-- end /.row -->
@@ -512,24 +509,9 @@
     <!--================================
     START CALL TO ACTION AREA
     =================================-->
-    <section class="call-to-action bgimage">
-        <div class="bg_image_holder">
-            <img src="images/calltobg.jpg" alt="">
-        </div>
-        <div class="container content_above">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="call-to-wrap">
-                        <h1 class="text--white">Ready to Join Our Marketplace!</h1>
-                        <h4 class="text--white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>
-                        <a href="login.html" class="btn btn--lg btn--round btn--white callto-action-btn">Join Us Today</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('site.elements.call_to_action')
     <!--================================
     END CALL TO ACTION AREA
     =================================-->
     
-  @endsection
+    @endsection
