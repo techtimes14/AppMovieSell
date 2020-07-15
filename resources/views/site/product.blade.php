@@ -77,17 +77,13 @@
                                 </li>
                                 
                             </ul>
-                        </div>
-                        <!-- end /.filter__option -->
-
-                       
-                       
+                        </div>                       
 
                         <div class="filter__option filter--select">
                             <div class="select-wrap">
-                                <select name="price">
-                                    <option value="low">Price : Low to High</option>
-                                    <option value="high">Price : High to low</option>
+                                <select name="price" id="price">
+                                    <option value="low-to-high">Price : Low to High</option>
+                                    <option value="high-to-low">Price : High to low</option>
                                 </select>
                                 <span class="lnr lnr-chevron-down"></span>
                             </div>
@@ -96,10 +92,10 @@
 
                         <div class="filter__option filter--select mr-0">
                             <div class="select-wrap">
-                                <select name="price">
-                                    <option value="10">10 Items per page</option>
-                                    <option value="15">15 Items per page</option>
-                                    <option value="20">20 Items per page</option>
+                                <select name="per_page" id="per_page">
+                                    <option value="12">12 Items per page</option>
+                                    <option value="18">18 Items per page</option>
+                                    <option value="24">24 Items per page</option>
                                 </select>
                                 <span class="lnr lnr-chevron-down"></span>
                             </div>
@@ -128,594 +124,10 @@
         <!-- start container -->
         <div class="container">
 
-            <!-- start .row -->
-            <div class="row">
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p1.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#" class="">
-                                        <span class="lnr lnr-camera-video align-middle"></span>movies</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$10 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p2.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-book align-middle"></span>files</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$50 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="`">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p3.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                               
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-smartphone align-middle"></span>App</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>free </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p4.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                               <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-book align-middle"></span>files</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$80 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p5.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-smartphone align-middle"></span>App</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$10 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p6.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-camera-video align-middle"></span>movies</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$40 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p1.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-camera-video align-middle"></span>movies</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$30 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p2.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-book align-middle"></span>files</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$20 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p3.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-smartphone align-middle"></span>App</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$30 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p4.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-smartphone align-middle"></span>App</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$50 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p5.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                               
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-book align-middle"></span>files</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>$60 </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
-
-                <!-- start .col-md-4 -->
-                <div class="col-lg-2 col-md-4">
-                    <!-- start .single-product -->
-                    <div class="product product--card">
-
-                        <div class="product__thumbnail">
-                            <img src="images/p6.jpg" alt="Product Image">
-                            <div class="prod_btn">
-                                <a href="single-product.html" class="transparent btn--sm btn--round">View More</a>
-                                
-                            </div>
-                            <!-- end /.prod_btn -->
-                        </div>
-                        <!-- end /.product__thumbnail -->
-
-                        <div class="product-desc">
-                            <a href="#" class="product_title">
-                                <h4>Lorem Ipsum</h4>
-                            </a>
-                            <ul class="titlebtm">
-                                
-                                <li class="product_cat">
-                                    <a href="#">
-                                        <span class="lnr lnr-smartphone align-middle"></span>App</a>
-                                </li>
-                            </ul>
-
-                            
-                        </div>
-                        <!-- end /.product-desc -->
-
-                        <div class="product-purchase d-flex align-content-center align-self-center justify-content-between">
-                            <div class="price_love">
-                                <span>free </span>
-                                
-                            </div>
-                            <div class="sell nw-prdct-btn">
-                               
-                                <a href="single-product.html" class="transparent btn--sm btn--round">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- end /.product-purchase -->
-                    </div>
-                    <!-- end /.single-product -->
-                </div>
-                <!-- end /.col-md-4 -->
+            <div id="products_div">
+                @include('site.elements.products_with_pagination')
             </div>
-            <!-- end /.row -->
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="pagination-area">
-                        <nav class="navigation pagination" role="navigation">
-                            <div class="nav-links">
-                                <a class="prev page-numbers" href="#">
-                                    <span class="lnr lnr-arrow-left"></span>
-                                </a>
-                                <a class="page-numbers current" href="#">1</a>
-                                <a class="page-numbers" href="#">2</a>
-                                <a class="page-numbers" href="#">3</a>
-                                <a class="next page-numbers" href="#">
-                                    <span class="lnr lnr-arrow-right"></span>
-                                </a>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <!-- end /.row -->
         </div>
         <!-- end /.container -->
     </section>
@@ -731,5 +143,46 @@
     <!--================================
         END CALL TO ACTION AREA
     =================================-->
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault(); 
+            var page    = $(this).attr('href').split('page=')[1];
+            var perPage = $('#per_page').val();
+            var price   = $('#price').val();
+
+            getMoreProducts(page, perPage, price);
+        });
+    });
+
+    function getMoreProducts(page, perPage, price) {
+        var websiteLink = $('#website_link').val();
+        var updatedUrl          = websiteLink + '/market-place';
+        var getMoreProductsUrl  = websiteLink + '/market-place-products';
+
+        if (page != 1) {
+            updatedUrl          = updatedUrl + '?page='+page+'&price='+price+'&perPage='+perPage;
+            getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&price='+price+'&perPage='+perPage;
+        } else {
+            updatedUrl = updatedUrl + '?price='+price+'&perPage='+perPage;
+            getMoreProductsUrl  = getMoreProductsUrl + '?price='+price+'&perPage='+perPage;
+        }
+        window.history.pushState({path: updatedUrl},'',updatedUrl);
+        // console.log(updatedUrl);
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: getMoreProductsUrl,
+            success:function(data) {
+                $('#products_div').html(data);
+            }
+        });
+    }
+</script>
     
   @endsection

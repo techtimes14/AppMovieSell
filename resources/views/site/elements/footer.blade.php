@@ -113,4 +113,6 @@ $siteSetting = Helper::getSiteSettings();
             </div>
         </div>
     </div>
+    <input type="hidden" name="website_link" id="website_link" value="{{ url('/') }}" />
+    <input type="hidden" name="website_lang" id="website_lang" value="{{ \App::getLocale() }}" />
 </footer>

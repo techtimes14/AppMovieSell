@@ -19,6 +19,7 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
     Route::any('/contact', 'HomeController@contactUs')->name('contact');
     Route::get('/legal', 'HomeController@legal')->name('legal');
     Route::get('/market-place', 'ProductsController@marketPlace')->name('market-place');
+    Route::get('market-place-products', 'ProductsController@marketPlaceProducts')->name('market-place-products');
 
     /* User */
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
