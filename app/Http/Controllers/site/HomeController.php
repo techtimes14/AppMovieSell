@@ -43,7 +43,7 @@ class HomeController extends Controller
         $whyusData      = WhyUsMarket::whereNull('deleted_at')->where('status', '1')
                             ->get();
         $homeCmsData    = Cms::where('id', 1)->first();
-        // dd($homeCmsData);
+        $bannerData     = Banner::where('status', '1')->get();
 
         return view('site.home',[
             'pageTitle'     => $aboutData['title'],
@@ -56,6 +56,7 @@ class HomeController extends Controller
             'siteSetting'   => $siteSetting,
             'whyusData'     => $whyusData,
             'homeCmsData'   => $homeCmsData,
+            'bannerData'    => $bannerData,
             ]);
     }
 
@@ -68,6 +69,7 @@ class HomeController extends Controller
         $aboutData      = Helper::getData('cms', '2');
         $aboutUsData    = About::whereNull('deleted_at')->where('status', '1')
         ->get();
+        $bannerAbout    = Banner::where('id', '4')->first();
         
         return view('site.about',[
             'pageTitle'     => $aboutData['title'],
@@ -76,6 +78,7 @@ class HomeController extends Controller
             'description'   => $aboutData['meta_description'],
             'aboutData'     => $aboutData,
             'aboutUsData'   => $aboutUsData,
+            'bannerAbout'   => $bannerAbout,
         ]);
     }
 

@@ -5,17 +5,22 @@
     START HERO AREA
     =================================-->
     <section class="hero-area bgimage">
+    @if($bannerData->count() > 0)
         <div class="banner-slider ">
+    @foreach($bannerData as $banner)
+    @php
+    $imgPath = URL:: asset('images').'/site/'.Helper::NO_IMAGE;
+    if(file_exists(public_path('/uploads/banner/thumbs/'.$banner->image))) {
+        $imgPath = URL::to('/').'/uploads/banner/thumbs/'.$banner->image;
+    }
+    @endphp
             <div class="">
-                <img src="{{asset('images/site/hero_area_bg1.jpg')}}" alt="background-image">
+                <img src="{{$imgPath}}" alt="background-image">
             </div>
-            <div class="">
-                <img src="{{asset('images/site/hero_bnner_2.jpg')}}" alt="background-image">
-            </div>
-            <div class="">
-                <img src="{{asset('images/site/hero_banner_3.jpg')}}" alt="background-image">
-            </div>
+    @endforeach
         </div>
+    
+    @endif
         
         <!-- start hero-content -->
         <div class="hero-content content_above new-content-above">
