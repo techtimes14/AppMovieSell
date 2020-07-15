@@ -28,19 +28,24 @@ class ProductsController extends Controller
         $marketPlaceData    = Helper::getData('cms', '6');
         $siteSetting        = Helper::getSiteSettings();
 
+        $products = Product::where(['status' => '1'])->whereNull('deleted_at');
+
         $page       = isset($request->page) ? $request->page : 1;
+        $lookingFor = isset($request->lookingFor) ? $request->lookingFor : '';
         $price      = isset($request->price) ? $request->price : 'low-to-high';
         $perPage    = isset($request->perPage) ? $request->perPage : 12;
 
+        if ($lookingFor != '') {
+            $products->where(function ($query) use ($lookingFor) {
+                $query->where('title', 'LIKE', '%' . $lookingFor . '%');
+            });
+        }
         $sortOrder = 'asc';
         if ($price == 'high-to-low') {
             $sortOrder = 'desc';
         }
 
-        $products = Product::where(['status' => '1'])
-                            ->whereNull('deleted_at')
-                            ->orderBy('price', $sortOrder)
-                            ->paginate(2);
+        $products = $products->orderBy('price', $sortOrder)->paginate($perPage);
         
         return view('site.product',[
             'pageTitle'     => $marketPlaceData['title'],
@@ -60,18 +65,23 @@ class ProductsController extends Controller
     {
         if ($request->ajax()) {
             $page       = isset($request->page) ? $request->page : 1;
+            $lookingFor = isset($request->lookingFor) ? $request->lookingFor : '';
             $price      = isset($request->price) ? $request->price : 'low-to-high';
             $perPage    = isset($request->perPage) ? $request->perPage : 12;
 
+            $products = Product::where(['status' => '1'])->whereNull('deleted_at');
+
+            if ($lookingFor != '') {
+                $products->where(function ($query) use ($lookingFor) {
+                    $query->where('title', 'LIKE', '%' . $lookingFor . '%');
+                });
+            }
             $sortOrder = 'asc';
             if ($price == 'high-to-low') {
                 $sortOrder = 'desc';
             }
 
-            $products = Product::where(['status' => '1'])
-                                ->whereNull('deleted_at')
-                                ->orderBy('price', $sortOrder)
-                                ->paginate(2);
+            $products = $products->orderBy('price', $sortOrder)->paginate($perPage);
             // dd($products);
 
             return view('site.elements.products_with_pagination', compact('products'))->render();

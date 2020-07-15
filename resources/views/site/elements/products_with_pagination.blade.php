@@ -34,7 +34,11 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">            
-            {!! $products->links() !!}                    
+        <div class="col-md-12">
+            <div class="pagination-area">
+                <nav class="navigation pagination" role="navigation">
+                    {!! $products->links('site.pagination.default') !!}
+                </nav>
+            </div>
         </div>
     </div>

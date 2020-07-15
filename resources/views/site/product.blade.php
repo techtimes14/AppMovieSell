@@ -16,13 +16,11 @@
                             <div class="search__title">
                                 <h3><span>Over 1000</span> of new Movies, Apps & Secure files. </h3>
                             </div>
-                            <div class="search__field">
-                                <form action="#">
-                                    <div class="field-wrapper">
-                                        <input class="relative-field rounded" type="text" placeholder="Search your products">
-                                        <button class="btn btn--round" type="submit">Search</button>
-                                    </div>
-                                </form>
+                            <div class="search__field">                                
+                                <div class="field-wrapper">
+                                    <input class="relative-field rounded" type="text" name="looking_for" id="looking_for" placeholder="Search your products">
+                                    <button class="btn btn--round" id="searchBtn" type="button">Search</button>
+                                </div>                                
                             </div>
                             <div class="breadcrumb">
                                 <ul>
@@ -93,9 +91,9 @@
                         <div class="filter__option filter--select mr-0">
                             <div class="select-wrap">
                                 <select name="per_page" id="per_page">
-                                    <option value="12">12 Items per page</option>
-                                    <option value="18">18 Items per page</option>
-                                    <option value="24">24 Items per page</option>
+                                    <option value="2">2 Items per page</option>
+                                    <option value="4">4 Items per page</option>
+                                    <option value="6">6 Items per page</option>
                                 </select>
                                 <span class="lnr lnr-chevron-down"></span>
                             </div>
@@ -143,46 +141,5 @@
     <!--================================
         END CALL TO ACTION AREA
     =================================-->
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $(document).on('click', '.pagination a', function(event) {
-            event.preventDefault(); 
-            var page    = $(this).attr('href').split('page=')[1];
-            var perPage = $('#per_page').val();
-            var price   = $('#price').val();
-
-            getMoreProducts(page, perPage, price);
-        });
-    });
-
-    function getMoreProducts(page, perPage, price) {
-        var websiteLink = $('#website_link').val();
-        var updatedUrl          = websiteLink + '/market-place';
-        var getMoreProductsUrl  = websiteLink + '/market-place-products';
-
-        if (page != 1) {
-            updatedUrl          = updatedUrl + '?page='+page+'&price='+price+'&perPage='+perPage;
-            getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&price='+price+'&perPage='+perPage;
-        } else {
-            updatedUrl = updatedUrl + '?price='+price+'&perPage='+perPage;
-            getMoreProductsUrl  = getMoreProductsUrl + '?price='+price+'&perPage='+perPage;
-        }
-        window.history.pushState({path: updatedUrl},'',updatedUrl);
-        // console.log(updatedUrl);
-        
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: getMoreProductsUrl,
-            success:function(data) {
-                $('#products_div').html(data);
-            }
-        });
-    }
-</script>
     
   @endsection

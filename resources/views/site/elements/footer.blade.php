@@ -1,6 +1,9 @@
 <?php
 $siteSetting = Helper::getSiteSettings();
 ?>
+<div id="loading">
+    <img id="loading-image" src="{{asset('images/site/loading.gif')}}" alt="busy...">
+</div>
 <footer class="footer-area">
     <div class="footer-big section--padding">
         <!-- start .container -->
