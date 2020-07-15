@@ -5,8 +5,14 @@
     START ABOUT HERO AREA
     =================================-->
     <section class="about_hero bgimage">
+    @php
+    $imgPath = URL:: asset('images').'/site/'.Helper::NO_IMAGE;
+    if(file_exists(public_path('/uploads/banner/thumbs/'.$bannerAbout->image))) {
+        $imgPath = URL::to('/').'/uploads/banner/thumbs/'.$bannerAbout->image;
+    }
+    @endphp
         <div class="bg_image_holder">
-            <img src="{{asset('images/site/about_hero.jpg')}}" alt="">
+            <img src="{{$imgPath}}" alt="">
         </div>
 
         <div class="container content_above">
