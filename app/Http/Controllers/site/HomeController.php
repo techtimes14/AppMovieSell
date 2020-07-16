@@ -155,11 +155,12 @@ class HomeController extends Controller
                 if ($saveContact) {                    
                     \Mail::send('email_templates.site.thanks_for_contact',
                     [
-                        'user' => $newContact,
+                        'newContact' => $newContact,
+                        'siteSetting'   => $siteSetting,
                         'app_config' => [
                             'appname'       => $siteSetting->website_title,
                             'appLink'       => Helper::getBaseUrl(),
-                            'controllerName'=> 'users',
+                            'controllerName'=> 'home',
                         ],
                     ], function ($m) use ($siteSetting) {
                         $m->to($siteSetting->to_email, $siteSetting->website_title)->subject('Contact Us - '.$siteSetting->website_title);

@@ -8,7 +8,7 @@
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>{{$user->full_name}} contact with you</td>
+        <td>{{$newContact->full_name}} contact with you</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
@@ -20,27 +20,27 @@
             <tr>
               <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">First Name</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
-              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['first_name']}}</td>
+              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$newContact['first_name']}}</td>
             </tr>
             <tr>
               <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Last Name</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
-              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['last_name']}}</td>
+              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$newContact['last_name']}}</td>
             </tr>
             <tr>
               <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Email</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
-              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['email']}}</td>
+              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$newContact['email']}}</td>
             </tr>
             <tr>
               <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Phone Number</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
-              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['phone_number']}}</td>
+              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$newContact['phone_number']}}</td>
             </tr>
             <tr>
               <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Subject</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
-              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['subject']}}</td>
+              <td width="73%" align="left" valign="top" style="line-height:20px;">{{$newContact['subject']}}</td>
             </tr>
           </table>
         </td>
