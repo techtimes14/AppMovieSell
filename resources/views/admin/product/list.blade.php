@@ -47,7 +47,7 @@
                       <tr>
                           <th>Image</th>
                           <th>Title</th>
-                          <th>Description</th>
+                          <th>Category</th>
                           <th>Price</th>
                           <th>Status</th>
                           <th class="action_width_product_request text_align_center">Action</th>
@@ -59,15 +59,15 @@
                           @php
                           $imgPath = \URL:: asset('images').'/admin/'.Helper::NO_IMAGE;
                           if ($row->productDefaultImage->count() > 0) {
-                            if(file_exists(public_path('/uploads/product'.'/'.$row->productDefaultImage[0]->image))) {
-                              $imgPath = \URL::asset('uploads/product').'/'.$row->productDefaultImage[0]->image;
+                            if(file_exists(public_path('/uploads/product/thumbs'.'/'.$row->productDefaultImage[0]->image))) {
+                              $imgPath = \URL::asset('uploads/product/thumbs').'/'.$row->productDefaultImage[0]->image;
                             }
                           }
                           @endphp
                           <img src="{{ $imgPath }}" alt="" height="50px">
                         </td>
                         <td>{{ $row->title }}</td>
-                        <td>{!! $row->description !!}</td>
+                        <td>{!! $row->categoryDetails->title !!}</td>
                         <td>{{ Helper::formatToTwoDecimalPlaces($row->price) }}</td>
                           <td>
                             <span class="label @if($row->status == 1) label-success @else label-danger @endif">

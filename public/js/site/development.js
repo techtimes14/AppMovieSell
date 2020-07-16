@@ -815,52 +815,78 @@ $(document).ready(function() {
         event.preventDefault(); 
         var page        = $(this).attr('href').split('page=')[1];
         var lookingFor  = $('#looking_for').val();
+        var category    = $('#category_id').val();
         var perPage     = $('#per_page').val();
         var price       = $('#price').val();
 
-        getMoreProducts(page, lookingFor, price, perPage);
+        getMoreProducts(page, lookingFor, category, price, perPage);
     });
     // Per page change
     $(document).on('change', '#per_page', function(event) {
         event.preventDefault(); 
         var page        = 1;
         var lookingFor  = $('#looking_for').val();
+        var category    = $('#category_id').val();
         var price       = $('#price').val();
         var perPage     = $(this).val();       
 
-        getMoreProducts(page, lookingFor, price, perPage);
+        getMoreProducts(page, lookingFor, category, price, perPage);
     });
     // Sort by price change
     $(document).on('change', '#price', function(event) {
         event.preventDefault(); 
         var page        = 1;
         var lookingFor  = $('#looking_for').val();
+        var category    = $('#category_id').val();
         var perPage     = $('#per_page').val();
         var price       = $(this).val();
 
-        getMoreProducts(page, lookingFor, price, perPage);
+        getMoreProducts(page, lookingFor, category, price, perPage);
     });
     // Search By
     $(document).on('click', '#searchBtn', function(event) {
         event.preventDefault(); 
         var page        = 1;
-        var lookingFor  = $('#looking_for').val();        
+        var lookingFor  = $('#looking_for').val();
+        var category    = $('#category_id').val();
         var price       = $('#price').val();
         var perPage     = $('#per_page').val();
 
-        getMoreProducts(page, lookingFor, price, perPage);
+        getMoreProducts(page, lookingFor, category, price, perPage);
     });
     // On Enter key presss for search box
     $('#looking_for').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
             var page        = 1;
-            var lookingFor  = $('#looking_for').val();        
+            var lookingFor  = $('#looking_for').val();
+            var category    = $('#category_id').val();
             var price       = $('#price').val();
             var perPage     = $('#per_page').val();
 
-            getMoreProducts(page, lookingFor, price, perPage);
+            getMoreProducts(page, lookingFor, category, price, perPage);
         }
+    });
+    // Category click
+    $(document).on('click', '.category', function(event) {
+        event.preventDefault(); 
+        var page        = 1;
+        var lookingFor  = $('#looking_for').val();
+        var category    = $(this).data('catid');
+        var categoryName= $(this).data('catname');        
+        var price       = $('#price').val();
+        var perPage     = $('#per_page').val();
+
+        $('#category_id').val(category);
+        $('#category_name').val(categoryName);
+        $('#selected_category').html('');
+        $('.category').removeClass('active');
+        if (category != '') {
+            $(this).addClass('active');
+            $('#selected_category').html(': '+categoryName);
+        }
+
+        getMoreProducts(page, lookingFor, category, price, perPage);
     });
 
 
@@ -871,7 +897,7 @@ $(document).ready(function() {
 
 });
 
-function getMoreProducts(page, lookingFor, price, perPage) {
+function getMoreProducts(page, lookingFor, category, price, perPage) {
     $('#loading').show();
 
     var websiteLink = $('#website_link').val();
@@ -879,11 +905,11 @@ function getMoreProducts(page, lookingFor, price, perPage) {
     var getMoreProductsUrl  = websiteLink + '/market-place-products';
 
     if (page != 1) {
-        updatedUrl          = updatedUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
-        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+        updatedUrl          = updatedUrl + '?page='+page+'&lookingFor='+lookingFor+'&category='+category+'&price='+price+'&perPage='+perPage;
+        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&category='+category+'&price='+price+'&perPage='+perPage;
     } else {
-        updatedUrl          = updatedUrl + '?lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
-        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+        updatedUrl          = updatedUrl + '?lookingFor='+lookingFor+'&category='+category+'&price='+price+'&perPage='+perPage;
+        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&category='+category+'&price='+price+'&perPage='+perPage;
     }
     window.history.pushState({path: updatedUrl},'',updatedUrl);
     // console.log(updatedUrl);
@@ -901,7 +927,6 @@ function getMoreProducts(page, lookingFor, price, perPage) {
         }
     });
 }
-
 
 function sweetalertMessageRender(target, message, type, confirm = false) {
     let options = {

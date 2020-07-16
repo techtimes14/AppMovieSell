@@ -14,6 +14,7 @@ use \Response;
 use \Validator;
 use App\SiteSetting;
 use App\Cms;
+Use App\Category;
 Use App\Product;
 use Helper;
 
@@ -27,11 +28,14 @@ class ProductsController extends Controller
     {
         $marketPlaceData    = Helper::getData('cms', '6');
         $siteSetting        = Helper::getSiteSettings();
+        
+        $categories = Category::where(['status' => '1'])->whereNull('deleted_at')->get();
 
-        $products = Product::where(['status' => '1'])->whereNull('deleted_at');
+        $products   = Product::where(['status' => '1'])->whereNull('deleted_at');
 
         $page       = isset($request->page) ? $request->page : 1;
         $lookingFor = isset($request->lookingFor) ? $request->lookingFor : '';
+        $category   = isset($request->category) ? $request->category : '';
         $price      = isset($request->price) ? $request->price : 'low-to-high';
         $perPage    = isset($request->perPage) ? $request->perPage : 12;
 
@@ -40,21 +44,38 @@ class ProductsController extends Controller
                 $query->where('title', 'LIKE', '%' . $lookingFor . '%');
             });
         }
+        $categoryName = '';
+        if ($category != '') {
+            $products->where(function ($query) use ($category) {
+                $query->where('category_id', $category);
+            });
+            $selectedCategory = Category::select('title')->where(['id' => $category, 'status' => '1'])->whereNull('deleted_at')->first();
+            $categoryName = $selectedCategory->title;
+        }
         $sortOrder = 'asc';
         if ($price == 'high-to-low') {
             $sortOrder = 'desc';
         }
 
         $products = $products->orderBy('price', $sortOrder)->paginate($perPage);
-        
-        return view('site.product',[
+
+        $data = [
+            'page'          => $page,
+            'lookingFor'    => $lookingFor,
+            'categoryId'    => $category,
+            'price'         => $price,
+            'perPage'       => $perPage,
+            'categoryName'  => $categoryName,
             'pageTitle'     => $marketPlaceData['title'],
             'title'         => $marketPlaceData['meta_title'],
-            'keyword'       => $marketPlaceData['meta_keyword'], 
+            'keyword'       => $marketPlaceData['meta_keyword'],
             'description'   => $marketPlaceData['meta_description'],
             'siteSetting'   => $siteSetting,
+            'categories'    => $categories,
             'products'      => $products,
-        ]);
+        ];
+
+        return view('site.product', $data);
     }
 
     /*****************************************************/
@@ -66,6 +87,7 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $page       = isset($request->page) ? $request->page : 1;
             $lookingFor = isset($request->lookingFor) ? $request->lookingFor : '';
+            $category   = isset($request->category) ? $request->category : '';
             $price      = isset($request->price) ? $request->price : 'low-to-high';
             $perPage    = isset($request->perPage) ? $request->perPage : 12;
 
@@ -74,6 +96,11 @@ class ProductsController extends Controller
             if ($lookingFor != '') {
                 $products->where(function ($query) use ($lookingFor) {
                     $query->where('title', 'LIKE', '%' . $lookingFor . '%');
+                });
+            }
+            if ($category != '') {
+                $products->where(function ($query) use ($category) {
+                    $query->where('category_id', $category);
                 });
             }
             $sortOrder = 'asc';

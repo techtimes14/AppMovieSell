@@ -30,8 +30,8 @@ class AdminHelper
    public const ADMIN_PRODUCT_SLIDER_IMAGE_HEIGHT = '430';   // Admin PRODUCT SLIDER image height
    public const ADMIN_PRODUCT_THUMB_IMAGE_WIDTH  = '80';   // Admin PRODUCT thumb image width
    public const ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT = '80';   // Admin PRODUCT thumb image height
-   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_WIDTH  = '160';   // Admin PRODUCT LIST thumb image width
-   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_HEIGHT = '193';   // Admin PRODUCT LIST thumb image height
+   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_WIDTH  = '361';   // Admin PRODUCT LIST thumb image width
+   public const ADMIN_PRODUCT_LIST_THUMB_IMAGE_HEIGHT = '230';   // Admin PRODUCT LIST thumb image height
 
    public const ADMIN_SERVICE_THUMB_IMAGE_WIDTH  = '385';   // Admin PRODUCT LIST thumb image width
    public const ADMIN_SERVICE_THUMB_IMAGE_HEIGHT = '300';   // Admin PRODUCT LIST thumb image height

@@ -28,7 +28,7 @@
                                         <a href="{{url('/')}}">Home</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#">{{$pageTitle}}</a>
+                                        <a href="javascript: void(0);">{{$pageTitle}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -54,34 +54,32 @@
                 <div class="col-md-12">
                     <div class="filter-bar d-flex justify-content-between ">
                         <div class="filter__option filter--dropdown border-0 ">
-                            <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle pl-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories
+                            <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle pl-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories <em id="selected_category">: {{$categoryName}}</em>
                                 <span class="lnr lnr-chevron-down"></span>
                             </a>
                             <ul class="custom_dropdown custom_drop2 dropdown-menu" aria-labelledby="drop1">
                                 <li>
-                                    <a href="#">Movies
-                                        <span>100</span>
-                                    </a>
+                                    <a class="category" data-catid="" data-catname="" href="javascript: void(0);">All</a>
                                 </li>
+                        @if ($categories->count() > 0)
+                            @foreach ($categories as $category)
                                 <li>
-                                    <a href="#">Files
-                                        <span>45</span>
+                                    <a class="category @if ($category->id == $categoryId)active @endif" data-catid="{{$category->id}}" data-catname="{{$category->title}}" href="javascript: void(0);">{{$category->title}}
+                                        <span>{{count($category->activeProducts)}}</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">App
-                                        <span>85</span>
-                                    </a>
-                                </li>
-                                
+                            @endforeach
+                        @endif  
                             </ul>
-                        </div>                       
+                            <input type="hidden" id="category_id" value="{{$categoryId}}">
+                            <input type="hidden" id="category_name" value="{{$categoryName}}">
+                        </div>
 
                         <div class="filter__option filter--select">
                             <div class="select-wrap">
                                 <select name="price" id="price">
-                                    <option value="low-to-high">Price : Low to High</option>
-                                    <option value="high-to-low">Price : High to low</option>
+                                    <option value="low-to-high" @if ($price == 'low-to-high')selected @endif>Price : Low to High</option>
+                                    <option value="high-to-low" @if ($price == 'high-to-low')selected @endif>Price : High to low</option>
                                 </select>
                                 <span class="lnr lnr-chevron-down"></span>
                             </div>
@@ -91,16 +89,15 @@
                         <div class="filter__option filter--select mr-0">
                             <div class="select-wrap">
                                 <select name="per_page" id="per_page">
-                                    <option value="2">2 Items per page</option>
-                                    <option value="4">4 Items per page</option>
-                                    <option value="6">6 Items per page</option>
+                                    <option value="12" @if ($perPage == 12)selected @endif>12 Items per page</option>
+                                    <option value="18" @if ($perPage == 18)selected @endif>18 Items per page</option>
+                                    <option value="24" @if ($perPage == 24)selected @endif>24 Items per page</option>
                                 </select>
                                 <span class="lnr lnr-chevron-down"></span>
                             </div>
                         </div>
                         <!-- end /.filter__option -->
 
-                        
                     </div>
                     <!-- end /.filter-bar -->
                 </div>

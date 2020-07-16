@@ -9,7 +9,7 @@
 								<a href="{{url('/')}}">Home</a>
 							</li>
 							<li class="active">
-								<a href="{{route('site.users.sign-up')}}">{{$pageTitle}}</a>
+								<a href="javascript: void(0);">{{$pageTitle}}</a>
 							</li>
 						</ul>
 					</div>

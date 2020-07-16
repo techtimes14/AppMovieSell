@@ -9,5 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-  use SoftDeletes;
+	use SoftDeletes;
+	  
+	public function activeProducts() {
+        return $this->hasmany('App\Product', 'category_id')->where('status', '1')->whereNull('deleted_at');
+    }
 }

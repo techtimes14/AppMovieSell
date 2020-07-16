@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 10:30 PM
+-- Generation Time: Jul 16, 2020 at 10:36 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -136,6 +136,26 @@ INSERT INTO `ams_cms` (`id`, `name`, `slug`, `title`, `description`, `descriptio
 (9, 'Brand', 'brand', 'Brand Profile', NULL, NULL, NULL, 'Brand', 'Brand', 'Brand', NULL, 1, NULL, NULL),
 (10, 'Profile', 'profile', 'Profile', NULL, NULL, NULL, 'Profile', 'Profile', 'Profile', NULL, 1, NULL, NULL),
 (11, 'My Favourite', 'my-favourite', 'Favourites', NULL, NULL, NULL, 'My Favourite', 'My Favourite', 'My Favourite ', NULL, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ams_contacts`
+--
+
+CREATE TABLE `ams_contacts` (
+  `id` int(11) NOT NULL,
+  `full_name` text DEFAULT NULL,
+  `first_name` text DEFAULT NULL,
+  `last_name` text DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `subject` text DEFAULT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -306,14 +326,14 @@ CREATE TABLE `ams_products` (
 --
 
 INSERT INTO `ams_products` (`id`, `category_id`, `title`, `description`, `price`, `is_feature`, `slug`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'De dana Dan', '<p>Test description</p>', 12.30, 1, 'de-dana-dan', '1', '2020-07-13 11:51:21', '2020-07-13 11:51:21', NULL),
-(2, 1, 'De dana Dan 2', '<p>Test description two</p>', 12.30, 1, 'de-dana-dan-2', '1', '2020-07-13 11:55:09', '2020-07-13 11:55:09', NULL),
-(3, 1, 'De dana Dan 3', '<p>Test description twos</p>', 12.00, 0, 'de-dana-dan-3', '1', '2020-07-13 11:55:40', '2020-07-13 11:55:40', NULL),
-(4, 2, 'Lorem Ipsum', '<p>Test description</p>', 12.00, 0, 'lorem-ipsum', '1', '2020-07-13 11:56:38', '2020-07-13 11:56:38', NULL),
-(5, 2, 'CSV', '<p>Test description</p>', 12.30, 1, 'csv', '1', '2020-07-13 11:57:14', '2020-07-13 11:57:14', NULL),
-(6, 2, 'EXCLE', '<p>Test description three</p>', 12.32, 0, 'excle', '1', '2020-07-13 11:57:57', '2020-07-13 11:57:57', NULL),
-(7, 3, 'Android', '<p>Test description&nbsp;</p>', 120.00, 1, 'android', '1', '2020-07-13 11:59:41', '2020-07-13 11:59:41', NULL),
-(8, 3, 'Ios', '<p>Test description two&nbsp;</p>', 120.00, 0, 'ios', '1', '2020-07-13 12:00:12', '2020-07-13 12:00:12', NULL);
+(1, 1, 'Lorem Ipsum', '<p>Test description</p>', 15.00, 1, 'lorem-ipsum', '1', '2020-07-13 11:51:21', '2020-07-16 06:29:22', NULL),
+(2, 1, 'Lorem Ipsum 1', '<p>Test description two</p>', 12.00, 1, 'lorem-ipsum-1', '1', '2020-07-13 11:55:09', '2020-07-16 06:29:38', NULL),
+(3, 1, 'Lorem Ipsum 2', '<p>Test description twos</p>', 13.00, 0, 'lorem-ipsum-2', '1', '2020-07-13 11:55:40', '2020-07-16 06:29:55', NULL),
+(4, 2, 'Lorem Ipsum 3', '<p>Test description</p>', 10.00, 0, 'lorem-ipsum-3', '1', '2020-07-13 11:56:38', '2020-07-16 06:28:47', NULL),
+(5, 2, 'Lorem Ipsum 4', '<p>Test description</p>', 17.00, 1, 'lorem-ipsum-4', '1', '2020-07-13 11:57:14', '2020-07-16 06:30:04', NULL),
+(6, 2, 'Lorem Ipsum 5', '<p>Test description three</p>', 50.00, 0, 'lorem-ipsum-5', '1', '2020-07-13 11:57:57', '2020-07-16 06:30:11', NULL),
+(7, 1, 'Lorem Ipsum 6', '<p>Test description&nbsp;</p>', 120.00, 1, 'lorem-ipsum-6', '1', '2020-07-13 11:59:41', '2020-07-16 07:02:50', NULL),
+(8, 1, 'Lorem Ipsum 7', '<p>Test description two&nbsp;</p>', 40.00, 0, 'lorem-ipsum-7', '1', '2020-07-13 12:00:12', '2020-07-16 07:02:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -333,18 +353,18 @@ CREATE TABLE `ams_product_features` (
 --
 
 INSERT INTO `ams_product_features` (`id`, `product_id`, `feature_label`, `feature_value`) VALUES
-(1, 1, 'advance', '200'),
-(2, 1, 'basic', '100'),
-(3, 2, 'advance', '200'),
-(4, 2, 'basics', '20'),
-(5, 3, 'advance', '200'),
-(6, 4, 'pdf', '200'),
-(7, 5, 'pdf', 'wp'),
-(8, 5, 'csv', 'test'),
-(9, 6, 'microsoft', 'word file'),
-(10, 7, 'Samsung', 'A5'),
-(11, 7, 'MI', 'Redmi'),
-(12, 8, 'Apple', 'i10');
+(13, 4, 'pdf', '200'),
+(14, 1, 'advance', '200'),
+(15, 1, 'basic', '100'),
+(16, 2, 'advance', '200'),
+(17, 2, 'basics', '20'),
+(18, 3, 'advance', '200'),
+(19, 5, 'pdf', 'wp'),
+(20, 5, 'csv', 'test'),
+(21, 6, 'microsoft', 'word file'),
+(25, 8, 'Apple', 'i10'),
+(26, 7, 'Samsung', 'A5'),
+(27, 7, 'MI', 'Redmi');
 
 -- --------------------------------------------------------
 
@@ -358,6 +378,20 @@ CREATE TABLE `ams_product_images` (
   `image` varchar(200) CHARACTER SET utf8mb4 DEFAULT NULL,
   `default_image` enum('Y','N') CHARACTER SET utf32 NOT NULL DEFAULT 'N' COMMENT 'Y=Yes, N=No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci;
+
+--
+-- Dumping data for table `ams_product_images`
+--
+
+INSERT INTO `ams_product_images` (`id`, `product_id`, `image`, `default_image`) VALUES
+(7, 1, 'product-4178171594887903373.jpg', 'Y'),
+(8, 2, 'product-10311371594888041701.jpg', 'Y'),
+(9, 3, 'product-9645471594888052937.jpg', 'Y'),
+(10, 4, 'product-3781421594888063130.jpg', 'Y'),
+(11, 5, 'product-9135821594888070791.jpg', 'Y'),
+(12, 6, 'product-4821461594888086608.jpg', 'Y'),
+(13, 7, 'product-3632651594888104570.jpg', 'Y'),
+(15, 8, 'product-10147491594888182431.jpg', 'Y');
 
 -- --------------------------------------------------------
 
@@ -534,8 +568,8 @@ CREATE TABLE `ams_users` (
 --
 
 INSERT INTO `ams_users` (`id`, `first_name`, `last_name`, `full_name`, `email`, `user_name`, `phone_no`, `profile_pic`, `password`, `role_id`, `agree`, `postal_code`, `user_type`, `name_on_card`, `card_number`, `expiry_month`, `expiry_year`, `cvv`, `lastlogintime`, `remember_token`, `auth_token`, `password_reset_token`, `status`, `referral_code`, `referred_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1594756219, 'ENVdcHoZYCPh70CpcSu2acT4WK3SS8gQcMkqUEJVj18Gw65PCaU6t3dRLOHy', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-14 19:50:19', NULL),
-(4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593944852, '', NULL, NULL, '1', NULL, NULL, '2020-07-03 19:57:28', '2020-07-05 14:02:27', NULL),
+(1, 'Super', 'Admin', 'Super Admin', 'admin@example.com', NULL, '9876543210', NULL, '$2y$10$7knL0d07gT0XDVA7W/QQM.6.lDrj5LBPCzH60uGuhzm3k5KgaGyLC', 1, 1, NULL, 'N', NULL, NULL, NULL, NULL, NULL, 1594880883, 'ENVdcHoZYCPh70CpcSu2acT4WK3SS8gQcMkqUEJVj18Gw65PCaU6t3dRLOHy', '$2y$10$ThMAm6g.DxloFDkFXO.XA.CV8MYCqCWjzl1o/EGMKi9jxOu8Hb7RS', NULL, '1', NULL, NULL, '2020-03-13 05:30:26', '2020-07-16 06:28:03', NULL),
+(4, 'Harry', 'Potter', 'Harry Potter', 'harry@yopmail.com', 'harry potter', NULL, 'profile_pic_1593957407.jpg', '$2y$10$mDMGZbXbKZf87GiIGF6eUODu993hGezUZKYzCqn8E6UMzYjkzZj2G', NULL, 1, NULL, 'N', 'Harry Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1594841774, '', NULL, NULL, '1', NULL, NULL, '2020-07-03 19:57:28', '2020-07-15 19:36:14', NULL),
 (5, 'Ron', 'Potter', 'Ron Potter', 'ron@yopmail.com', NULL, NULL, NULL, '$2y$10$xWz9DdKJr15GooONsCQLpun74g5eaZPS7FDL4niQUpz71nwzpo/Va', NULL, 1, '743503', 'AU', 'Ron Potter', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-04 17:37:41', '2020-07-04 17:37:41', NULL),
 (6, 'Dean', 'Elgar', 'Dean Elgar', 'dean@yopmail.com', 'dean', NULL, NULL, '$2y$10$osjBmcePMg/xZsR9XnWTx.oTVQusjLtI0H./Q/XLo9hfA.NWEXk2.', NULL, 1, NULL, 'N', 'Dean Elgar', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'VXkycllQYkJublVpRUxzYVJNbzIwZz09', 'MERpb0JPUERvVWVOQytkZ0ZjTWowZz09', 1593965008, NULL, NULL, NULL, '1', NULL, NULL, '2020-07-05 15:59:46', '2020-07-05 16:03:28', NULL),
 (7, 'Mark', 'Taylor', 'Mark Taylor', 'marktaylor@yopmail.com', 'marktaylor', NULL, NULL, '$2y$10$vxEUtV5mnI1t1teICufaVea0xf3Rgpryt6pn7dJakctK8isvPUFfi', NULL, 1, NULL, 'N', 'Mark Taylor', NULL, 'Z21qYlJrTk50QkE3aksrRnY2cGZrSy9ndkFpMHJFdGUyZmFIS2RRLy8vND0=', 'NzU2TmU1ckJoUGRDM0d3b1pEVTFFUT09', 'eWdUWmRCZUJCelUrUGNIM0VTL2g5dz09', NULL, NULL, NULL, NULL, '1', '7VBEMKDJ', NULL, '2020-07-09 19:46:05', '2020-07-09 19:46:05', NULL),
@@ -620,6 +654,12 @@ ALTER TABLE `ams_categories`
 -- Indexes for table `ams_cms`
 --
 ALTER TABLE `ams_cms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ams_contacts`
+--
+ALTER TABLE `ams_contacts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -747,6 +787,12 @@ ALTER TABLE `ams_cms`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `ams_contacts`
+--
+ALTER TABLE `ams_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ams_contact_widgets`
 --
 ALTER TABLE `ams_contact_widgets`
@@ -786,13 +832,13 @@ ALTER TABLE `ams_products`
 -- AUTO_INCREMENT for table `ams_product_features`
 --
 ALTER TABLE `ams_product_features`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `ams_product_images`
 --
 ALTER TABLE `ams_product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `ams_roles`

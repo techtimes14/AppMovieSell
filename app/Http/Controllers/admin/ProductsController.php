@@ -344,7 +344,7 @@ class ProductsController extends Controller
                 Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT)->save($thumbLocation);
 
                 $listLocation = public_path('/uploads/product/list_thumbs/'.$filename);
-                Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_THUMB_IMAGE_HEIGHT)->save($listLocation);
+                Image::make($image)->resize(AdminHelper::ADMIN_PRODUCT_LIST_THUMB_IMAGE_WIDTH,AdminHelper::ADMIN_PRODUCT_LIST_THUMB_IMAGE_HEIGHT)->save($listLocation);
 
                 $countDefaultImage = ProductImage::where(['product_id' => $product_id, 'default_image' => 'Y'])->count();
                 if($countDefaultImage == 0){
