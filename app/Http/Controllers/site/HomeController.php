@@ -156,6 +156,7 @@ class HomeController extends Controller
                     \Mail::send('email_templates.site.thanks_for_contact',
                     [
                         'user' => $newContact,
+                        'siteSetting'   => $siteSetting,
                         'app_config' => [
                             'appname'       => $siteSetting->website_title,
                             'appLink'       => Helper::getBaseUrl(),
