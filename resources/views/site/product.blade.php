@@ -54,7 +54,7 @@
                 <div class="col-md-12">
                     <div class="filter-bar d-flex justify-content-between ">
                         <div class="filter__option filter--dropdown border-0 ">
-                            <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle pl-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories <em id="selected_category">: {{$categoryName}}</em>
+                            <a href="#" id="drop1" class="dropdown-trigger dropdown-toggle pl-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories <em id="selected_category">@if ($categoryName != ''){{': '.$categoryName}} @endif</em>
                                 <span class="lnr lnr-chevron-down"></span>
                             </a>
                             <ul class="custom_dropdown custom_drop2 dropdown-menu" aria-labelledby="drop1">
