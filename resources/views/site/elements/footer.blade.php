@@ -47,7 +47,7 @@ $siteSetting = Helper::getSiteSettings();
                             </li>
                             <li>
                                 <span class="lnr lnr-envelope info-icon"></span>
-                                <a href="mailto:{{$siteSetting->from_email}}" class="info">{{$siteSetting->home_short_description}}</span>
+                                <a href="mailto:{{$siteSetting->from_email}}" class="info">{{$siteSetting->from_email}}</span>
                             </li>
                             <li>
                                 <span class="lnr lnr-map-marker info-icon"></span>
