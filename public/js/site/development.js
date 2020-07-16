@@ -809,573 +809,98 @@ $(document).ready(function() {
         }
     });
 
-    /* Add address Form */
-    $("#orderReviewForm").validate({
-        ignore: [],
-        rules: {
-            food_quality: {
-                required: true,
-            },
-            delivery_time: {
-                required: true,
-            },
-            driver_friendliness: {
-                required: true,
-            },
-            short_review: {
-                required: true,
-            },
-        },
-        messages: {
-            food_quality: {
-                required: "Please rate food quality",
-            },
-            delivery_time: {
-                required: "Please rate delivery time",
-            },
-            driver_friendliness: {
-                required: "Please rate driver friendliness",
-            },
-            short_review: {
-                required: "Please leave a short review",
-            },
-        }, errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            form.submit();
+
+    // Pagination click
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault(); 
+        var page        = $(this).attr('href').split('page=')[1];
+        var lookingFor  = $('#looking_for').val();
+        var perPage     = $('#per_page').val();
+        var price       = $('#price').val();
+
+        getMoreProducts(page, lookingFor, price, perPage);
+    });
+    // Per page change
+    $(document).on('change', '#per_page', function(event) {
+        event.preventDefault(); 
+        var page        = 1;
+        var lookingFor  = $('#looking_for').val();
+        var price       = $('#price').val();
+        var perPage     = $(this).val();       
+
+        getMoreProducts(page, lookingFor, price, perPage);
+    });
+    // Sort by price change
+    $(document).on('change', '#price', function(event) {
+        event.preventDefault(); 
+        var page        = 1;
+        var lookingFor  = $('#looking_for').val();
+        var perPage     = $('#per_page').val();
+        var price       = $(this).val();
+
+        getMoreProducts(page, lookingFor, price, perPage);
+    });
+    // Search By
+    $(document).on('click', '#searchBtn', function(event) {
+        event.preventDefault(); 
+        var page        = 1;
+        var lookingFor  = $('#looking_for').val();        
+        var price       = $('#price').val();
+        var perPage     = $('#per_page').val();
+
+        getMoreProducts(page, lookingFor, price, perPage);
+    });
+    // On Enter key presss for search box
+    $('#looking_for').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var page        = 1;
+            var lookingFor  = $('#looking_for').val();        
+            var price       = $('#price').val();
+            var perPage     = $('#per_page').val();
+
+            getMoreProducts(page, lookingFor, price, perPage);
         }
     });
 
-    /* Contact start */
-    $("#contactusForm").validate({
-        ignore: [],
-        debug: false,
-        rules: {
-            first_name: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            last_name: {
-                required: true,
-                minlength: 2,
-                maxlength: 255
-            },
-            email: {
-                required: true
-            },
-            phone_number: {
-                required: true,
-            },
-            subject: {
-                required: true,
-            },
-        },
-        messages: {
-            first_name: {
-                required: "Please enter first name",
-                minlength: "First name should be atleast 2 characters",
-                maxlength: "First name must not be more than 255 characters"
-            },
-            last_name: {
-                required: "Please enter last name",
-                minlength: "Last name should be atleast 2 characters",
-                maxlength: "Last name must not be more than 255 characters"
-            },
-            email: {
-                required: "Please enter email"
-            },
-            phone_number: {
-                required: "Please enter phone number",
-            },
-            subject: {
-                required: "Please enter subject",
-            },
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-    /* Contact end */
-
-    
-    /************************************* Cart Start **********************************/
-    // Without Product Attributes - Ingredients check and uncheck
-    $(".ingredients").on('click', function () {
-        var product_id      = $(this).data('proid');       // without encryption
-        var productId       = $(this).data('productid');
-        var ingredientId    = $(this).data('ingredientid');
-        // var ingredientId    = $(this).val();
-
-        var existingIngredientIds = '';
-        existingIngredientIds = $('#product_without_attribute_ingredient_ids_'+product_id).val();
-        if (existingIngredientIds != '') {
-            noProductAttributeIngredientIds = existingIngredientIds.split(',');
-        } else {
-            noProductAttributeIngredientIds = [];
-        }
-        var stringExistingCheck = existingIngredientIds.search(ingredientId);
-        if (stringExistingCheck == -1) {
-            noProductAttributeIngredientIds.push(ingredientId);
-            $('#product_without_attribute_ingredient_ids_'+product_id).val(noProductAttributeIngredientIds);
-        } else {
-            var strArray = '';
-            strArray = existingIngredientIds.split(',');
-            for (var i = 0; i < strArray.length; i++) {
-                if (strArray[i] == ingredientId) {
-                    strArray.splice(i, 1);
-                    noProductAttributeIngredientIds.splice(i, 1);
-                }
-            }
-            $('#product_without_attribute_ingredient_ids_'+product_id).val('');
-            $('#product_without_attribute_ingredient_ids_'+product_id).val(strArray);
-        }
-        
-        if (productId != '') {
-            var selectedIngredients = $('#product_without_attribute_ingredient_ids_'+product_id).val();
-            // $('#whole-area').show(); //Showing loader
-            // $('body').addClass('clicked');
-            if (ajax_check) {
-                return;
-            }            
-            ajax_check = true;
-            var ingredientsWithProductPriceUrl = websiteLink + '/' + siteLang + '/ingredients-with-product-price';
-            
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: ingredientsWithProductPriceUrl,
-                method: 'POST',
-                data: {
-                    productId: productId,
-                    selectedIngredients: selectedIngredients,
-                },
-                success: function (ingredientResponse) {
-                    ajax_check = false;
-                    // console.log(ingredientResponse);
-                    $('#product_without_attribute_price_'+product_id).val(ingredientResponse);
-                    $('#product_without_attribute_ingredient_price_'+product_id).html(ingredientResponse);
-                }
-            });
-        }
-        
-    });
-
-    // Add to Cart section
-    $(".add_to_basket").on('click', function () {
-        var productId = $(this).data('productid');
-        var prodId = $(this).data('prodid');    // without encryption
-        var showIngredients = $(this).data('showingredients');
-        var ingredientIds = '';
-        var hasAttribute = $(this).data('hasattribute');
-        var attributeId = $(this).data('attributeid');
-        var specialId = $(this).data('specialid');
-        var drinkId = $(this).data('drinkid');
-
-        var pinCode = $('#pincode').val();
-        if (pinCode == '') {
-            $('#pincode_modal').addClass('tt_modal_show');
-            $('body').addClass('tt_modal_open');
-        } else {
-
-            if (productId != '' || specialId != '' || drinkId != '') {
-                if (showIngredients != '') {
-                    ingredientIds = $('#product_without_attribute_ingredient_ids_'+prodId).val();
-                }
-                $('body').addClass('clicked');
-                if (ajax_check) {
-                    return;
-                }
-                ajax_check = true;
-
-                // Add to cart section START
-                var addToCartUrl = websiteLink + '/' + siteLang + '/add-to-cart';
-                
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: addToCartUrl,
-                    method: 'POST',
-                    data: {
-                        productId: productId,
-                        showIngredients: showIngredients,
-                        ingredientIds: ingredientIds,
-                        hasAttribute: hasAttribute,
-                        attributeId: attributeId,
-                        specialId: specialId,
-                        drinkId: drinkId
-                    },
-                    success: function (cartResponse) {
-                        ajax_check = false;
-                        var data = jQuery.parseJSON(cartResponse);
-                        // console.log(data);
-                        
-                        if (showIngredients != '') {
-                            $('#product_without_attribute_ingredient_ids_'+prodId).val('');
-                            $('#product_without_attribute_price_'+prodId).val(0);
-                            $('.ingredients_checkbox_'+prodId).prop("checked", false);
-                            $('#product_without_attribute_ingredient_price_'+prodId).html($('#product_previous_price_'+prodId).val());
-                        }                        
-                        
-                        if (data.type == 'success' && data.restaurantAvailability == 1) {
-                            var getCartDataUrl = websiteLink + '/' + siteLang + '/get-cart-details';
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
-                            });
-                            $.ajax({
-                                url: getCartDataUrl,
-                                method: 'GET',
-                                data: {
-                                },
-                                success: function (cartDetailsResponse) {
-                                    $('body').removeClass('clicked');
-
-                                    // Cart add or update message display
-                                    $('#cart_success_message').html('');
-                                    $('#cart_success_message').removeClass('alert-warning');
-                                    $('#cart_success_message').addClass('alert-success');
-                                    $('#cart_success_message').html('<strong>'+data.message+'</strong>');
-                                    $("#cart_success_message").slideDown(1000).delay(2000);
-
-                                    $('#cartDetails').html(cartDetailsResponse.html);
-
-                                    // Drinks items
-                                    if (prodId != '') {
-                                        $('#drinks_items').show(300);
-                                    }
-
-                                    // Minimum order section
-                                    if (cartDetailsResponse.minOrderMessageStatus == 1) {
-                                        $('#remaining_amount').html(cartDetailsResponse.remainingToAvoidMinimumOrder);
-                                        $('#min_cart_div').show(500);
-                                    } else {
-                                        $('#min_cart_div').hide();
-                                        $('#remaining_amount').html('');
-                                    }
-
-                                    setTimeout(function() {
-                                        $("#cart_success_message").slideUp(1000).delay(3000);
-                                    }, 3000);
-                                }
-                            });
-                        }
-                        else if (data.type == 'error' && data.restaurantAvailability == 0) {
-                            $('body').removeClass('clicked');
-                            swal.fire({
-                                title: data.title,
-                                text: data.message,
-                                icon: data.type,
-                                allowOutsideClick: false,
-                                confirmButtonColor: '#1279cf',
-                                cancelButtonColor: '#333333',
-                                showCancelButton: false,
-                                confirmButtonText: 'Ok',
-                                // closeOnConfirm: false,
-                            });
-                        }
-                        else {
-                            $('body').removeClass('clicked');
-                            
-                            // Cart add or update message display
-                            $('#cart_success_message').html('');
-                            $('#cart_success_message').removeClass('alert-success');
-                            $('#cart_success_message').addClass('alert-warning');
-                            $('#cart_success_message').html('<strong>'+data.message+'</strong>');
-                            $("#cart_success_message").slideDown(1000).delay(2000);
-
-                            setTimeout(function() {
-                                $("#cart_success_message").slideUp(1000).delay(3000);
-                            }, 3000);
-                        }                    
-                    }
-                });
-                // Add to cart section END
-
-            }
-            
-        }        
-    });
-    /************************************* Cart End ************************************/
-
-    // Add address form
-    // $('.custom_click').on('click', function() {
-    //     if ($(this).val() != 'Ot') {
-    //         $('#other_address_type').val('');
-    //     }
-    // });
-
-    // Delete address
-    $('.delete_address').on('click', function () {
-        swal.fire({
-			title: 'Delete Address',
-			text: 'Are you sure you want to delete this Address?',
-            icon: 'warning',
-            allowOutsideClick: false,
-            // confirmButtonClass: "swal_confirm",
-            // cancelButtonClass: "swal_cancel",
-            confirmButtonColor: '#1279cf',
-            cancelButtonColor: '#333333',
-            showCancelButton: true,
-            cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes',
-            // closeOnConfirm: false,
-		}).then((result) => {
-			if (result.value) {
-                var siteLink = $('#site_link').val();
-                var siteLang = $('#site_lang').val();
-    
-                var addressId = $(this).data('addressid');
-                var addrId = $(this).data('addrid');
-        
-                $('body').addClass('clicked');
-                if (ajax_check) {
-                    return;
-                }
-                ajax_check = true;
-                var deleteAddressUrl = siteLink + '/' + siteLang + '/users/delete-address';
-                                
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: deleteAddressUrl,
-                    method: 'POST',
-                    data: {
-                        addressId: addressId,
-                    },
-                    success: function (deleteResponse) {
-                        $('body').removeClass('clicked');
-                        ajax_check = false;
-
-                        var deleteAddressResponse = jQuery.parseJSON(deleteResponse);
-                        if (deleteAddressResponse.type == 'success') {
-                            swal.fire({
-                                title: deleteAddressResponse.title,
-                                text: deleteAddressResponse.message,
-                                icon: deleteAddressResponse.type,
-                                allowOutsideClick: false,
-                                // confirmButtonClass: "swal_confirm",
-                                // cancelButtonClass: "swal_cancel",
-                                confirmButtonColor: '#1279cf',
-                                showCancelButton: false,
-                                confirmButtonText: 'Ok',
-                            });
-                            $('#address_'+addrId).remove();
-                        } else {
-                            swal.fire({
-                                title: deleteAddressResponse.title,
-                                text: deleteAddressResponse.message,
-                                icon: deleteAddressResponse.type,
-                                allowOutsideClick: false,
-                                // confirmButtonClass: "swal_confirm",
-                                // cancelButtonClass: "swal_cancel",
-                                confirmButtonColor: '#1279cf',
-                                showCancelButton: false,
-                                confirmButtonText: 'Ok',
-                            });
-                        }
-                    }
-                });
-            }
-		});
-
-    });
-
-    // Change avatar
-    $(".update_avatar").on('click', function () {
-        var siteLink = $('#site_link').val();
-        var siteLang = $('#site_lang').val();
-        var avatarId = $(this).data('id');
-        
-        if (avatarId != '') {
-            $('body').addClass('clicked');
-            if (ajax_check) {
-                return;
-            }
-
-            ajax_check = true;
-            var avatarUpdateUrl = siteLink + '/' + siteLang + '/users/change-avatar';
-            
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: avatarUpdateUrl,
-                method: 'POST',
-                data: {
-                    avatarId: avatarId,
-                },
-                success: function (avatarUpdateResponse) {
-                    var response = jQuery.parseJSON(avatarUpdateResponse);
-                    console.log(response.updatedAvatar);
-                    ajax_check = false;
-                    $('.avatar_update').css('background-image', 'url(' + response.updatedAvatar + ')');
-                    $('body').removeClass('clicked');
-                }
-            });
-        }
-        
-    });
-
-    // Pin code checking
-    $("#pinCodeForm").validate({
-        rules: {
-            pin_code: {
-                required: true,
-            },
-        },
-        messages: {
-            pin_code: {
-                required: "Please enter pin code",
-            },
-        },
-        submitHandler: function(form) {
-            $('body').addClass('clicked');
-            if (ajax_check) {
-                return;
-            }
-
-            ajax_check = true;
-            var pinCodeCheckingUrl = websiteLink + '/' + siteLang + '/pin-code-availability';
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: pinCodeCheckingUrl,
-                method: 'POST',
-                data: {
-                    pinCode: $('#pin_code').val(),
-                },
-                dataType: 'json',
-                success: function (pinCodeResponse) {
-                    ajax_check = false;
-                    $('body').removeClass('clicked');
-                    
-                    if (pinCodeResponse.type == 'success') {                        
-                        $('#pin_code_available_message').html('');
-                        $('#pin_code_available_message').removeClass('errorMessage');
-                        $('#pin_code_available_message').addClass('successMessage');
-                        $('#pin_code_available_message').html(pinCodeResponse.message).show();
-                        setTimeout(function(){ window.location.reload(); }, 2000);
-                    } else {
-                        $('#pin_code_available_message').html('');
-                        $('#pin_code_available_message').removeClass('successMessage');
-                        $('#pin_code_available_message').addClass('errorMessage');
-                        $('#pin_code_available_message').html(pinCodeResponse.message);
-                        $('#pin_code_available_message').show();
-                        setTimeout(function(){ $('#pin_code_available_message').hide(500); }, 3000);
-                    }
-                }
-            });
-        }
-    });
-
-    // Checkout Form - Place Order
-    $("#placeOrderForm").validate({
-        rules: {
-            delivery_time: {
-                required: true,
-            },
-            phone_no: {
-                required: true,
-            },
-            addressAlias: {
-                required: true,
-            },
-            checkout_message: {
-                required: true,
-            },
-        },
-        messages: {
-            delivery_time: {
-                required: "Please select delivery time",
-            },
-            phone_no: {
-                required: "Please enter contact number",
-            },
-            addressAlias: {
-                required: "Please select address",
-            },
-            checkout_message: {
-                required: "Please enter message",
-            },
-        },
-        submitHandler: function(form) {
-            $('body').addClass('clicked');
-            if (ajax_check) {
-                return;
-            }
-
-            ajax_check = true;
-            var siteLink = $('#site_link').val();
-            var siteLang = $('#site_lang').val();
-            // Checking Available Timings respective to day
-            var checkingAvailableSlotUrl = siteLink + '/' + siteLang + '/users/checking-restaurant-slot-availability';
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: checkingAvailableSlotUrl,
-                method: 'POST',
-                data: {
-                    delivery_time: $('#delivery_time').val(),
-                },
-                success: function (availableSlotResponse) {
-                    var finalResponse = jQuery.parseJSON(availableSlotResponse);
-                    // console.log(finalResponse.type);
-
-                    if (finalResponse.type == 'error') {
-                        ajax_check = false;
-                        $('body').removeClass('clicked');
-                        swal.fire({
-                            title: finalResponse.title,
-                            text: finalResponse.message,
-                            icon: finalResponse.type,
-                            allowOutsideClick: false,
-                            confirmButtonColor: '#1279cf',
-                            cancelButtonColor: '#333333',
-                            showCancelButton: false,
-                            confirmButtonText: 'Ok',
-                            // closeOnConfirm: false,
-                        });
-                    } else {
-                        // order place
-                        form.submit();
-                    }
-                }
-            });
-        }
-    });
 
     // close alert section
     $('.close_alert_box').on('click', function() {
         $('.alert-dismissable').hide(1000);
     });
 
-
 });
+
+function getMoreProducts(page, lookingFor, price, perPage) {
+    $('#loading').show();
+
+    var websiteLink = $('#website_link').val();
+    var updatedUrl          = websiteLink + '/market-place';
+    var getMoreProductsUrl  = websiteLink + '/market-place-products';
+
+    if (page != 1) {
+        updatedUrl          = updatedUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+    } else {
+        updatedUrl          = updatedUrl + '?lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+        getMoreProductsUrl  = getMoreProductsUrl + '?page='+page+'&lookingFor='+lookingFor+'&price='+price+'&perPage='+perPage;
+    }
+    window.history.pushState({path: updatedUrl},'',updatedUrl);
+    // console.log(updatedUrl);
+    
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: getMoreProductsUrl,
+        success:function(data) {
+            $('#products_div').html(data);
+            $('#loading').hide();
+        }
+    });
+}
 
 
 function sweetalertMessageRender(target, message, type, confirm = false) {

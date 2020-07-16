@@ -1,6 +1,9 @@
 <?php
 $siteSetting = Helper::getSiteSettings();
 ?>
+<div id="loading">
+    <img id="loading-image" src="{{asset('images/site/loading.gif')}}" alt="busy...">
+</div>
 <footer class="footer-area">
     <div class="footer-big section--padding">
         <!-- start .container -->
@@ -113,4 +116,6 @@ $siteSetting = Helper::getSiteSettings();
             </div>
         </div>
     </div>
+    <input type="hidden" name="website_link" id="website_link" value="{{ url('/') }}" />
+    <input type="hidden" name="website_lang" id="website_lang" value="{{ \App::getLocale() }}" />
 </footer>

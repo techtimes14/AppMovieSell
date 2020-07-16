@@ -23,13 +23,7 @@ use View;
 class AuthController extends Controller
 {
     /*****************************************************/
-    # AuthController
     # Function name : login
-    # Author        :
-    # Created Date  : 20-05-2019
-    # Purpose       : Check whether a user is logged in and
-    #                 then redirect the user to either Login
-    #                 Panel or Dashboard
     # Params        : Request $request
     /*****************************************************/
     public function login(Request $request)
@@ -37,6 +31,7 @@ class AuthController extends Controller
 
         $data['page_title'] = 'Login';
         $data['panel_title'] = 'Login';
+
         if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         } else {
@@ -83,11 +78,7 @@ class AuthController extends Controller
     }
 
     /*****************************************************/
-    # AuthController
     # Function name : logout
-    # Author        :
-    # Created Date  : 21-05-2019
-    # Purpose       : Logout from Admin Panel
     # Params        : Request $request
     /*****************************************************/
     public function logout()
@@ -100,11 +91,7 @@ class AuthController extends Controller
     }
 
     /*****************************************************/
-    # AuthController
     # Function name : forgetPassword
-    # Author        :
-    # Created Date  : 31-05-2019
-    # Purpose       : forget password, send new password
     # Params        : Request $request
     /*****************************************************/
     public function forgetPassword(Request $request) {
