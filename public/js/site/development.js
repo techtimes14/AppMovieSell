@@ -1124,3 +1124,16 @@ function affiliatedCardFormValidate(){
 		return true;
 	}
 }
+
+//clipboard js
+
+$(function() {
+	$('.invitation_sec button').click(function() {
+	$(this).prev("input").focus();
+	$(this).prev("input").select();
+ 
+	document.execCommand('copy');
+	// $(".copied").text("Copied to clipboard").show().fadeOut(1200);
+    });
+});
+

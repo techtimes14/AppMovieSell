@@ -30,7 +30,8 @@
                 <div class="col-md-6">
                     <div class="invitation_sec">
                         <h2 class="page-title">Invitation Link</h2>
-                        <button><span>{{route('site.users.invitation',Auth::user()->referral_code)}}</span><i class="fa fa-clipboard" aria-hidden="true"></i></button>
+                        <input readonly type="text" value="{{route('site.users.invitation',Auth::user()->referral_code)}}" id="promoCopy">
+                        <button><span></span><i class="fa fa-clipboard" aria-hidden="true"></i></button>
                     </div>
                     
                     
@@ -89,14 +90,6 @@
     <!--================================
             END SIGNUP AREA
     =================================-->
-    <script>
-$(function() {
-	$('.invitation_sec button').click(function() {
-	document.execCommand('copy');
-	// $(".copied").text("Copied to clipboard").show().fadeOut(1200);
-    });
-});
-
-</script>
+    
 
     @endsection
