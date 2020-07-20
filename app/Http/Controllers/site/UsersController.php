@@ -261,14 +261,16 @@ class UsersController extends Controller
             if ($Validator->fails()) {
                 return Redirect::back()->withErrors($Validator)->withInput();
             } else {
+                $referralCode = Helper::generateReferralCode();
                 $password = $request->password;
 
                 Session::put([
-                    'affiliated_email'      => trim($request->email, ' '),
-                    'affiliated_password'   => $password,
+                    'affiliated_email'          => trim($request->email, ' '),
+                    'affiliated_password'       => $password,
+                    'affiliated_referralCode'   => $referralCode,
                 ]);
 
-                if (Session::get('affiliated_email') != '' && Session::get('affiliated_password') != '') {
+                if (Session::get('affiliated_email') != '' && Session::get('affiliated_password') != '' && Session::get('affiliated_referralCode') != '') {
                     return redirect()->route('site.users.affiliated-payment');
                 } else {
                     $request->session()->flash('alert-danger', trans('custom.please_try_again'));
@@ -299,7 +301,7 @@ class UsersController extends Controller
             return redirect()->route('site.home');
         }
 
-        if (Session::get('affiliated_email') == '' && Session::get('affiliated_password') == '') {
+        if (Session::get('affiliated_email') == '' && Session::get('affiliated_password') == '' && Session::get('affiliated_referralCode') == '') {
             return redirect()->route('site.users.affiliated-sign-up');
         }        
         
@@ -353,6 +355,7 @@ class UsersController extends Controller
                     $newUser->postal_code   = trim($request->postal_code, ' ');
                     $newUser->email         = Session::get('affiliated_email');
                     $newUser->password      = Session::get('affiliated_password');
+                    $newUser->referral_code = Session::get('affiliated_referralCode');
                     $newUser->name_on_card  = $request->name_on_card;
                     $newUser->expiry_month  = Helper::customEncryptionDecryption($request->card_number);
                     $newUser->expiry_year   = Helper::customEncryptionDecryption($request->expiry_month);
@@ -393,8 +396,9 @@ class UsersController extends Controller
                         });
 
                         Session::put([
-                            'affiliated_email'      => '',
-                            'affiliated_password'   => '',
+                            'affiliated_email'        => '',
+                            'affiliated_password'     => '',
+                            'affiliated_referralCode' => '',
                         ]);
     
                         $request->session()->flash('alert-success', 'Thank you for registering with us');
@@ -460,7 +464,7 @@ class UsersController extends Controller
                             $userData->lastlogintime = strtotime(date('Y-m-d H:i:s'));
                             $userData->save();
 
-                            return redirect()->route('site.home');
+                            return redirect()->route('site.users.dashboard');
                         }
                     } else {
                         $request->session()->flash('alert-danger', "Your email or password doesn't match");
@@ -1205,6 +1209,43 @@ class UsersController extends Controller
         } else {
             return redirect()->route('site.home');
         }
+    }
+
+    /*****************************************************/
+    # Function name : Dashboard
+    # Params        : 
+    /*****************************************************/
+    public function dashboard( Request $request )
+    {
+        $pageTitle = 'Dashboard';
+        
+        if (Auth::user()->user_type == 'AU') {
+            return view('site.user.dashboard',[
+                'pageTitle' => $pageTitle,
+                'title'     => 'Dashboard',
+                'keyword'   => 'dashboard',
+                'description'=>'dashboard'
+                ]);
+        } else {
+            return view('site.user.login',[
+                'pageTitle' => 'Login',
+                'title'     => 'login',
+                'keyword'   => 'login',
+                'description'=>'login'
+                ]);
+        }
+    }
+
+    /*****************************************************/
+    # Function name : invitation
+    # Params        : 
+    /*****************************************************/
+    public function invetation($referral_Code)
+    {
+        $data['referral_Code'] = $referral_Code;
+        Session::put('referral_Code',$referral_Code);
+        
+        return redirect()->route('site.users.sign-up');
     }
 
 }

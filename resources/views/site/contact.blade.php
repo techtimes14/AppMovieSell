@@ -119,7 +119,7 @@
 													<div class="form-group">
 														{{ Form::textarea('subject', null, array(
 																					'id'=>'subject',
-																					'placeholder' => 'Subject',
+																					'placeholder' => 'Message',
 																					'class' => 'form-control',
 																					'rows' => 4,
 																					'required' => 'required' )) }}

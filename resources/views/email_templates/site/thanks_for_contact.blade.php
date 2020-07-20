@@ -8,7 +8,7 @@
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>{{$user->full_name}} contact with you</td>
+        <td>Please check the below contact details.</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
@@ -38,7 +38,7 @@
               <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['phone_number']}}</td>
             </tr>
             <tr>
-              <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Subject</td>
+              <td width="25%" align="left" valign="top" style="color:#141414; font-weight:bold; line-height:20px;">Message</td>
               <td width="2%" align="left" valign="top" style="line-height:20px;">:</td>
               <td width="73%" align="left" valign="top" style="line-height:20px;">{{$user['subject']}}</td>
             </tr>

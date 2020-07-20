@@ -87,7 +87,7 @@
 
                                 <div class="form-group">
                                     <label for="con_pass">Referral Code</label>
-                                    {{ Form::text('referral_code', null, array(
+                                    {{ Form::text('referral_code', Session::get('referral_Code'), array(
                                                                 'id' => 'referral_code',
                                                                 'placeholder' => 'Enter your referral code',
                                                                 'class' => 'text_field',

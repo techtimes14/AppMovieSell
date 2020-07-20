@@ -20,6 +20,7 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
     Route::get('/legal', 'HomeController@legal')->name('legal');
     Route::get('/market-place', 'ProductsController@marketPlace')->name('market-place');
     Route::get('market-place-products', 'ProductsController@marketPlaceProducts')->name('market-place-products');
+    
 
     /* User */
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
@@ -32,9 +33,12 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
         Route::any('/forgot-password', 'UsersController@forgotPassword')->name('forgot-password');
         Route::any('/change-password', 'UsersController@changePassword')->name('change-password');
         Route::any('/reset-password/{token}', 'UsersController@resetPassword')->name('reset-password');
+        Route::any('/invitation/{referral_Code}', 'UsersController@invetation')->name('invitation');
+        
 
         /* Authenticated sections */
         Route::group(['middleware' => 'guest:web'], function () {
+            Route::any('/dashboard', 'UsersController@dashboard')->name('dashboard');
             Route::any('/edit-profile', 'UsersController@editProfile')->name('edit-profile');
             Route::any('/my-purchases', 'UsersController@editProfile')->name('my-purchases');
             Route::any('/my-favourites', 'UsersController@editProfile')->name('my-favourites');
@@ -42,6 +46,8 @@ Route::group(['namespace' => 'site', 'as' => 'site.'], function () {
             
             Route::any('/change-user-password', 'UsersController@changeUserPassword')->name('change-user-password');
             Route::any('/logout', 'UsersController@logout')->name('logout');
+            
+            
         });
     });
     

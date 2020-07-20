@@ -809,6 +809,50 @@ $(document).ready(function() {
         }
     });
 
+    /* Contact us Form */
+    $("#contactusForm").validate({
+        rules: {
+            email: {
+                required: true
+            },
+            first_name: {
+                required: true
+            },
+            last_name: {
+                required: true
+            },
+            phone_number: {
+                required: true
+            },
+            subject: {
+                required: true
+            },
+        },
+        messages: {
+            email: {
+                required: "Please enter email address"
+            },
+            first_name: {
+                required: "Please enter first name"
+            },
+            last_name: {
+                required: "Please enter last name"
+            },
+            phone_number: {
+                required: "Please enter phone number"
+            },
+            subject: {
+                required: "Please enter message"
+            },
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
 
     // Pagination click
     $(document).on('click', '.pagination a', function(event) {
